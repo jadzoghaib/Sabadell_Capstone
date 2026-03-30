@@ -224,15 +224,25 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_
         api_key = load_api_key(api_provider)
 
     if api_provider == "gemini":
-        import google.generativeai as genai
-        genai.configure(api_key=api_key)
-        model = model or "gemini-2.0-flash"
-        gmodel = genai.GenerativeModel(
-            model_name=model,
-            system_instruction=system_prompt,
-        )
-        response = gmodel.generate_content(user_prompt)
-        return response.text
+        import time
+        from google import genai
+        client = genai.Client(api_key=api_key)
+        model = model or "gemini-2.5-flash"
+        for attempt in range(5):
+            try:
+                response = client.models.generate_content(
+                    model=model,
+                    contents=f"{system_prompt}\n\n{user_prompt}",
+                )
+                return response.text
+            except Exception as e:
+                if "503" in str(e) or "429" in str(e) or "UNAVAILABLE" in str(e):
+                    wait = 2 ** attempt * 5
+                    print(f"  Retry {attempt+1}/5 in {wait}s...")
+                    time.sleep(wait)
+                else:
+                    raise
+        raise RuntimeError("Gemini API failed after 5 retries")
 
     elif api_provider == "anthropic":
         import anthropic
