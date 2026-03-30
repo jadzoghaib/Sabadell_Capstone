@@ -20,9 +20,10 @@ env/
 *.ipynb_checkpoints
 
 # Data files (large datasets — store externally)
-data/raw/
-data/interim/
-data/processed/
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.keep
 *.csv
 *.parquet
 *.feather
@@ -35,7 +36,8 @@ data/processed/
 *.npz
 
 # Models
-models/
+models/*
+!models/.keep
 *.pt
 *.pth
 *.onnx
