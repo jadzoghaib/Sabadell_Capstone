@@ -23,6 +23,8 @@ env/
 data/raw/*
 data/interim/*
 data/processed/*
+data/results/ml/*
+data/results/llm/*
 !data/**/.keep
 *.csv
 *.parquet
