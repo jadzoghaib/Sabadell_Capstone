@@ -331,7 +331,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_
         model = model or "gpt-4o"
         response = client.chat.completions.create(
             model=model,
-            max_tokens=256,
+            max_completion_tokens=2048,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
@@ -414,7 +414,7 @@ def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None):
 def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                        api_key=None, label=None):
     """
-    Run the full LLM prediction loop on a sample. Resumable.
+    Run the full LLM prediction loop on a sample.
 
     Args:
         llm_sample: DataFrame with loan features
@@ -427,23 +427,36 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
     Returns:
         dict with 'predictions', 'reasonings', 'raw_responses', 'metrics', 'label'
     """
-    from tqdm import tqdm
+    import time as _time
 
     label = label or model_name
     desc_tag = "with_desc" if include_desc else "no_desc"
-    print(f"\n{'='*60}")
-    print(f"Running: {label} ({desc_tag})")
-    print(f"{'='*60}")
+    tag = f"[{label} | {desc_tag}]"
 
     system_prompt = build_system_prompt()
     y_true = llm_sample['loan_status'].values
 
-    predictions = []
-    reasonings = []
-    raw_responses = []
+    # Fail-fast: test first call before committing to the full loop
+    first_row = llm_sample.iloc[0]
+    test_prompt = build_user_prompt(first_row, include_desc=include_desc)
+    try:
+        test_raw = call_llm(system_prompt, test_prompt,
+                            api_provider=api_provider, model=model_name, api_key=api_key)
+        test_parsed = parse_llm_response(test_raw)
+        print(f"{tag} First call OK (pred={test_parsed['prediction']}). Starting full run...")
+    except Exception as e:
+        print(f"{tag} FAILED on first call: {e}")
+        raise RuntimeError(f"{tag} cannot reach API: {e}")
 
-    for i, (_, row) in enumerate(tqdm(llm_sample.iterrows(), total=len(llm_sample),
-                                       desc=f"{label} ({desc_tag})")):
+    predictions = [test_parsed['prediction']]
+    reasonings = [test_parsed['reasoning']]
+    raw_responses = [test_raw]
+
+    start = _time.time()
+    for i, (_, row) in enumerate(llm_sample.iterrows()):
+        if i == 0:
+            continue  # already done above
+
         user_prompt = build_user_prompt(row, include_desc=include_desc)
         raw = call_llm(system_prompt, user_prompt,
                        api_provider=api_provider, model=model_name, api_key=api_key)
@@ -453,8 +466,16 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         predictions.append(parsed['prediction'])
         reasonings.append(parsed['reasoning'])
 
+        # Progress every 10 rows
+        if (i + 1) % 10 == 0:
+            elapsed = _time.time() - start
+            rate = (i + 1) / elapsed
+            eta = (len(llm_sample) - i - 1) / rate
+            print(f"{tag} {i+1}/100 done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
+
     n_errors = sum(1 for p in predictions if p is None)
-    print(f"Completed: {len(predictions)} predictions, {n_errors} parse errors")
+    total_time = _time.time() - start
+    print(f"{tag} COMPLETE — {len(predictions)} predictions, {n_errors} parse errors, {total_time:.0f}s total")
 
     metrics = evaluate_predictions(y_true, predictions, label=f"{label} ({desc_tag})")
 
