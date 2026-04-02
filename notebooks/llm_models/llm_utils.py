@@ -1,8 +1,8 @@
 """
 Shared utilities for LLM evaluation notebooks.
 
-Handles: data loading, ANN re-encoding/prediction, prompt building,
-LLM API calls, and evaluation metrics.
+Handles: data loading, ML re-encoding/prediction, prompt building,
+LLM API calls, evaluation metrics, and full experiment loops.
 """
 
 import json
@@ -57,6 +57,50 @@ def load_llm_sample():
     """Load the 100-row human-readable LLM evaluation sample."""
     df = pd.read_csv(f"{DATA_DIR}/02_llm_sample.csv")
     return df
+
+
+def sample_new_batch(n=100, random_state=99):
+    """
+    Sample a different batch of n loans from the test set (with descriptions).
+    Uses the same preprocessing logic as 02_Preprocessing to select from test rows.
+    """
+    from sklearn.model_selection import train_test_split
+
+    full_data = pd.read_csv("../../data/raw/accepted_2007_to_2018Q4.csv.gz", low_memory=False)
+    keep_cols = [
+        'loan_amnt', 'term', 'int_rate', 'installment', 'grade', 'sub_grade',
+        'home_ownership', 'annual_inc', 'verification_status', 'issue_d',
+        'loan_status', 'purpose', 'dti', 'earliest_cr_line', 'open_acc',
+        'pub_rec', 'revol_bal', 'revol_util', 'total_acc',
+        'initial_list_status', 'application_type', 'mort_acc',
+        'pub_rec_bankruptcies', 'zip_code', 'addr_state', 'desc'
+    ]
+    full_data = full_data[keep_cols].copy()
+    full_data = full_data[full_data['loan_status'].isin(['Fully Paid', 'Charged Off'])]
+    full_data['issue_d'] = pd.to_datetime(full_data['issue_d'], format='%b-%Y')
+    full_data = full_data[
+        (full_data['issue_d'].dt.year >= 2012) &
+        (full_data['issue_d'].dt.year <= 2014)
+    ]
+    full_data['loan_status'] = full_data.loan_status.map({'Fully Paid': 1, 'Charged Off': 0})
+
+    # Same split as preprocessing (random_state=42)
+    _, test_data = train_test_split(full_data, test_size=0.33, random_state=42)
+
+    # Only rows with descriptions
+    test_with_desc = test_data[test_data['desc'].notna() & (test_data['desc'].str.strip() != '')]
+
+    # Exclude the original 100 sample rows
+    original = load_llm_sample()
+    original_idx = set(original.index) if 'index' not in original.columns else set()
+    # Use a content-based dedup: match on loan_amnt + int_rate + annual_inc
+    orig_keys = set(zip(original['loan_amnt'], original['int_rate'], original['annual_inc']))
+    mask = ~test_with_desc.apply(
+        lambda r: (r['loan_amnt'], r['int_rate'], r['annual_inc']) in orig_keys, axis=1
+    )
+    available = test_with_desc[mask]
+
+    return available.sample(n=n, random_state=random_state).reset_index(drop=True)
 
 
 # ── XGBoost prediction on LLM sample rows ───────────────────────────────────
@@ -184,8 +228,8 @@ def build_few_shot_examples(n_examples=5, random_state=42):
 
 # ── LLM API call ──────────────────────────────────────────────────────────────
 
-def load_api_key(api_provider):
-    """Load API key from .env file in the same directory as this module."""
+def _load_env():
+    """Load .env file into os.environ (once)."""
     import os
     from pathlib import Path
 
@@ -196,6 +240,31 @@ def load_api_key(api_provider):
             if line and not line.startswith("#") and "=" in line:
                 key, val = line.split("=", 1)
                 os.environ.setdefault(key.strip(), val.strip())
+
+
+def load_api_key(api_provider, model=None):
+    """
+    Load API key from .env. Supports per-model keys for Gemini.
+
+    Lookup order for gemini:
+      1. GEMINI_API_KEY_FLASH / GEMINI_API_KEY_PRO (if model contains 'flash'/'pro')
+      2. GEMINI_API_KEY (fallback)
+    """
+    import os
+    _load_env()
+
+    if api_provider == "gemini" and model:
+        model_lower = model.lower()
+        if "flash" in model_lower:
+            key = os.environ.get("GEMINI_API_KEY_FLASH")
+            if key:
+                return key
+        elif "pro" in model_lower:
+            key = os.environ.get("GEMINI_API_KEY_PRO")
+            if key:
+                return key
+        # Fallback
+        return os.environ.get("GEMINI_API_KEY")
 
     key_map = {
         "gemini": "GEMINI_API_KEY",
@@ -221,7 +290,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_
         Raw response text from the LLM.
     """
     if api_key is None:
-        api_key = load_api_key(api_provider)
+        api_key = load_api_key(api_provider, model=model)
 
     if api_provider == "gemini":
         import time
@@ -338,3 +407,62 @@ def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None):
     if llm_reasonings:
         df['llm_reasoning'] = llm_reasonings
     return df
+
+
+# ── Experiment runner ────────────────────────────────────────────────────────
+
+def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
+                       api_key=None, label=None):
+    """
+    Run the full LLM prediction loop on a sample. Resumable.
+
+    Args:
+        llm_sample: DataFrame with loan features
+        api_provider: "gemini", "anthropic", or "openai"
+        model_name: model identifier string
+        include_desc: whether to include borrower description
+        api_key: optional API key override
+        label: display label (defaults to model_name)
+
+    Returns:
+        dict with 'predictions', 'reasonings', 'raw_responses', 'metrics', 'label'
+    """
+    from tqdm import tqdm
+
+    label = label or model_name
+    desc_tag = "with_desc" if include_desc else "no_desc"
+    print(f"\n{'='*60}")
+    print(f"Running: {label} ({desc_tag})")
+    print(f"{'='*60}")
+
+    system_prompt = build_system_prompt()
+    y_true = llm_sample['loan_status'].values
+
+    predictions = []
+    reasonings = []
+    raw_responses = []
+
+    for i, (_, row) in enumerate(tqdm(llm_sample.iterrows(), total=len(llm_sample),
+                                       desc=f"{label} ({desc_tag})")):
+        user_prompt = build_user_prompt(row, include_desc=include_desc)
+        raw = call_llm(system_prompt, user_prompt,
+                       api_provider=api_provider, model=model_name, api_key=api_key)
+        raw_responses.append(raw)
+
+        parsed = parse_llm_response(raw)
+        predictions.append(parsed['prediction'])
+        reasonings.append(parsed['reasoning'])
+
+    n_errors = sum(1 for p in predictions if p is None)
+    print(f"Completed: {len(predictions)} predictions, {n_errors} parse errors")
+
+    metrics = evaluate_predictions(y_true, predictions, label=f"{label} ({desc_tag})")
+
+    return {
+        'predictions': predictions,
+        'reasonings': reasonings,
+        'raw_responses': raw_responses,
+        'metrics': metrics,
+        'label': label,
+        'desc_tag': desc_tag,
+    }
