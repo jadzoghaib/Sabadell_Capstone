@@ -64,3 +64,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Per-user Claude Code allowlist (not shared)
+.claude/settings.local.json

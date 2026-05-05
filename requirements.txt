@@ -1,0 +1,25 @@
+# Core data / ML
+pandas
+numpy
+scipy
+scikit-learn
+xgboost
+optuna
+tensorflow
+joblib
+
+# Plotting
+matplotlib
+seaborn
+
+# Notebook tooling
+jupyter
+ipykernel
+
+# Env / config
+python-dotenv
+
+# LLM SDKs
+google-genai
+openai
+anthropic
