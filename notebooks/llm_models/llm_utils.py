@@ -618,7 +618,8 @@ def _append_llm_calls(rows):
 # ── Experiment runner ────────────────────────────────────────────────────────
 
 def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
-                       api_key=None, label=None, with_logprobs=True):
+                       api_key=None, label=None, with_logprobs=True,
+                       system_prompt=None, user_prompt_fn=None):
     """
     Run the full LLM prediction loop on a sample.
 
@@ -632,6 +633,11 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         with_logprobs: request token logprobs and compute P(prediction=1) per
                        call so AUC is reportable. Default True. Anthropic
                        silently skips (probabilities will be None).
+        system_prompt: optional system prompt string override. If None, uses
+                       build_system_prompt().
+        user_prompt_fn: optional callable(row) -> str override for building
+                        the user prompt. If None, uses build_user_prompt(row,
+                        include_desc=include_desc).
 
     Returns:
         dict with 'predictions', 'probabilities', 'reasonings', 'raw_responses',
@@ -647,7 +653,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
     # Resolve pricing once, fail-fast on unknown model before burning API calls.
     in_price_per_1k, out_price_per_1k = get_price(model_name)
 
-    system_prompt = build_system_prompt()
+    system_prompt = system_prompt or build_system_prompt()
     y_true = llm_sample['loan_status'].values
 
     call_rows = []
@@ -672,6 +678,11 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             "prob_fully_paid":       meta.get("prob_fully_paid"),
         })
 
+    def _build_user_prompt(row):
+        if user_prompt_fn is not None:
+            return user_prompt_fn(row)
+        return build_user_prompt(row, include_desc=include_desc)
+
     def _do_call(prompt):
         return call_llm(
             system_prompt, prompt,
@@ -681,7 +692,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
 
     first_row = llm_sample.iloc[0]
     try:
-        test_raw, test_meta = _do_call(build_user_prompt(first_row, include_desc=include_desc))
+        test_raw, test_meta = _do_call(_build_user_prompt(first_row))
         test_parsed = parse_llm_response(test_raw)
         print(f"{tag} First call OK (pred={test_parsed['prediction']}, "
               f"prob={test_meta.get('prob_fully_paid')}). Starting full run...")
@@ -701,7 +712,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         if i == 0:
             continue
 
-        raw, meta = _do_call(build_user_prompt(row, include_desc=include_desc))
+        raw, meta = _do_call(_build_user_prompt(row))
         raw_responses.append(raw)
         _record(i, meta)
 
