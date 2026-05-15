@@ -18,6 +18,7 @@ ipykernel
 
 # Env / config
 python-dotenv
+pyyaml  # used by promptfoo/prepare_tests.py
 
 # LLM SDKs
 google-genai
