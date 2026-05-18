@@ -1,13 +1,13 @@
-description: "Qualitative characterisation of prompt variant reasoning styles (Groq judge)"
+description: "Qualitative characterisation of prompt variant reasoning styles (NVIDIA NIM judge)"
 
 # ── Judge model ───────────────────────────────────────────────────────────────
-# Groq uses an OpenAI-compatible API. Set GROQ_API_KEY in your .env before running.
-# Change the model below if you want a different Groq model.
+# NVIDIA NIM is OpenAI-compatible. NVIDIA_API_KEY is read from .env at repo root.
+# Change the model below to any NIM-hosted model if needed.
 providers:
-  - id: openai:chat:llama-3.3-70b-versatile
+  - id: openai:chat:meta/llama-3.3-70b-instruct
     config:
-      baseURL: https://api.groq.com/openai/v1
-      apiKey: ${GROQ_API_KEY}
+      baseURL: https://integrate.api.nvidia.com/v1
+      apiKey: ${NVIDIA_API_KEY}
 
 # ── Judge prompt ──────────────────────────────────────────────────────────────
 prompts:
