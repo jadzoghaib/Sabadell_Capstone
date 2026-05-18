@@ -1,0 +1,5 @@
+variant,description,accuracy,precision_charged_off,recall_charged_off,f1_charged_off,auc,n_valid
+baseline,Current production prompt — control group,0.57,0.20833333333333334,0.6666666666666666,0.31746031746031744,,100
+conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,0.52,0.2,0.7333333333333333,0.3142857142857143,,100
+chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,0.62,0.21951219512195122,0.6,0.32142857142857145,,100
+top_features_only,Only the 8 most important features by XGBoost importance are passed in,0.6,0.24489795918367346,0.8,0.375,,100

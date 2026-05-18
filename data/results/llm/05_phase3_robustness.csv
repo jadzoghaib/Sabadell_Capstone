@@ -1,0 +1,3 @@
+split,accuracy,auc,precision_charged_off,recall_charged_off,f1_charged_off
+Original sample (Phase 1),0.6,,0.24489795918367346,0.8,0.375
+New batch (Phase 3),0.65,,0.375,0.782608695652174,0.5070422535211268
