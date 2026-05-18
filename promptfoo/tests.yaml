@@ -1,0 +1,124 @@
+- vars:
+    variant_name: baseline
+    variant_description: Standard credit analyst role, no special framing.
+    reasonings: "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning:\
+      \ The borrower has a high income, a long credit history, and a low debt-to-income\
+      \ ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted:\
+      \ Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate,\
+      \ a high debt-to-income ratio, and a history of derogatory public records, indicating\
+      \ a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid\
+      \ (correct)\n    Reasoning: The borrower has a high income, a long credit history,\
+      \ and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual:\
+      \ Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower\
+      \ has a stable income, a long credit history, and a reasonable debt-to-income\
+      \ ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted:\
+      \ Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate,\
+      \ a high debt-to-income ratio, and a history of derogatory public records, indicating\
+      \ a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off\
+      \ (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of\
+      \ derogatory public records, and a high debt-to-income ratio, indicating a high\
+      \ risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n\
+      \    Reasoning: The borrower has a high interest rate, a high debt-to-income\
+      \ ratio, and a history of derogatory public records, indicating a high risk\
+      \ of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n\
+      \    Reasoning: The borrower has a high interest rate, a high debt-to-income\
+      \ ratio, and a history of derogatory public records, indicating a high risk\
+      \ of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n \
+      \   Reasoning: The borrower has a high interest rate, a history of derogatory\
+      \ public records, and a high debt-to-income ratio, indicating a high risk of\
+      \ default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n  \
+      \  Reasoning: The borrower has a high income, a long credit history, and a low\
+      \ debt-to-income ratio, indicating a low risk of default."
+  description: Qualitative characterisation of [baseline]
+- vars:
+    variant_name: conservative
+    variant_description: Risk-averse underwriter told to err toward Charged Off when
+      uncertain.
+    reasonings: "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning:\
+      \ The borrower has a high income, a long credit history, and a low debt-to-income\
+      \ ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted:\
+      \ Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long\
+      \ credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\
+      \n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The\
+      \ borrower has a stable income, a long credit history, and a reasonable debt-to-income\
+      \ ratio, indicating a low risk of default.\n\n[4] Actual: Charged Off | Predicted:\
+      \ Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long\
+      \ credit history, and a reasonable debt-to-income ratio, indicating a low risk\
+      \ of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n \
+      \   Reasoning: The borrower has a high interest rate, a high debt-to-income\
+      \ ratio, and a high revolving utilization rate, indicating a high risk of default.\n\
+      \n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The\
+      \ borrower has a high debt-to-income ratio and a high revolving utilization\
+      \ rate, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted:\
+      \ Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long\
+      \ credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\
+      \n[8] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The\
+      \ borrower has a high interest rate, a high debt-to-income ratio, and a high\
+      \ revolving utilization rate, indicating a high risk of default.\n\n[9] Actual:\
+      \ Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower\
+      \ has a stable income, a long credit history, and a low debt-to-income ratio,\
+      \ indicating a low risk of default.\n\n[10] Actual: Fully Paid | Predicted:\
+      \ Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income\
+      \ ratio and a high revolving utilization rate, indicating a high risk of default."
+  description: Qualitative characterisation of [conservative]
+- vars:
+    variant_name: chain_of_thought
+    variant_description: Asked to reason step-by-step through risk signals before
+      predicting.
+    reasonings: "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning:\
+      \ The borrower has a stable income, a long credit history, and a reasonable\
+      \ debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully\
+      \ Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high\
+      \ debt-to-income ratio and a high interest rate, indicating a higher risk of\
+      \ default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n   \
+      \ Reasoning: The borrower has a high income, a long credit history, and a low\
+      \ debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully\
+      \ Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a\
+      \ stable income, a long credit history, and a reasonable debt-to-income ratio,\
+      \ indicating a low risk of default.\n\n[5] Actual: Charged Off | Predicted:\
+      \ Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long\
+      \ credit history, and a reasonable debt-to-income ratio, indicating a low risk\
+      \ of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n \
+      \   Reasoning: The borrower has a high debt-to-income ratio and a high interest\
+      \ rate, indicating a higher risk of default.\n\n[7] Actual: Fully Paid | Predicted:\
+      \ Charged Off (WRONG)\n    Reasoning: The presence of a public record bankruptcy\
+      \ and a high debt-to-income ratio suggest a higher risk of default.\n\n[8] Actual:\
+      \ Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower\
+      \ has a stable income, a long credit history, and a reasonable debt-to-income\
+      \ ratio, indicating a low risk of default.\n\n[9] Actual: Fully Paid | Predicted:\
+      \ Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income\
+      \ ratio and a high interest rate, indicating a higher risk of default.\n\n[10]\
+      \ Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower\
+      \ has a stable income, a long credit history, and a reasonable debt-to-income\
+      \ ratio, indicating a low risk of default."
+  description: Qualitative characterisation of [chain_of_thought]
+- vars:
+    variant_name: top_features_only
+    variant_description: Only the 8 most important features (by XGBoost importance)
+      provided.
+    reasonings: "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning:\
+      \ The borrower has a low debt-to-income ratio and a very high income, indicating\
+      \ a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off\
+      \ (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income\
+      \ ratio, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted:\
+      \ Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income\
+      \ ratio and a moderate revolving utilization rate, suggesting a good balance\
+      \ between income and debt.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid\
+      \ (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and\
+      \ a high income, indicating a strong ability to repay the loan.\n\n[5] Actual:\
+      \ Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has\
+      \ a high debt-to-income ratio and a high revolving utilization rate, indicating\
+      \ a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off\
+      \ (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income\
+      \ ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted:\
+      \ Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income\
+      \ ratio and a high interest rate, suggesting a high risk of default.\n\n[8]\
+      \ Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The\
+      \ borrower has a very high interest rate and a high debt-to-income ratio, indicating\
+      \ a very high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged\
+      \ Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high\
+      \ debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully\
+      \ Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a\
+      \ moderate debt-to-income ratio and a high income, suggesting a manageable debt\
+      \ burden."
+  description: Qualitative characterisation of [top_features_only]
