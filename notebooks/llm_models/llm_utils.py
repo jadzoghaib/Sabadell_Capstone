@@ -388,7 +388,7 @@ def _extract_prediction_prob(api_provider, raw_text, token_data):
 
 
 def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
-             api_key=None, return_usage=False, with_logprobs=False):
+             api_key=None, return_usage=False, with_logprobs=False, max_tokens=None):
     """
     Call the LLM API. Supports gemini, anthropic, and openai providers.
 
@@ -509,6 +509,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         return text
 
     elif api_provider == "nvidia":
+        import time
         import openai
         client = openai.OpenAI(
             api_key=api_key,
@@ -519,25 +520,35 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         if with_logprobs:
             kwargs["logprobs"] = True
             kwargs["top_logprobs"] = 5
-        response = client.chat.completions.create(
-            model=model,
-            max_tokens=2048,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            **kwargs,
-        )
-        text = response.choices[0].message.content
-        if return_usage:
-            in_t, out_t = _extract_usage("nvidia", response)
-            meta = {"input_tokens": in_t, "output_tokens": out_t}
-            if with_logprobs:
-                meta["prob_fully_paid"] = _extract_prediction_prob(
-                    "openai", text, _extract_token_logprobs("openai", response)
+        for attempt in range(8):
+            try:
+                response = client.chat.completions.create(
+                    model=model,
+                    max_tokens=max_tokens or 2048,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    **kwargs,
                 )
-            return text, meta
-        return text
+                text = response.choices[0].message.content
+                if return_usage:
+                    in_t, out_t = _extract_usage("nvidia", response)
+                    meta = {"input_tokens": in_t, "output_tokens": out_t}
+                    if with_logprobs:
+                        meta["prob_fully_paid"] = _extract_prediction_prob(
+                            "openai", text, _extract_token_logprobs("openai", response)
+                        )
+                    return text, meta
+                return text
+            except Exception as e:
+                if "429" in str(e) or "Too Many Requests" in str(e) or "rate" in str(e).lower():
+                    wait = 2 ** attempt * 10  # 10s, 20s, 40s, 80s …
+                    print(f"  [nvidia] Rate limited — retry {attempt+1}/8 in {wait}s...")
+                    time.sleep(wait)
+                else:
+                    raise
+        raise RuntimeError("NVIDIA NIM API failed after 8 retries (persistent rate limit)")
 
     else:
         raise ValueError(f"Unknown api_provider: {api_provider}")
@@ -561,6 +572,105 @@ def parse_llm_response(text):
         return result
     except (json.JSONDecodeError, KeyError, ValueError):
         return {'prediction': None, 'reasoning': f'PARSE_ERROR: {text[:200]}'}
+
+
+def format_loans_batch(df, user_prompt_fn=None, include_desc=False):
+    """
+    Format a DataFrame of loans as a compact numbered table for batch prediction.
+    TOON-inspired: field headers once, then pipe-separated rows — ~40% fewer tokens
+    than repeating field names per loan.
+
+    When user_prompt_fn is provided (e.g. top_features_only, chain_of_thought),
+    each loan section uses the custom prompt but is wrapped with an index marker
+    so the model knows which index to return.
+    """
+    n = len(df)
+    lines = []
+
+    if user_prompt_fn is not None:
+        lines.append(f"Predict outcomes for the {n} loans below.")
+        lines.append("Return a JSON array: "
+                     '[{"i": 0, "prediction": 1, "reasoning": "..."}, ...]')
+        lines.append("")
+        for i, (_, row) in enumerate(df.iterrows()):
+            lines.append(f"--- LOAN #{i} ---")
+            lines.append(user_prompt_fn(row))
+    else:
+        features = [c for c in LLM_FEATURES if c in df.columns]
+        lines.append(f"Predict outcomes for the {n} loans below.")
+        lines.append("Return a JSON array: "
+                     '[{"i": 0, "prediction": 1, "reasoning": "..."}, ...]')
+        lines.append("")
+        lines.append("Fields: " + " | ".join(features))
+        for i, (_, row) in enumerate(df.iterrows()):
+            vals = []
+            for f in features:
+                v = row.get(f, "N/A")
+                vals.append("N/A" if pd.isna(v) else str(v))
+            lines.append(f"#{i}: " + " | ".join(vals))
+
+    return "\n".join(lines)
+
+
+def _batch_system_prompt(system_prompt, n):
+    """
+    Rewrite the single-prediction JSON instruction in system_prompt for batch use.
+    Replaces the per-loan output spec with an array output spec.
+    """
+    # Remove the existing single-prediction JSON block
+    import re as _re
+    cleaned = _re.sub(
+        r"Respond ONLY with valid JSON.*?reasoning.*?\}.*?$",
+        "",
+        system_prompt,
+        flags=_re.DOTALL | _re.IGNORECASE,
+    ).rstrip()
+    batch_instruction = (
+        f"\n\nYou will receive {n} loans. "
+        "Respond ONLY with a JSON array — one object per loan:\n"
+        '[{"i": 0, "prediction": 1, "reasoning": "brief"}, '
+        '{"i": 1, "prediction": 0, "reasoning": "brief"}, ...]\n'
+        "prediction: 1 = Fully Paid, 0 = Charged Off. "
+        "reasoning: 1-2 sentences. Include ALL loans — do not skip any index."
+    )
+    return cleaned + batch_instruction
+
+
+def parse_batch_llm_response(text, n):
+    """
+    Parse a batch response containing a JSON array of {i, prediction, reasoning}.
+    Returns (predictions, reasonings) — lists of length n, None/MISSING for gaps.
+    """
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("```")[1]
+        if text.startswith("json"):
+            text = text[4:]
+        text = text.strip()
+
+    predictions = [None] * n
+    reasonings  = ["MISSING"] * n
+
+    try:
+        data = json.loads(text)
+        if isinstance(data, dict):
+            for key in ("predictions", "results", "loans", "data"):
+                if key in data and isinstance(data[key], list):
+                    data = data[key]
+                    break
+        for item in data:
+            idx = item.get("i", item.get("index", item.get("loan_index")))
+            if idx is None:
+                continue
+            idx = int(idx)
+            if 0 <= idx < n:
+                raw_pred = item.get("prediction")
+                predictions[idx] = int(raw_pred) if raw_pred is not None else None
+                reasonings[idx]  = str(item.get("reasoning", ""))
+    except (json.JSONDecodeError, KeyError, ValueError, TypeError):
+        pass
+
+    return predictions, reasonings
 
 
 # ── Evaluation ────────────────────────────────────────────────────────────────
@@ -653,7 +763,8 @@ def _append_llm_calls(rows):
 
 def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                        api_key=None, label=None, with_logprobs=True,
-                       system_prompt=None, user_prompt_fn=None):
+                       system_prompt=None, user_prompt_fn=None,
+                       batch_size=None):
     """
     Run the full LLM prediction loop on a sample.
 
@@ -667,11 +778,15 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         with_logprobs: request token logprobs and compute P(prediction=1) per
                        call so AUC is reportable. Default True. Anthropic
                        silently skips (probabilities will be None).
+                       Ignored in batch mode (logprobs are per-call, not per-loan).
         system_prompt: optional system prompt string override. If None, uses
                        build_system_prompt().
         user_prompt_fn: optional callable(row) -> str override for building
                         the user prompt. If None, uses build_user_prompt(row,
                         include_desc=include_desc).
+        batch_size: if 0, send all loans in a single API call (TOON-style compact
+                    table). If N > 0, send chunks of N loans per call. If None,
+                    use the original one-call-per-loan loop.
 
     Returns:
         dict with 'predictions', 'probabilities', 'reasonings', 'raw_responses',
@@ -724,50 +839,104 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             return_usage=True, with_logprobs=with_logprobs,
         )
 
-    first_row = llm_sample.iloc[0]
+    # ── Batch mode ────────────────────────────────────────────────────────────
+    if batch_size is not None:
+        n = len(llm_sample)
+        chunk = n if batch_size == 0 else batch_size
+        chunks = [llm_sample.iloc[i:i+chunk] for i in range(0, n, chunk)]
+        n_calls = len(chunks)
+
+        predictions   = [None] * n
+        probabilities = [None] * n
+        reasonings    = ["MISSING"] * n
+        raw_responses = []
+
+        start = _time.time()
+        for call_i, sub_df in enumerate(chunks):
+            offset = call_i * chunk
+
+            batch_sys = _batch_system_prompt(system_prompt, len(sub_df))
+            batch_usr = format_loans_batch(sub_df, user_prompt_fn=user_prompt_fn,
+                                           include_desc=include_desc)
+            print(f"{tag} Batch call {call_i+1}/{n_calls} "
+                  f"(loans {offset}–{offset+len(sub_df)-1}) ...")
+            try:
+                raw, meta = call_llm(
+                    batch_sys, batch_usr,
+                    api_provider=api_provider, model=model_name, api_key=api_key,
+                    return_usage=True, with_logprobs=False,
+                    max_tokens=len(sub_df) * 120,  # ~120 tokens per prediction
+                )
+                raw_responses.append(raw)
+                _record(offset, meta)
+
+                preds, reasns = parse_batch_llm_response(raw, len(sub_df))
+                for j, (pred, rsn) in enumerate(zip(preds, reasns)):
+                    predictions[offset + j]   = pred
+                    reasonings[offset + j]    = rsn
+                    probabilities[offset + j] = None
+
+                n_ok = sum(1 for p in preds if p is not None)
+                print(f"{tag}  -> {n_ok}/{len(sub_df)} parsed OK "
+                      f"({_time.time()-start:.0f}s elapsed)")
+            except Exception as e:
+                print(f"{tag} Batch call {call_i+1} FAILED: {e}")
+                raw_responses.append(None)
+
+        n_errors = sum(1 for p in predictions if p is None)
+        total_time = _time.time() - start
+        print(f"{tag} COMPLETE — {n_calls} batch calls, "
+              f"{n - n_errors}/{n} predictions parsed, {total_time:.0f}s total")
+
+    # ── Original per-loan loop ────────────────────────────────────────────────
+    else:
+        first_row = llm_sample.iloc[0]
+        try:
+            test_raw, test_meta = _do_call(_build_user_prompt(first_row))
+            test_parsed = parse_llm_response(test_raw)
+            print(f"{tag} First call OK (pred={test_parsed['prediction']}, "
+                  f"prob={test_meta.get('prob_fully_paid')}). Starting full run...")
+        except Exception as e:
+            print(f"{tag} FAILED on first call: {e}")
+            raise RuntimeError(f"{tag} cannot reach API: {e}")
+
+        _record(0, test_meta)
+
+        predictions   = [test_parsed['prediction']]
+        probabilities = [test_meta.get('prob_fully_paid')]
+        reasonings    = [test_parsed['reasoning']]
+        raw_responses = [test_raw]
+
+        start = _time.time()
+        for i, (_, row) in enumerate(llm_sample.iterrows()):
+            if i == 0:
+                continue
+
+            raw, meta = _do_call(_build_user_prompt(row))
+            raw_responses.append(raw)
+            _record(i, meta)
+
+            parsed = parse_llm_response(raw)
+            predictions.append(parsed['prediction'])
+            probabilities.append(meta.get('prob_fully_paid'))
+            reasonings.append(parsed['reasoning'])
+
+            if (i + 1) % 10 == 0:
+                elapsed = _time.time() - start
+                rate = (i + 1) / elapsed
+                eta = (len(llm_sample) - i - 1) / rate
+                print(f"{tag} {i+1}/100 done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
+
+        n_errors = sum(1 for p in predictions if p is None)
+        n_probs = sum(1 for p in probabilities if p is not None)
+        total_time = _time.time() - start
+        print(f"{tag} COMPLETE — {len(predictions)} predictions, {n_errors} parse errors, "
+              f"{n_probs} with logprobs, {total_time:.0f}s total")
+
     try:
-        test_raw, test_meta = _do_call(_build_user_prompt(first_row))
-        test_parsed = parse_llm_response(test_raw)
-        print(f"{tag} First call OK (pred={test_parsed['prediction']}, "
-              f"prob={test_meta.get('prob_fully_paid')}). Starting full run...")
+        _append_llm_calls(call_rows)
     except Exception as e:
-        print(f"{tag} FAILED on first call: {e}")
-        raise RuntimeError(f"{tag} cannot reach API: {e}")
-
-    _record(0, test_meta)
-
-    predictions   = [test_parsed['prediction']]
-    probabilities = [test_meta.get('prob_fully_paid')]
-    reasonings    = [test_parsed['reasoning']]
-    raw_responses = [test_raw]
-
-    start = _time.time()
-    for i, (_, row) in enumerate(llm_sample.iterrows()):
-        if i == 0:
-            continue
-
-        raw, meta = _do_call(_build_user_prompt(row))
-        raw_responses.append(raw)
-        _record(i, meta)
-
-        parsed = parse_llm_response(raw)
-        predictions.append(parsed['prediction'])
-        probabilities.append(meta.get('prob_fully_paid'))
-        reasonings.append(parsed['reasoning'])
-
-        if (i + 1) % 10 == 0:
-            elapsed = _time.time() - start
-            rate = (i + 1) / elapsed
-            eta = (len(llm_sample) - i - 1) / rate
-            print(f"{tag} {i+1}/100 done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
-
-    n_errors = sum(1 for p in predictions if p is None)
-    n_probs = sum(1 for p in probabilities if p is not None)
-    total_time = _time.time() - start
-    print(f"{tag} COMPLETE — {len(predictions)} predictions, {n_errors} parse errors, "
-          f"{n_probs} with logprobs, {total_time:.0f}s total")
-
-    _append_llm_calls(call_rows)
+        print(f"Warning: could not write call log: {e}")
 
     metrics = evaluate_predictions(
         y_true, predictions, label=f"{label} ({desc_tag})",
