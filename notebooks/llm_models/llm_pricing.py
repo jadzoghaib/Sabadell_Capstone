@@ -12,7 +12,7 @@ VERIFY against current provider pricing pages before relying on totals:
   - Claude:  https://www.anthropic.com/pricing#api
 """
 
-PRICING_DATE = "2026-01"
+PRICING_DATE = "2026-05"
 
 # (input_price_per_1k_usd, output_price_per_1k_usd)
 PRICES = {
@@ -25,6 +25,9 @@ PRICES = {
 
     # Anthropic (not used in current experiments — placeholder)
     "claude-sonnet-4-20250514": (0.00300, 0.01500),
+
+    # NVIDIA NIM — verify at https://build.nvidia.com/pricing
+    "meta/llama-3.3-70b-instruct": (0.00077, 0.00077),
 }
 
 

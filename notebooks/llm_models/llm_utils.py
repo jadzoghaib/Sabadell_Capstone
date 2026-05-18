@@ -229,10 +229,11 @@ def build_few_shot_examples(n_examples=5, random_state=42):
 # ── LLM API call ──────────────────────────────────────────────────────────────
 
 def _load_env():
-    """Load .env into os.environ. `override=False` matches setdefault semantics:
-    an exported shell var beats a stale .env entry."""
+    """Load .env files into os.environ. Checks both the llm_models folder and
+    the repo root so provider keys can live in either location."""
     from dotenv import load_dotenv
     load_dotenv(Path(__file__).parent / ".env", override=False)
+    load_dotenv(_PROJECT_ROOT / ".env", override=False)
 
 
 def load_api_key(api_provider, model=None):
@@ -260,9 +261,10 @@ def load_api_key(api_provider, model=None):
         return os.environ.get("GEMINI_API_KEY")
 
     key_map = {
-        "gemini": "GEMINI_API_KEY",
+        "gemini":    "GEMINI_API_KEY",
         "anthropic": "ANTHROPIC_API_KEY",
-        "openai": "OPENAI_API_KEY",
+        "openai":    "OPENAI_API_KEY",
+        "nvidia":    "NVIDIA_API_KEY",
     }
     env_var = key_map.get(api_provider)
     return os.environ.get(env_var) if env_var else None
@@ -271,6 +273,7 @@ def load_api_key(api_provider, model=None):
 _USAGE_ATTRS = {
     "gemini":    ("usage_metadata", "prompt_token_count", "candidates_token_count"),
     "openai":    ("usage",          "prompt_tokens",      "completion_tokens"),
+    "nvidia":    ("usage",          "prompt_tokens",      "completion_tokens"),
     "anthropic": ("usage",          "input_tokens",       "output_tokens"),
 }
 _USAGE_WARNED = set()
@@ -497,6 +500,37 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         text = response.choices[0].message.content
         if return_usage:
             in_t, out_t = _extract_usage("openai", response)
+            meta = {"input_tokens": in_t, "output_tokens": out_t}
+            if with_logprobs:
+                meta["prob_fully_paid"] = _extract_prediction_prob(
+                    "openai", text, _extract_token_logprobs("openai", response)
+                )
+            return text, meta
+        return text
+
+    elif api_provider == "nvidia":
+        import openai
+        client = openai.OpenAI(
+            api_key=api_key,
+            base_url="https://integrate.api.nvidia.com/v1",
+        )
+        model = model or "meta/llama-3.3-70b-instruct"
+        kwargs = {}
+        if with_logprobs:
+            kwargs["logprobs"] = True
+            kwargs["top_logprobs"] = 5
+        response = client.chat.completions.create(
+            model=model,
+            max_tokens=2048,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            **kwargs,
+        )
+        text = response.choices[0].message.content
+        if return_usage:
+            in_t, out_t = _extract_usage("nvidia", response)
             meta = {"input_tokens": in_t, "output_tokens": out_t}
             if with_logprobs:
                 meta["prob_fully_paid"] = _extract_prediction_prob(
