@@ -542,13 +542,20 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
                     return text, meta
                 return text
             except Exception as e:
-                if "429" in str(e) or "Too Many Requests" in str(e) or "rate" in str(e).lower():
-                    wait = 2 ** attempt * 10  # 10s, 20s, 40s, 80s …
+                err = str(e).lower()
+                is_rate_limit = "429" in str(e) or "too many requests" in err or "rate" in err
+                is_connection = "connection" in err or "timeout" in err or "503" in str(e) or "502" in str(e)
+                if is_rate_limit:
+                    wait = 2 ** attempt * 10  # 10s, 20s, 40s …
                     print(f"  [nvidia] Rate limited — retry {attempt+1}/8 in {wait}s...")
+                    time.sleep(wait)
+                elif is_connection:
+                    wait = 5 * (attempt + 1)  # 5s, 10s, 15s …
+                    print(f"  [nvidia] Connection error — retry {attempt+1}/8 in {wait}s...")
                     time.sleep(wait)
                 else:
                     raise
-        raise RuntimeError("NVIDIA NIM API failed after 8 retries (persistent rate limit)")
+        raise RuntimeError("NVIDIA NIM API failed after 8 retries")
 
     else:
         raise ValueError(f"Unknown api_provider: {api_provider}")
