@@ -194,6 +194,34 @@ def run_ml_on_sample(llm_sample):
     return probs, preds
 
 
+def top_xgb_features(n=8):
+    """Return the `n` most important raw LLM features by XGBoost importance.
+
+    The model is trained on one-hot-encoded columns (sub_grade_B2, purpose_car,
+    …); this aggregates each dummy's importance back onto its source feature so
+    the result is a subset of LLM_FEATURES suitable for prompt construction.
+    Derived live from models/xgb_model.joblib — never hard-code the list, since
+    the feature set has changed (FICO etc. were added)."""
+    import joblib
+
+    model = joblib.load(f"{MODEL_DIR}/xgb_model.joblib")
+    feature_cols = joblib.load(f"{DATA_DIR}/02_feature_columns.joblib")
+    importances = model.feature_importances_
+
+    agg = {f: 0.0 for f in LLM_FEATURES}
+    for col, w in zip(feature_cols, importances):
+        if col in agg:                      # numeric feature — exact match
+            agg[col] += float(w)
+            continue
+        # one-hot dummy: attribute to its source feature. Longest prefix wins so
+        # e.g. a 'pub_rec_bankruptcies' dummy never gets folded into 'pub_rec'.
+        cands = [f for f in LLM_FEATURES if col.startswith(f + "_")]
+        if cands:
+            agg[max(cands, key=len)] += float(w)
+
+    return sorted(agg, key=agg.get, reverse=True)[:n]
+
+
 # ── Prompt building ───────────────────────────────────────────────────────────
 
 def format_loan_features(row, include_desc=False):
