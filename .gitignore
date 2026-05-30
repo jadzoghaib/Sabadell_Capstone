@@ -19,20 +19,27 @@ env/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# Data files — only exclude large raw datasets and the heavy processed array
+# Data — track processed samples, models, and ALL results so teammates can
+# pull and explore without re-running notebooks. Only exclude what's too big
+# for GitHub or trivially regenerable. (NOTE: gitignore has no inline comments —
+# every comment must be on its own line, or it becomes part of the pattern.)
+
+# Source LendingClub dumps (huge)
 data/raw/*
+!data/raw/.keep
+
 data/interim/*
+
+# 109MB — over GitHub's 100MB hard limit; regenerate via 02_Preprocessing
 data/processed/02_processed_data.npz
 
-# Models (large binary files, regenerable from notebooks)
-models/*
-!models/.keep
+# models/ and data/results/ are intentionally NOT ignored — they're small and
+# needed for collaboration (run_ml_on_sample loads models/xgb_model.joblib etc.)
+
+# Huge model weights (none currently — guard for future deep nets)
 *.pt
 *.pth
 *.onnx
-*.pb
-*.bin
-*.safetensors
 
 # Logs & outputs
 logs/

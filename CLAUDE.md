@@ -78,14 +78,18 @@ Two parallel pipelines:
 
 1. **ML pipeline** — `notebooks/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
    (Logistic Regression, XGBoost tuned with Optuna, Keras ANN).
-2. **LLM evaluation** — `notebooks/llm_models/` is split into three strands:
-   `model_selection/` (concluded — picked GPT-5 over Gemini Pro/Flash by comparing
-   accuracy, consistency, and robustness ±desc); `prompt_variance/` (explores how
+2. **LLM evaluation** — `notebooks/llm_models/` runs as four numbered phases:
+   `01_model_selection/` (concluded — picked GPT-5 over Gemini Pro/Flash by comparing
+   accuracy, consistency, and robustness ±desc); `02_prompt_variance/` (explores how
    much prompt *design* matters on a fixed model — Llama-3.3-70b via NVIDIA NIM —
-   across 6 variants, plus a promptfoo LLM-as-judge characterisation); and
-   `optimization/` (the active phase — improving GPT-5 specifically on the
-   **no-desc / structured-features only** condition, per the supervisor's redirect:
-   reasoning-effort sweeps and F1-max threshold tuning).
+   across 6 variants, plus a promptfoo LLM-as-judge characterisation);
+   `03_optimization/` (improving GPT-5 specifically on the **no-desc /
+   structured-features only** condition, per the supervisor's redirect:
+   reasoning-effort sweeps and F1-max threshold tuning); and `04_final_benchmark/`
+   (**the spine** — takes the finalist prompts × GPT-5, applies a tuned threshold,
+   and reports metrics **alongside cost** vs the XGBoost baseline. This is the
+   stage that ties the others together into one comparable, presentable result;
+   the notebook is a scaffold awaiting the actual API runs).
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
@@ -120,20 +124,19 @@ experiments unless explicitly asked.
 ## Repo layout
 
 ```
-data/
-  raw/         accepted_2007_to_2018Q4.csv.gz, lending_club_loan_two.csv.zip   (gitignored)
-  processed/   02_processed_data.npz                                          (gitignored — 109MB)
+data/   # tracked for collab so teammates can pull results without re-running
+  raw/         accepted_2007_to_2018Q4.csv.gz, lending_club_loan_two.csv.zip   (gitignored — huge source dumps)
+  processed/   02_processed_data.npz                                          (gitignored — 109MB, over GitHub's limit)
                02_llm_sample.csv, 02_scaler.joblib,
                02_feature_columns.joblib, 04c_new_batch_sample.csv             (tracked)
   results/
     ml/        03_model_performance.csv                                        (tracked)
-    llm/       04a_predictions.csv, 04a_metrics.csv,
-               04b_predictions.csv, 04b_metrics.csv,
-               04c_predictions.csv, 04c_metrics.csv,
-               llm_calls.csv (per-call log) + pilots/                          (tracked)
-               pilots/  earlier pilot CSVs, kept for reference
+    llm/       05_*.csv/.json/.png (prompt variance), 06_qualitative_summary.csv,
+               04_final_benchmark.csv + 04_benchmark_f1_vs_cost.png,
+               llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
-               thresholds.joblib                                                (gitignored)
+               thresholds.joblib                                              (TRACKED — small, and
+               the LLM notebooks load xgb_model + scaler + thresholds via run_ml_on_sample)
 notebooks/
   01_EDA.ipynb
   02_Preprocessing.ipynb     # writes data/processed/02_*
@@ -142,35 +145,43 @@ notebooks/
     .env                     # API keys, gitignored — see "API keys" below
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
     llm_pricing.py           # per-model USD/1k token prices used by the cost logger
-    model_selection/         # PHASE 1 (concluded): pick the LLM
+    01_model_selection/      # PHASE 1 (concluded): pick the LLM → GPT-5
       00_Sample_New_Batch.ipynb     # builds data/processed/04c_new_batch_sample.csv
       04a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 04a_predictions.csv + 04a_metrics.csv
       04b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 04b_predictions.csv + 04b_metrics.csv
       04c_Robustness.ipynb          # GPT-5 on held-out batch → 04c_predictions.csv + 04c_metrics.csv
-    prompt_variance/         # PHASE 2a: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
+    02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
       05_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 05_*.csv
       06_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 06_qualitative_summary.csv
-    optimization/            # PHASE 2b (active): improve GPT-5 no-desc
+    03_optimization/         # PHASE 3: improve GPT-5 no-desc
       07_reasoning_effort_runs.ipynb    # GPT-5 reasoning_effort sweep
       08_threshold_tune_and_test.ipynb  # F1-max threshold tuning on the held-out resample
-    pilots/                  # earlier pilots, kept for reference only
+    04_final_benchmark/      # PHASE 4 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
+      Final_Benchmark.ipynb         # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
+    # NOTE: file-number prefixes (04a, 05, 07…) are legacy run-order tags; the
+    # phase is the FOLDER number. The dead gemini-flash pilots were deleted (in git history).
 promptfoo/     judge config + test generation for 06_Promptfoo_Qualitative (pyyaml)
 reports/       Progress report 1.pdf, output.png
 ```
 
-`.keep` files preserve the empty directories under git; everything else under
-`data/`, `models/`, and `notebooks/llm_models/.env` is excluded by `.gitignore`.
+**Collaboration policy (changed May 2026):** `data/processed/` samples, `models/`,
+and all of `data/results/` are now **tracked** so teammates can `git pull` and
+explore results without re-running notebooks. Only genuinely-excluded items:
+`data/raw/*` (huge source dumps), `data/processed/02_processed_data.npz` (109MB,
+over GitHub's limit), and `.env`. `.keep` files preserve otherwise-empty dirs.
 
 ## Run order
 
-ML pipeline must run first end-to-end on a fresh checkout before any LLM notebook,
-because `04a/04b/04c` load `data/processed/02_llm_sample.csv` and (via `llm_utils.run_ml_on_sample`)
-the saved scaler, feature columns, and XGBoost model:
+Because models are now tracked, a teammate can run the LLM notebooks **without**
+re-running the ML pipeline (the LLM notebooks load `02_llm_sample.csv` + the saved
+scaler/feature-columns/XGBoost model via `llm_utils.run_ml_on_sample`, all in git).
+Only re-run the ML pipeline if you change preprocessing/features:
 
 ```
-01_EDA → 02_Preprocessing → 03_Modeling   [generates everything in data/processed/ and models/]
-00_Sample_New_Batch                       [only needed before 04c]
-04a_Model_Comparison, 04b_Consistency, 04c_Robustness   [independent, any order]
+01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
+01_model_selection/00_Sample_New_Batch    [only needed before 04c / the held-out benchmark]
+01_model_selection/04a,04b,04c            [independent, any order]
+02_prompt_variance/05,06   ·   03_optimization/07,08   ·   04_final_benchmark/Final_Benchmark
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
@@ -212,10 +223,11 @@ in current notebooks.
 
 ## Conventions / gotchas
 
-- **Never commit data, models, or `.env`.** `.gitignore` already covers
-  `*.csv`, `*.joblib`, `*.npz`, `*.keras`, etc., but staging with `git add -A`
-  from a fresh clone with raw data present is still the easiest way to leak.
-  Stage by path.
+- **Commit policy (changed May 2026):** processed samples, `models/`, and all of
+  `data/results/` are now tracked for collaboration — commit them. The hard
+  exclusions are `data/raw/*`, `data/processed/02_processed_data.npz` (109MB), and
+  `.env` (secrets). When committing, the easiest leak is `data/raw/` if it's
+  present locally — stage by path, and never commit `.env`.
 - **Path resolution**: `llm_utils.py` anchors `DATA_DIR`, `MODEL_DIR`,
   `RESULTS_DIR`, and `RAW_DATA_PATH` to `Path(__file__).resolve().parent.parent.parent`
   (the repo root), so any notebook under `notebooks/llm_models/**` can import
@@ -225,12 +237,14 @@ in current notebooks.
 - **Importing `llm_utils` from a subfolder**: notebooks living under
   `notebooks/llm_models/<subfolder>/` need a one-liner `import sys;
   sys.path.insert(0, "..")` before `from llm_utils import ...`. This is
-  already in place in every `model_selection/` notebook; copy the pattern
-  for new notebooks under `optimization/`.
-- **`llm_utils.LLM_FEATURES`** is the canonical 21-feature list that LLMs see
-  (excludes the target, `desc`, and identifiers). If you change features in
-  `02_Preprocessing.ipynb`, update `LLM_FEATURES` and `FEATURE_DESCRIPTIONS`
-  in `llm_utils.py` to match, otherwise `run_ml_on_sample` will misalign columns.
+  already in place in every phase notebook; copy the pattern for new notebooks
+  under `04_final_benchmark/`.
+- **`llm_utils.LLM_FEATURES`** is the canonical **30-feature** list that LLMs see
+  (the original 21 + FICO, delinquency, inquiries, `emp_length`,
+  `credit_history_years` — matching the ML feature set). Excludes the target,
+  `desc`, and identifiers. If you change features in `02_Preprocessing.ipynb`,
+  update `LLM_FEATURES` and `FEATURE_DESCRIPTIONS` in `llm_utils.py` to match,
+  otherwise `run_ml_on_sample` will misalign columns.
 - **Retry logic** for LLM calls: `llm_utils.call_llm` retries 5× with
   exponential backoff on 503/429/`UNAVAILABLE`. If a run hangs, that's the
   loop — kill the cell rather than waiting it out.
