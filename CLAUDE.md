@@ -85,11 +85,12 @@ Two parallel pipelines:
    across 6 variants, plus a promptfoo LLM-as-judge characterisation);
    `03_optimization/` (improving GPT-5 specifically on the **no-desc /
    structured-features only** condition, per the supervisor's redirect:
-   reasoning-effort sweeps and F1-max threshold tuning); and `04_final_benchmark/`
-   (**the spine** — takes the finalist prompts × GPT-5, applies a tuned threshold,
-   and reports metrics **alongside cost** vs the XGBoost baseline. This is the
-   stage that ties the others together into one comparable, presentable result;
-   the notebook is a scaffold awaiting the actual API runs).
+   a reasoning-effort sweep — pick the best effort by AUC); and `04_final_benchmark/`
+   (**the spine** — takes the finalist prompts × GPT-5 at the chosen effort,
+   tunes the decision threshold, and reports metrics **alongside cost** vs the
+   XGBoost baseline. Threshold tuning lives here and *only* here, on the actual
+   finalists. This is the stage that ties the others together into one comparable,
+   presentable result; the notebook is a scaffold awaiting the actual API runs).
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
@@ -155,7 +156,8 @@ notebooks/
       02b_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 02b_qualitative_summary.csv
     03_optimization/         # PHASE 3: improve GPT-5 no-desc
       03a_reasoning_effort_runs.ipynb    # GPT-5 reasoning_effort sweep → 03a_predictions/03a_metrics
-      03b_threshold_tune_and_test.ipynb  # F1-max threshold tuning on held_out_batch → 03b_predictions/03b_metrics
+                                         # (pick best effort by AUC from 03a_metrics; carry it into 04.
+                                         #  Threshold tuning lives ONLY in 04 — on the actual finalists.)
     04_final_benchmark/      # PHASE 4 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
       04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
     # NAMING: file prefix = phase (01a, 02, 03b, 04). Result CSVs share the same
@@ -181,7 +183,7 @@ Only re-run the ML pipeline if you change preprocessing/features:
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
 01_model_selection/00_Sample_New_Batch    [only needed before 01c / the held-out benchmark]
 01_model_selection/01a,01b,01c            [independent, any order]
-02_prompt_variance/02,02b   ·   03_optimization/03a,03b   ·   04_final_benchmark/04_Final_Benchmark
+02_prompt_variance/02,02b   ·   03_optimization/03a   ·   04_final_benchmark/04_Final_Benchmark
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
