@@ -1,4 +1,4 @@
-# Prompt Variance Analysis — `05_Prompt_Variance.ipynb`
+# Prompt Variance Analysis — `02_Prompt_Variance.ipynb`
 
 Branch: `prompt-variance`  
 Model: `meta/llama-3.3-70b-instruct` via NVIDIA NIM  
@@ -62,7 +62,7 @@ NVIDIA_API_KEY=nvapi-...
 python -m jupyter nbconvert --to notebook --execute \
   --ExecutePreprocessor.timeout=3600 \
   --ExecutePreprocessor.kernel_name=<your_env> \
-  --inplace notebooks/llm_models/prompt_variance/05_Prompt_Variance.ipynb
+  --inplace notebooks/llm_models/prompt_variance/02_Prompt_Variance.ipynb
 ```
 
 Each phase makes ~100 API calls, so the full run takes roughly 15–30 minutes depending on NVIDIA NIM throughput.
@@ -75,11 +75,11 @@ All results land in `data/results/llm/`:
 
 | File | Contents |
 |------|----------|
-| `05_phase1_metrics.csv` | Accuracy, AUC, Charged Off F1 for every variant |
-| `05_phase2_consistency.csv` | Per-run metrics for the winning variant (3 runs) |
-| `05_phase3_robustness.csv` | Original sample vs new batch performance for the winner |
-| `05_predictions.csv` | Per-loan predictions, actuals, and correctness across all phases |
-| `05_reasonings.jsonl` | Full LLM reasoning text per loan per variant — input for promptfoo |
+| `02_phase1_metrics.csv` | Accuracy, AUC, Charged Off F1 for every variant |
+| `02_phase2_consistency.csv` | Per-run metrics for the winning variant (3 runs) |
+| `02_phase3_robustness.csv` | Original sample vs new batch performance for the winner |
+| `02_predictions.csv` | Per-loan predictions, actuals, and correctness across all phases |
+| `02_reasonings.jsonl` | Full LLM reasoning text per loan per variant — input for promptfoo |
 
 Call log (tokens, cost, latency per call) is appended to `data/results/llm/llm_calls.csv` automatically by `llm_utils.py`.
 
@@ -87,7 +87,7 @@ Call log (tokens, cost, latency per call) is appended to `data/results/llm/llm_c
 
 ## Qualitative characterisation with promptfoo
 
-After the notebook runs, `promptfoo/prepare_tests.py` samples 10 reasonings per variant from `05_reasonings.jsonl` and writes `promptfoo/tests.yaml`. Then `npx promptfoo@latest eval` uses an LLM judge to write a 4–6 sentence qualitative characterisation of each variant's *reasoning fingerprint* — what features it anchors on, its risk posture, and its blind spots.
+After the notebook runs, `promptfoo/prepare_tests.py` samples 10 reasonings per variant from `02_reasonings.jsonl` and writes `promptfoo/tests.yaml`. Then `npx promptfoo@latest eval` uses an LLM judge to write a 4–6 sentence qualitative characterisation of each variant's *reasoning fingerprint* — what features it anchors on, its risk posture, and its blind spots.
 
 ```bash
 # From repo root

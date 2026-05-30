@@ -43,7 +43,7 @@ relevant rather than assuming they're done:
   per-call probability to `llm_calls.csv` (column `prob_fully_paid`), and
   `evaluate_predictions` reports AUC at run time when probabilities are
   passed. **Anthropic does not expose logprobs** — those calls record
-  `NaN` and AUC for that provider is `n/a`. *Re-running the 04a/04b/04c
+  `NaN` and AUC for that provider is `n/a`. *Re-running the 01a/01b/01c
   notebooks is what produces the actual LLM AUC values; XGBoost AUC ≈ 0.705
   is the bar.*
 - **Per-call LLM log**: implemented. Every successful run of
@@ -128,11 +128,11 @@ data/   # tracked for collab so teammates can pull results without re-running
   raw/         accepted_2007_to_2018Q4.csv.gz, lending_club_loan_two.csv.zip   (gitignored — huge source dumps)
   processed/   02_processed_data.npz                                          (gitignored — 109MB, over GitHub's limit)
                02_llm_sample.csv, 02_scaler.joblib,
-               02_feature_columns.joblib, 04c_new_batch_sample.csv             (tracked)
+               02_feature_columns.joblib, held_out_batch.csv                  (tracked)
   results/
     ml/        03_model_performance.csv                                        (tracked)
-    llm/       05_*.csv/.json/.png (prompt variance), 06_qualitative_summary.csv,
-               04_final_benchmark.csv + 04_benchmark_f1_vs_cost.png,
+    llm/       02_*.csv/.json/.png (prompt variance), 02b_qualitative_summary.csv,
+               03a_*/03b_* (optimization, once run), 04_final_benchmark.csv,
                llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                              (TRACKED — small, and
@@ -146,21 +146,21 @@ notebooks/
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
     llm_pricing.py           # per-model USD/1k token prices used by the cost logger
     01_model_selection/      # PHASE 1 (concluded): pick the LLM → GPT-5
-      00_Sample_New_Batch.ipynb     # builds data/processed/04c_new_batch_sample.csv
-      04a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 04a_predictions.csv + 04a_metrics.csv
-      04b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 04b_predictions.csv + 04b_metrics.csv
-      04c_Robustness.ipynb          # GPT-5 on held-out batch → 04c_predictions.csv + 04c_metrics.csv
+      00_Sample_New_Batch.ipynb     # builds data/processed/held_out_batch.csv
+      01a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 01a_predictions.csv + 01a_metrics.csv
+      01b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 01b_predictions.csv + 01b_metrics.csv
+      01c_Robustness.ipynb          # GPT-5 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
     02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
-      05_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 05_*.csv
-      06_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 06_qualitative_summary.csv
+      02_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
+      02b_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 02b_qualitative_summary.csv
     03_optimization/         # PHASE 3: improve GPT-5 no-desc
-      07_reasoning_effort_runs.ipynb    # GPT-5 reasoning_effort sweep
-      08_threshold_tune_and_test.ipynb  # F1-max threshold tuning on the held-out resample
+      03a_reasoning_effort_runs.ipynb    # GPT-5 reasoning_effort sweep → 03a_predictions/03a_metrics
+      03b_threshold_tune_and_test.ipynb  # F1-max threshold tuning on held_out_batch → 03b_predictions/03b_metrics
     04_final_benchmark/      # PHASE 4 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
-      Final_Benchmark.ipynb         # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
-    # NOTE: file-number prefixes (04a, 05, 07…) are legacy run-order tags; the
-    # phase is the FOLDER number. The dead gemini-flash pilots were deleted (in git history).
-promptfoo/     judge config + test generation for 06_Promptfoo_Qualitative (pyyaml)
+      04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
+    # NAMING: file prefix = phase (01a, 02, 03b, 04). Result CSVs share the same
+    # prefix as the notebook that writes them. The dead gemini-flash pilots were deleted.
+promptfoo/     judge config + test generation for 02b_Promptfoo_Qualitative (pyyaml)
 reports/       Progress report 1.pdf, output.png
 ```
 
@@ -179,9 +179,9 @@ Only re-run the ML pipeline if you change preprocessing/features:
 
 ```
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
-01_model_selection/00_Sample_New_Batch    [only needed before 04c / the held-out benchmark]
-01_model_selection/04a,04b,04c            [independent, any order]
-02_prompt_variance/05,06   ·   03_optimization/07,08   ·   04_final_benchmark/Final_Benchmark
+01_model_selection/00_Sample_New_Batch    [only needed before 01c / the held-out benchmark]
+01_model_selection/01a,01b,01c            [independent, any order]
+02_prompt_variance/02,02b   ·   03_optimization/03a,03b   ·   04_final_benchmark/04_Final_Benchmark
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
