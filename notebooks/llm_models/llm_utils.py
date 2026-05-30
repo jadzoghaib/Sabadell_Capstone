@@ -17,7 +17,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import (
     accuracy_score, confusion_matrix, classification_report,
-    roc_auc_score, precision_score, recall_score, f1_score
+    roc_auc_score, precision_score, recall_score, f1_score, roc_curve
 )
 
 from llm_pricing import get_price
@@ -33,11 +33,18 @@ RAW_DATA_PATH = str(_PROJECT_ROOT / "data" / "raw" / "accepted_2007_to_2018Q4.cs
 
 # ── Features the LLM sees (exclude target, desc, and non-predictive columns) ──
 LLM_FEATURES = [
+    # Original 21
     'loan_amnt', 'term', 'int_rate', 'installment', 'grade', 'sub_grade',
     'home_ownership', 'annual_inc', 'verification_status', 'purpose',
     'dti', 'earliest_cr_line', 'open_acc', 'pub_rec', 'revol_bal',
     'revol_util', 'total_acc', 'initial_list_status', 'application_type',
     'mort_acc', 'pub_rec_bankruptcies',
+    # Added for symmetry with the ML feature set (FICO, recent delinquency,
+    # recent inquiries, credit-seeking behaviour, employment, history length).
+    'fico_range_low', 'fico_range_high',
+    'delinq_2yrs', 'inq_last_6mths', 'mths_since_last_delinq',
+    'has_past_delinq', 'acc_open_past_24mths',
+    'emp_length', 'credit_history_years',
 ]
 
 FEATURE_DESCRIPTIONS = {
@@ -54,14 +61,24 @@ FEATURE_DESCRIPTIONS = {
     'dti': 'Debt-to-income ratio',
     'earliest_cr_line': 'Earliest credit line date',
     'open_acc': 'Number of open credit accounts',
-    'pub_rec': 'Has derogatory public records (0/1)',
+    'pub_rec': 'Number of derogatory public records',
     'revol_bal': 'Revolving balance ($)',
     'revol_util': 'Revolving utilization rate (%)',
     'total_acc': 'Total number of credit accounts',
     'initial_list_status': 'Initial listing status (w=whole, f=fractional)',
     'application_type': 'Individual or joint application',
-    'mort_acc': 'Has mortgage accounts (0/1)',
-    'pub_rec_bankruptcies': 'Has public record bankruptcies (0/1)',
+    'mort_acc': 'Number of mortgage accounts',
+    'pub_rec_bankruptcies': 'Number of public-record bankruptcies',
+    # Added (matches the ML feature set):
+    'fico_range_low': 'FICO credit score (lower bound, 300-850)',
+    'fico_range_high': 'FICO credit score (upper bound, 300-850)',
+    'delinq_2yrs': 'Number of 30+ day delinquencies in the last 2 years',
+    'inq_last_6mths': 'Number of credit inquiries in the last 6 months',
+    'mths_since_last_delinq': 'Months since most recent delinquency',
+    'has_past_delinq': 'Has any delinquency on record (1=yes, 0=no)',
+    'acc_open_past_24mths': 'Number of accounts opened in the last 24 months',
+    'emp_length': 'Employment length in years (0-10, where 10 = 10+ years)',
+    'credit_history_years': 'Length of credit history at loan issue (years)',
 }
 
 
@@ -144,14 +161,35 @@ def run_ml_on_sample(llm_sample):
 
     df = llm_sample.copy()
 
-    # Apply same preprocessing as 02_Preprocessing
+    # Apply same preprocessing as 02_Preprocessing.
     term_values = {' 36 months': 36, ' 60 months': 60}
     if df['term'].dtype == object:
         df['term'] = df.term.map(term_values)
 
-    df.drop(columns=['grade', 'zip_code', 'addr_state', 'issue_d', 'desc'],
+    # Ordinal-encode emp_length to match preprocessing.
+    if 'emp_length' in df.columns and df['emp_length'].dtype == object:
+        emp_length_map = {
+            '< 1 year': 0, '1 year': 1, '2 years': 2, '3 years': 3, '4 years': 4,
+            '5 years': 5, '6 years': 6, '7 years': 7, '8 years': 8, '9 years': 9,
+            '10+ years': 10,
+        }
+        df['emp_length'] = df['emp_length'].map(emp_length_map)
+
+    # mths_since_last_delinq sentinel + flag (mirrors 02_Preprocessing).
+    if 'mths_since_last_delinq' in df.columns:
+        df['has_past_delinq'] = df['mths_since_last_delinq'].notna().astype(int)
+        df['mths_since_last_delinq'] = df['mths_since_last_delinq'].fillna(999)
+
+    # Compute credit_history_years (years between earliest credit line and
+    # loan issue) before dropping the date columns.
+    if 'issue_d' in df.columns and 'earliest_cr_line' in df.columns:
+        issue_d = pd.to_datetime(df['issue_d'])
+        ecl     = pd.to_datetime(df['earliest_cr_line'])
+        df['credit_history_years'] = (issue_d - ecl).dt.days / 365.25
+
+    df.drop(columns=['grade', 'zip_code', 'addr_state', 'issue_d',
+                     'earliest_cr_line', 'desc'],
             errors='ignore', inplace=True)
-    df['earliest_cr_line'] = pd.to_datetime(df['earliest_cr_line']).dt.year
 
     dummies = ['sub_grade', 'verification_status', 'purpose',
                'initial_list_status', 'application_type', 'home_ownership']
@@ -173,9 +211,18 @@ def format_loan_features(row, include_desc=False):
     """Format a single loan's features as a readable string for the LLM."""
     lines = []
     for feat in LLM_FEATURES:
-        if feat in row and pd.notna(row[feat]):
-            label = FEATURE_DESCRIPTIONS.get(feat, feat)
-            lines.append(f"- {label}: {row[feat]}")
+        if feat not in row or pd.isna(row[feat]):
+            continue
+        label = FEATURE_DESCRIPTIONS.get(feat, feat)
+        val = row[feat]
+
+        # `mths_since_last_delinq == 999` is the sentinel encoding for "no
+        # delinquency on record" (set during preprocessing). Show that
+        # explicitly so the LLM doesn't try to interpret 999 as a real count.
+        if feat == 'mths_since_last_delinq' and val == 999:
+            val = 'no delinquency on record'
+
+        lines.append(f"- {label}: {val}")
 
     if include_desc and 'desc' in row and pd.notna(row['desc']):
         lines.append(f"- Borrower description: {row['desc']}")
@@ -304,7 +351,27 @@ def _extract_usage(api_provider, response):
 
 
 _LOGPROBS_WARNED = set()
+_REASONING_EFFORT_WARNED = set()
 _PREDICTION_RE = re.compile(r'"prediction"\s*:\s*([01])')
+
+
+def find_best_threshold(y_true, probs):
+    """Find the threshold that maximises F1 for the minority class
+    (Charged Off = 0). Generic — works on any (y_true, probs) pair from any
+    model. Returns (threshold, precision, recall, f1) for the minority class."""
+    y_true = np.asarray(y_true)
+    probs = np.asarray(probs)
+    fpr, tpr, thresholds = roc_curve(y_true, probs)
+    recall_co = 1 - fpr
+    n_co = (y_true == 0).sum()
+    n_fp = (y_true == 1).sum()
+    tp_co = recall_co * n_co
+    fp_co = (1 - tpr) * n_fp
+    precision_co = tp_co / (tp_co + fp_co + 1e-8)
+    f1_co = 2 * (precision_co * recall_co) / (precision_co + recall_co + 1e-8)
+    best_idx = int(np.argmax(f1_co))
+    return (float(thresholds[best_idx]), float(precision_co[best_idx]),
+            float(recall_co[best_idx]),  float(f1_co[best_idx]))
 
 
 def _extract_token_logprobs(api_provider, response):
@@ -388,7 +455,8 @@ def _extract_prediction_prob(api_provider, raw_text, token_data):
 
 
 def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
-             api_key=None, return_usage=False, with_logprobs=False, max_tokens=None):
+             api_key=None, return_usage=False, with_logprobs=False, max_tokens=None,
+             reasoning_effort=None):
     """
     Call the LLM API. Supports gemini, anthropic, and openai providers.
 
@@ -410,6 +478,16 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
     """
     if api_key is None:
         api_key = load_api_key(api_provider, model=model)
+
+    # reasoning_effort is OpenAI-specific (gpt-5 family). Warn once if a caller
+    # passes it for another provider; don't raise — keeps the API uniform.
+    if reasoning_effort is not None and api_provider != "openai":
+        if api_provider not in _REASONING_EFFORT_WARNED:
+            _REASONING_EFFORT_WARNED.add(api_provider)
+            warnings.warn(
+                f"reasoning_effort is OpenAI-specific; ignored for {api_provider}.",
+                stacklevel=2,
+            )
 
     if api_provider == "gemini":
         # google.genai (Jan 2026) does not retry 503/429 internally — wrap manually.
@@ -488,6 +566,8 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         if with_logprobs:
             kwargs["logprobs"] = True
             kwargs["top_logprobs"] = 5
+        if reasoning_effort is not None:
+            kwargs["reasoning_effort"] = reasoning_effort
         response = client.chat.completions.create(
             model=model,
             max_completion_tokens=2048,
@@ -771,7 +851,7 @@ def _append_llm_calls(rows):
 def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                        api_key=None, label=None, with_logprobs=True,
                        system_prompt=None, user_prompt_fn=None,
-                       batch_size=None):
+                       batch_size=None, reasoning_effort=None):
     """
     Run the full LLM prediction loop on a sample.
 
@@ -832,6 +912,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             "output_price_per_1k_usd": out_price_per_1k,
             "cost_usd":              cost_usd,
             "prob_fully_paid":       meta.get("prob_fully_paid"),
+            "reasoning_effort":      reasoning_effort,
         })
 
     def _build_user_prompt(row):
@@ -844,6 +925,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             system_prompt, prompt,
             api_provider=api_provider, model=model_name, api_key=api_key,
             return_usage=True, with_logprobs=with_logprobs,
+            reasoning_effort=reasoning_effort,
         )
 
     # ── Batch mode ────────────────────────────────────────────────────────────

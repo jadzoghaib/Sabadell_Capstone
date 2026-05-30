@@ -1,0 +1,3 @@
+,accuracy,precision_charged_off,recall_charged_off,f1_charged_off,n_valid
+LLM (No Desc),0.56,0.20833333333333334,0.625,0.3125,100
+XGBoost,0.71,0.2903225806451613,0.5625,0.3829787234042553,100

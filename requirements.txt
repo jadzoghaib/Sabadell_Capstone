@@ -8,6 +8,10 @@ optuna
 tensorflow
 joblib
 
+# Explainability / stats
+shap
+statsmodels
+
 # Plotting
 matplotlib
 seaborn

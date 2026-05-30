@@ -19,10 +19,20 @@ env/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# Data files — only exclude large raw datasets
+# Data files — only exclude large raw datasets and the heavy processed array
 data/raw/*
-data/processed.zip
+data/interim/*
 data/processed/02_processed_data.npz
+
+# Models (large binary files, regenerable from notebooks)
+models/*
+!models/.keep
+*.pt
+*.pth
+*.onnx
+*.pb
+*.bin
+*.safetensors
 
 # Logs & outputs
 logs/

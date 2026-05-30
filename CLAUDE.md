@@ -32,18 +32,20 @@ at Banc Sabadell HQ in Sant Cugat del Vallès.
 The brief asks for things the current code does not yet do — flag these when
 relevant rather than assuming they're done:
 
-- **AUC**: infra is in place but the experiments need a re-run to produce
-  numbers. `call_llm(..., with_logprobs=True)` requests top-K token logprobs
-  from OpenAI / Gemini and `_extract_prediction_prob` parses them into a
-  normalised `P("1") / (P("1") + P("0"))` per call. `run_llm_experiment` now
-  defaults `with_logprobs=True`, persists the per-call probability to
-  `llm_calls.csv` (column `prob_fully_paid`), and `evaluate_predictions`
-  reports AUC at run time when probabilities are passed. **Anthropic does
-  not expose logprobs** — those calls record `NaN` and AUC for that provider
-  is `n/a`. For ML, AUC is trivial since the saved models already do
-  `predict_proba`; just compute `roc_auc_score(y_true, probs)` from the
-  saved test split. *Re-running the 04a/04b/04c notebooks is what produces
-  the actual AUC values for the report.*
+- **AUC**: ML side already has it — `03_Modeling.ipynb` computes
+  `roc_auc_test` per model and saves it in `data/results/ml/03_model_performance.csv`
+  (current numbers: XGBoost 0.705, LR 0.699; ANN missing because the saved
+  CSV is from a partial run). LLM side: infra is in place but experiments
+  need a re-run to produce numbers. `call_llm(..., with_logprobs=True)`
+  requests top-K token logprobs from OpenAI / Gemini and
+  `_extract_prediction_prob` normalises `P("1") / (P("1") + P("0"))` per
+  call. `run_llm_experiment` defaults `with_logprobs=True`, persists the
+  per-call probability to `llm_calls.csv` (column `prob_fully_paid`), and
+  `evaluate_predictions` reports AUC at run time when probabilities are
+  passed. **Anthropic does not expose logprobs** — those calls record
+  `NaN` and AUC for that provider is `n/a`. *Re-running the 04a/04b/04c
+  notebooks is what produces the actual LLM AUC values; XGBoost AUC ≈ 0.705
+  is the bar.*
 - **Per-call LLM log**: implemented. Every successful run of
   `llm_utils.run_llm_experiment` appends per-call rows to
   `data/results/llm/llm_calls.csv` with columns: `timestamp, experiment_id,
@@ -76,11 +78,14 @@ Two parallel pipelines:
 
 1. **ML pipeline** — `notebooks/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
    (Logistic Regression, XGBoost tuned with Optuna, Keras ANN).
-2. **LLM evaluation** — `notebooks/llm_models/` is split into two phases:
+2. **LLM evaluation** — `notebooks/llm_models/` is split into three strands:
    `model_selection/` (concluded — picked GPT-5 over Gemini Pro/Flash by comparing
-   accuracy, consistency, and robustness ±desc) and `optimization/` (the active
-   phase — improving GPT-5 specifically on the **no-desc / structured-features
-   only** condition, per the supervisor's redirect).
+   accuracy, consistency, and robustness ±desc); `prompt_variance/` (explores how
+   much prompt *design* matters on a fixed model — Llama-3.3-70b via NVIDIA NIM —
+   across 6 variants, plus a promptfoo LLM-as-judge characterisation); and
+   `optimization/` (the active phase — improving GPT-5 specifically on the
+   **no-desc / structured-features only** condition, per the supervisor's redirect:
+   reasoning-effort sweeps and F1-max threshold tuning).
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
@@ -117,14 +122,16 @@ experiments unless explicitly asked.
 ```
 data/
   raw/         accepted_2007_to_2018Q4.csv.gz, lending_club_loan_two.csv.zip   (gitignored)
-  processed/   02_processed_data.npz, 02_llm_sample.csv, 02_scaler.joblib,
-               02_feature_columns.joblib, 04c_new_batch_sample.csv             (gitignored)
+  processed/   02_processed_data.npz                                          (gitignored — 109MB)
+               02_llm_sample.csv, 02_scaler.joblib,
+               02_feature_columns.joblib, 04c_new_batch_sample.csv             (tracked)
   results/
-    ml/        03_model_performance.csv                                        (gitignored)
+    ml/        03_model_performance.csv                                        (tracked)
     llm/       04a_predictions.csv, 04a_metrics.csv,
                04b_predictions.csv, 04b_metrics.csv,
                04c_predictions.csv, 04c_metrics.csv,
-               llm_calls.csv (per-call log) + archive/ pilots                  (gitignored)
+               llm_calls.csv (per-call log) + pilots/                          (tracked)
+               pilots/  earlier pilot CSVs, kept for reference
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                                (gitignored)
 notebooks/
@@ -140,9 +147,14 @@ notebooks/
       04a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 04a_predictions.csv + 04a_metrics.csv
       04b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 04b_predictions.csv + 04b_metrics.csv
       04c_Robustness.ipynb          # GPT-5 on held-out batch → 04c_predictions.csv + 04c_metrics.csv
-    optimization/            # PHASE 2 (active): improve GPT-5 no-desc
-      (empty — populate with new experiments here)
-    archive/                 # earlier pilots, kept for reference only
+    prompt_variance/         # PHASE 2a: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
+      05_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 05_*.csv
+      06_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 06_qualitative_summary.csv
+    optimization/            # PHASE 2b (active): improve GPT-5 no-desc
+      07_reasoning_effort_runs.ipynb    # GPT-5 reasoning_effort sweep
+      08_threshold_tune_and_test.ipynb  # F1-max threshold tuning on the held-out resample
+    pilots/                  # earlier pilots, kept for reference only
+promptfoo/     judge config + test generation for 06_Promptfoo_Qualitative (pyyaml)
 reports/       Progress report 1.pdf, output.png
 ```
 
@@ -182,13 +194,21 @@ in current notebooks.
 
 ## Environment
 
-- Python: **3.13** (project is run from the `pyclass` micromamba env at
-  `~/micromamba/envs/pyclass/`).
+- Python: **3.11** (project runs from the `sabadell` conda env at
+  `/opt/homebrew/Caskroom/miniforge/base/envs/sabadell/`).
+- Recreate from scratch with:
+  ```
+  conda create -n sabadell python=3.11 -y
+  conda activate sabadell
+  pip install -r requirements.txt
+  python -m ipykernel install --user --name sabadell --display-name "Python (sabadell)"
+  ```
+  Then in Jupyter / VS Code, pick the **Python (sabadell)** kernel for every notebook.
 - No lockfile is committed. `requirements.txt` lists the packages that the
   notebooks and `llm_utils.py` import; pin versions there if you need reproducibility.
 - Key packages: `pandas`, `numpy`, `scikit-learn`, `xgboost`, `optuna`,
-  `tensorflow` (Keras), `joblib`, `matplotlib`, `seaborn`, `python-dotenv`,
-  `google-genai`, `openai`, `anthropic`.
+  `tensorflow` (Keras), `shap`, `statsmodels`, `joblib`, `matplotlib`,
+  `seaborn`, `python-dotenv`, `google-genai`, `openai`, `anthropic`.
 
 ## Conventions / gotchas
 
