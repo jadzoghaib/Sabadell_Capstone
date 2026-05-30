@@ -184,16 +184,27 @@ def format_loan_features(row, include_desc=False):
 
 
 def build_system_prompt():
-    """System prompt for LLM loan default prediction."""
+    """System prompt for LLM loan default prediction — baseline variant."""
     return (
-        "You are a credit risk analyst. Given a loan application's features, "
-        "predict whether the borrower will fully repay the loan or default "
-        "(charge off).\n\n"
-        "Respond ONLY with valid JSON in this exact format:\n"
-        '{"prediction": <1 or 0>, "reasoning": "<brief explanation>"}\n\n'
-        "Where:\n"
-        "- prediction: 1 = Fully Paid, 0 = Charged Off\n"
-        "- reasoning: 1-2 sentence explanation of your prediction"
+        "You are a senior credit risk analyst specialising in peer-to-peer consumer lending. "
+        "You are evaluating LendingClub loan applications (2012–2014 vintage) and must predict "
+        "whether the borrower will Fully Paid (1) or default — Charged Off (0).\n\n"
+        "Key risk signals — weigh in order of importance:\n"
+        "1. Grade / sub-grade: LendingClub's risk rating (A1 = safest, G5 = riskiest). "
+        "Grades E–G historically default at >30%; A–B at <7%.\n"
+        "2. Interest rate: direct proxy for perceived risk; >18% signals high-risk borrowers.\n"
+        "3. Debt-to-income ratio (DTI): >25% indicates repayment stress; >35% is a strong default signal.\n"
+        "4. Revolving utilisation: >80% suggests credit dependency and near-limit borrowing.\n"
+        "5. Loan purpose: medical, small_business, moving have elevated default rates; "
+        "debt_consolidation and credit_card are lower risk.\n"
+        "6. Income verification: unverified high incomes are less reliable.\n"
+        "7. Derogatory records: any public record or bankruptcy is a strong negative signal.\n\n"
+        "Calibration: this sample is balanced — approximately 50% of loans defaulted. "
+        "Do NOT default to predicting Fully Paid. Genuinely assess each case on its merits.\n\n"
+        "Respond ONLY with valid JSON:\n"
+        '{"prediction": <1 or 0>, "reasoning": "<2-3 sentences citing specific features>"}\n'
+        "prediction: 1 = Fully Paid, 0 = Charged Off\n"
+        "reasoning: name the 2-3 most decisive features and explain why they drive your prediction"
     )
 
 
@@ -544,7 +555,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
             except Exception as e:
                 err = str(e).lower()
                 is_rate_limit = "429" in str(e) or "too many requests" in err or "rate" in err
-                is_connection = "connection" in err or "timeout" in err or "503" in str(e) or "502" in str(e)
+                is_connection = "connection" in err or "timeout" in err or "503" in str(e) or "502" in str(e) or "504" in str(e)
                 if is_rate_limit:
                     wait = 2 ** attempt * 10  # 10s, 20s, 40s …
                     print(f"  [nvidia] Rate limited — retry {attempt+1}/8 in {wait}s...")
@@ -692,12 +703,21 @@ def evaluate_predictions(y_true, y_pred, label="Model", probabilities=None):
     if len(valid) < len(y_pred):
         print(f"Warning: {len(y_pred) - len(valid)} unparseable predictions excluded")
 
-    y_true_v = np.array(y_true)[valid]
-    y_pred_v = np.array(y_pred)[valid]
-
     print(f"\n{'=' * 50}")
     print(f"{label} Results ({len(valid)} samples)")
     print(f"{'=' * 50}")
+
+    if len(valid) == 0:
+        print("No valid predictions — all API calls failed (e.g. persistent 504).")
+        return {
+            'accuracy': None, 'auc': None,
+            'precision_charged_off': None, 'recall_charged_off': None,
+            'f1_charged_off': None, 'n_valid': 0,
+        }
+
+    y_true_v = np.array(y_true)[valid]
+    y_pred_v = np.array(y_pred)[valid]
+
     print(f"Accuracy: {accuracy_score(y_true_v, y_pred_v) * 100:.1f}%")
 
     auc = None

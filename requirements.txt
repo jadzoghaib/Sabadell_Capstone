@@ -24,3 +24,6 @@ pyyaml  # used by promptfoo/prepare_tests.py
 google-genai
 openai
 anthropic
+
+# Embeddings (Part 7 — sentence embeddings as XGBoost features)
+sentence-transformers

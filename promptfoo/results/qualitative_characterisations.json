@@ -1,0 +1,483 @@
+{
+  "evalId": "eval-3je-2026-05-18T18:34:15",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-05-18T18:34:15.801Z",
+    "prompts": [
+      {
+        "raw": "You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"{{variant_name}}\".\nPrompt design: {{variant_description}}\n\n--- REASONING SAMPLES ---\n{{reasonings}}\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+        "label": "c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\judge_prompt.txt: You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"{{variant_name}}\".\nPrompt design: {{variant_description}}\n\n--- REASONING SAMPLES ---\n{{reasonings}}\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+        "id": "404f8ac0374a9eaaa9c7c9a00b3d22e8ca3eed01f2e5359e0fd81a29625f3d86",
+        "provider": "openai:chat:meta/llama-3.3-70b-instruct",
+        "metrics": {
+          "score": 0,
+          "testPassCount": 0,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 0,
+          "assertFailCount": 0,
+          "totalLatencyMs": 0,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0,
+        "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+        "gradingResult": null,
+        "id": "1eabe6d2-f537-483c-936d-ec190cfe1306",
+        "latencyMs": 583,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"baseline\".\nPrompt design: Standard credit analyst role, no special framing.\n\n--- REASONING SAMPLES ---\n[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of derogatory public records, and a high debt-to-income ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of derogatory public records, and a high debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "label": "c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\judge_prompt.txt: You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"{{variant_name}}\".\nPrompt design: {{variant_description}}\n\n--- REASONING SAMPLES ---\n{{reasonings}}\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "config": {}
+        },
+        "promptId": "404f8ac0374a9eaaa9c7c9a00b3d22e8ca3eed01f2e5359e0fd81a29625f3d86",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:chat:meta/llama-3.3-70b-instruct",
+          "label": ""
+        },
+        "response": {
+          "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+          "metadata": {
+            "http": {
+              "status": 401,
+              "statusText": "Unauthorized",
+              "headers": {
+                "access-control-expose-headers": "CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-length": "267",
+                "content-type": "application/json; charset=utf-8",
+                "date": "Mon, 18 May 2026 18:34:18 GMT",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "vary": "Origin",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "variant_name": "baseline",
+            "variant_description": "Standard credit analyst role, no special framing.",
+            "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of derogatory public records, and a high debt-to-income ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of derogatory public records, and a high debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default."
+          },
+          "description": "Qualitative characterisation of [baseline]",
+          "assert": [],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "variant_name": "baseline",
+          "variant_description": "Standard credit analyst role, no special framing.",
+          "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of derogatory public records, and a high debt-to-income ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a history of derogatory public records, indicating a high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a history of derogatory public records, and a high debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default."
+        },
+        "metadata": {
+          "http": {
+            "status": 401,
+            "statusText": "Unauthorized",
+            "headers": {
+              "access-control-expose-headers": "CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-length": "267",
+              "content-type": "application/json; charset=utf-8",
+              "date": "Mon, 18 May 2026 18:34:18 GMT",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "vary": "Origin",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+        "gradingResult": null,
+        "id": "33baf5e5-d354-4384-ba6d-09bd28e4b3e1",
+        "latencyMs": 618,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"conservative\".\nPrompt design: Risk-averse underwriter told to err toward Charged Off when uncertain.\n\n--- REASONING SAMPLES ---\n[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Charged Off | Predicted: Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a high revolving utilization rate, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[8] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a high revolving utilization rate, indicating a high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[10] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "label": "c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\judge_prompt.txt: You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"{{variant_name}}\".\nPrompt design: {{variant_description}}\n\n--- REASONING SAMPLES ---\n{{reasonings}}\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "config": {}
+        },
+        "promptId": "404f8ac0374a9eaaa9c7c9a00b3d22e8ca3eed01f2e5359e0fd81a29625f3d86",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:chat:meta/llama-3.3-70b-instruct",
+          "label": ""
+        },
+        "response": {
+          "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+          "metadata": {
+            "http": {
+              "status": 401,
+              "statusText": "Unauthorized",
+              "headers": {
+                "access-control-expose-headers": "CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-length": "267",
+                "content-type": "application/json; charset=utf-8",
+                "date": "Mon, 18 May 2026 18:34:18 GMT",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "vary": "Origin",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "variant_name": "conservative",
+            "variant_description": "Risk-averse underwriter told to err toward Charged Off when uncertain.",
+            "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Charged Off | Predicted: Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a high revolving utilization rate, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[8] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a high revolving utilization rate, indicating a high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[10] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default."
+          },
+          "description": "Qualitative characterisation of [conservative]",
+          "assert": [],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "vars": {
+          "variant_name": "conservative",
+          "variant_description": "Risk-averse underwriter told to err toward Charged Off when uncertain.",
+          "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Charged Off | Predicted: Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a high revolving utilization rate, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[8] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate, a high debt-to-income ratio, and a high revolving utilization rate, indicating a high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[10] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default."
+        },
+        "metadata": {
+          "http": {
+            "status": 401,
+            "statusText": "Unauthorized",
+            "headers": {
+              "access-control-expose-headers": "CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-length": "267",
+              "content-type": "application/json; charset=utf-8",
+              "date": "Mon, 18 May 2026 18:34:18 GMT",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "vary": "Origin",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+        "gradingResult": null,
+        "id": "6ddf0050-b4e4-4e49-bf62-5e2a8895bf89",
+        "latencyMs": 633,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"chain_of_thought\".\nPrompt design: Asked to reason step-by-step through risk signals before predicting.\n\n--- REASONING SAMPLES ---\n[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Charged Off | Predicted: Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The presence of a public record bankruptcy and a high debt-to-income ratio suggest a higher risk of default.\n\n[8] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "label": "c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\judge_prompt.txt: You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"{{variant_name}}\".\nPrompt design: {{variant_description}}\n\n--- REASONING SAMPLES ---\n{{reasonings}}\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "config": {}
+        },
+        "promptId": "404f8ac0374a9eaaa9c7c9a00b3d22e8ca3eed01f2e5359e0fd81a29625f3d86",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:chat:meta/llama-3.3-70b-instruct",
+          "label": ""
+        },
+        "response": {
+          "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+          "metadata": {
+            "http": {
+              "status": 401,
+              "statusText": "Unauthorized",
+              "headers": {
+                "access-control-expose-headers": "CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-length": "267",
+                "content-type": "application/json; charset=utf-8",
+                "date": "Mon, 18 May 2026 18:34:18 GMT",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "vary": "Origin",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "variant_name": "chain_of_thought",
+            "variant_description": "Asked to reason step-by-step through risk signals before predicting.",
+            "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Charged Off | Predicted: Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The presence of a public record bankruptcy and a high debt-to-income ratio suggest a higher risk of default.\n\n[8] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default."
+          },
+          "description": "Qualitative characterisation of [chain_of_thought]",
+          "assert": [],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "vars": {
+          "variant_name": "chain_of_thought",
+          "variant_description": "Asked to reason step-by-step through risk signals before predicting.",
+          "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a high income, a long credit history, and a low debt-to-income ratio, indicating a low risk of default.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[5] Actual: Charged Off | Predicted: Fully Paid (WRONG)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The presence of a public record bankruptcy and a high debt-to-income ratio suggest a higher risk of default.\n\n[8] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, indicating a higher risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a stable income, a long credit history, and a reasonable debt-to-income ratio, indicating a low risk of default."
+        },
+        "metadata": {
+          "http": {
+            "status": 401,
+            "statusText": "Unauthorized",
+            "headers": {
+              "access-control-expose-headers": "CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-length": "267",
+              "content-type": "application/json; charset=utf-8",
+              "date": "Mon, 18 May 2026 18:34:18 GMT",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "vary": "Origin",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+        "gradingResult": null,
+        "id": "624addce-b6a0-4bbc-8ab3-c18d45249aed",
+        "latencyMs": 603,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"top_features_only\".\nPrompt design: Only the 8 most important features (by XGBoost importance) provided.\n\n--- REASONING SAMPLES ---\n[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a very high income, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a moderate revolving utilization rate, suggesting a good balance between income and debt.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a high income, indicating a strong ability to repay the loan.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, suggesting a high risk of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The borrower has a very high interest rate and a high debt-to-income ratio, indicating a very high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a moderate debt-to-income ratio and a high income, suggesting a manageable debt burden.\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "label": "c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\judge_prompt.txt: You are reviewing how an AI credit risk model reasons about loan applications.\n\nBelow are reasoning samples produced by a prompt variant called \"{{variant_name}}\".\nPrompt design: {{variant_description}}\n\n--- REASONING SAMPLES ---\n{{reasonings}}\n--- END SAMPLES ---\n\nWrite a concise qualitative characterisation (4-6 sentences) of what is DISTINCTIVE about this prompt's reasoning style. Describe:\n- Which loan features or signals it consistently anchors on\n- Its overall risk posture (e.g. conservative, optimistic, balanced, formulaic)\n- Any systematic patterns, blind spots, or tendencies across samples\n- Whether its reasoning feels specific to each loan or generic and templated\n\nDo NOT score or rank. Do NOT say whether the prompt is good or bad. Just describe its reasoning fingerprint as you would describe a person's decision-making style.",
+          "config": {}
+        },
+        "promptId": "404f8ac0374a9eaaa9c7c9a00b3d22e8ca3eed01f2e5359e0fd81a29625f3d86",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:chat:meta/llama-3.3-70b-instruct",
+          "label": ""
+        },
+        "response": {
+          "error": "API error: 401 Unauthorized\n{\"error\":{\"message\":\"Incorrect API key provided: ${NVIDIA*****KEY}. You can find your API key at https://platform.openai.com/account/api-keys.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_api_key\"}}",
+          "metadata": {
+            "http": {
+              "status": 401,
+              "statusText": "Unauthorized",
+              "headers": {
+                "access-control-expose-headers": "CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-length": "267",
+                "content-type": "application/json; charset=utf-8",
+                "date": "Mon, 18 May 2026 18:34:18 GMT",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "vary": "Origin",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "variant_name": "top_features_only",
+            "variant_description": "Only the 8 most important features (by XGBoost importance) provided.",
+            "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a very high income, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a moderate revolving utilization rate, suggesting a good balance between income and debt.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a high income, indicating a strong ability to repay the loan.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, suggesting a high risk of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The borrower has a very high interest rate and a high debt-to-income ratio, indicating a very high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a moderate debt-to-income ratio and a high income, suggesting a manageable debt burden."
+          },
+          "description": "Qualitative characterisation of [top_features_only]",
+          "assert": [],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 3,
+        "vars": {
+          "variant_name": "top_features_only",
+          "variant_description": "Only the 8 most important features (by XGBoost importance) provided.",
+          "reasonings": "[1] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a very high income, indicating a low risk of default.\n\n[2] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[3] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a moderate revolving utilization rate, suggesting a good balance between income and debt.\n\n[4] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a low debt-to-income ratio and a high income, indicating a strong ability to repay the loan.\n\n[5] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high revolving utilization rate, indicating a high risk of default.\n\n[6] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[7] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high debt-to-income ratio and a high interest rate, suggesting a high risk of default.\n\n[8] Actual: Charged Off | Predicted: Charged Off (correct)\n    Reasoning: The borrower has a very high interest rate and a high debt-to-income ratio, indicating a very high risk of default.\n\n[9] Actual: Fully Paid | Predicted: Charged Off (WRONG)\n    Reasoning: The borrower has a high interest rate and a high debt-to-income ratio, indicating a high risk of default.\n\n[10] Actual: Fully Paid | Predicted: Fully Paid (correct)\n    Reasoning: The borrower has a moderate debt-to-income ratio and a high income, suggesting a manageable debt burden."
+        },
+        "metadata": {
+          "http": {
+            "status": 401,
+            "statusText": "Unauthorized",
+            "headers": {
+              "access-control-expose-headers": "CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-length": "267",
+              "content-type": "application/json; charset=utf-8",
+              "date": "Mon, 18 May 2026 18:34:18 GMT",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "vary": "Origin",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 2
+      }
+    ],
+    "stats": {
+      "successes": 0,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 0,
+        "completion": 0,
+        "cached": 0,
+        "total": 0,
+        "numRequests": 0,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      }
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "Qualitative characterisation of prompt variant reasoning styles (NVIDIA NIM judge)",
+    "prompts": [
+      "file://c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\judge_prompt.txt"
+    ],
+    "providers": [
+      {
+        "id": "openai:chat:meta/llama-3.3-70b-instruct",
+        "config": {
+          "baseURL": "https://integrate.api.nvidia.com/v1",
+          "apiKey": "[REDACTED]"
+        }
+      }
+    ],
+    "tests": [
+      "file://tests.yaml"
+    ],
+    "scenarios": [],
+    "env": {},
+    "outputPath": [
+      "c:\\Users\\Jad Zoghaib\\OneDrive\\Desktop\\Sabadell_Capstone\\promptfoo\\results\\qualitative_characterisations.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.11",
+    "nodeVersion": "v24.15.0",
+    "platform": "win32",
+    "arch": "x64",
+    "exportedAt": "2026-05-18T18:34:16.879Z",
+    "evaluationCreatedAt": "2026-05-18T18:34:15.801Z"
+  }
+}

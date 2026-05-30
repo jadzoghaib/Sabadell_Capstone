@@ -1,6 +1,6 @@
 variant,description,accuracy,precision_charged_off,recall_charged_off,f1_charged_off,auc,n_valid
-baseline,Current production prompt — control group,0.58,0.2127659574468085,0.6666666666666666,0.3225806451612903,,100
-conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,0.53,0.19230769230769232,0.6666666666666666,0.29850746268656714,,100
-chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,0.65,0.20588235294117646,0.4666666666666667,0.2857142857142857,,100
-top_features_only,Only the 8 most important features by XGBoost importance are passed in,0.59,0.24,0.8,0.36923076923076925,,100
-structured_4factor,Explicit 4-factor evaluation framework in the system prompt,0.57,0.18181818181818182,0.5333333333333333,0.2711864406779661,,100
+baseline,Current production prompt — control group,0.55,0.2,0.6666666666666666,0.3076923076923077,,100
+conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,0.55,0.21153846153846154,0.7333333333333333,0.3283582089552239,,100
+chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,0.58,0.2,0.6,0.3,,100
+top_features_only,Only the 8 most important features by XGBoost importance are passed in,0.57,0.24074074074074073,0.8666666666666667,0.37681159420289856,,100
+structured_4factor,Explicit 4-factor evaluation framework in the system prompt,0.62,0.21951219512195122,0.6,0.32142857142857145,,100
