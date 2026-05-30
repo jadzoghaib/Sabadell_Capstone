@@ -149,7 +149,6 @@ notebooks/
     sample_generation.py     # the 3 samples: get_tuning_sample/get_robustness_batch/get_test_batch
                              # (load-if-exists + force; deterministic; mutually exclusive)
     01_model_selection/      # PHASE 1: pick the model AND its config → GPT-5
-      00_Sample_New_Batch.ipynb     # generates robustness_batch + test_batch via sample_generation.py
       01a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 01a_predictions.csv + 01a_metrics.csv
       01b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 01b_predictions.csv + 01b_metrics.csv
       01c_Robustness.ipynb          # GPT-5 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
@@ -182,7 +181,7 @@ Only re-run the ML pipeline if you change preprocessing/features:
 
 ```
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
-01_model_selection/00_Sample_New_Batch    [only needed before 01c / the held-out benchmark]
+python llm_models/sample_generation.py    [generates robustness_batch + test_batch; only before 01c / benchmark]
 01_model_selection/01a,01b,01c,01d        [independent, any order]
 02_prompt_variance/02,02b   ·   03_final_benchmark/03_Final_Benchmark
 ```
