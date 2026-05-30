@@ -6,24 +6,45 @@ LLM API calls, evaluation metrics, and full experiment loops.
 """
 
 import json
+import math
+import re
+import threading
+import warnings
+from datetime import datetime, timezone
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 from sklearn.metrics import (
     accuracy_score, confusion_matrix, classification_report,
-    roc_auc_score, precision_score, recall_score, f1_score
+    roc_auc_score, precision_score, recall_score, f1_score, roc_curve
 )
 
-DATA_DIR = "../../data/processed"
-MODEL_DIR = "../../models"
-RESULTS_DIR = "../../data/results/llm"
+from llm_pricing import get_price
+
+# Anchor every project path to the repo root so notebooks can live at any depth
+# under notebooks/ without breaking I/O. `__file__` is llm_models/llm_utils.py;
+# parent.parent is notebooks/; parent.parent.parent is the repo root.
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+DATA_DIR     = str(_PROJECT_ROOT / "data" / "processed")
+MODEL_DIR    = str(_PROJECT_ROOT / "models")
+RESULTS_DIR  = str(_PROJECT_ROOT / "data" / "results" / "llm")
+RAW_DATA_PATH = str(_PROJECT_ROOT / "data" / "raw" / "accepted_2007_to_2018Q4.csv.gz")
 
 # ── Features the LLM sees (exclude target, desc, and non-predictive columns) ──
 LLM_FEATURES = [
+    # Original 21
     'loan_amnt', 'term', 'int_rate', 'installment', 'grade', 'sub_grade',
     'home_ownership', 'annual_inc', 'verification_status', 'purpose',
     'dti', 'earliest_cr_line', 'open_acc', 'pub_rec', 'revol_bal',
     'revol_util', 'total_acc', 'initial_list_status', 'application_type',
     'mort_acc', 'pub_rec_bankruptcies',
+    # Added for symmetry with the ML feature set (FICO, recent delinquency,
+    # recent inquiries, credit-seeking behaviour, employment, history length).
+    'fico_range_low', 'fico_range_high',
+    'delinq_2yrs', 'inq_last_6mths', 'mths_since_last_delinq',
+    'has_past_delinq', 'acc_open_past_24mths',
+    'emp_length', 'credit_history_years',
 ]
 
 FEATURE_DESCRIPTIONS = {
@@ -40,14 +61,24 @@ FEATURE_DESCRIPTIONS = {
     'dti': 'Debt-to-income ratio',
     'earliest_cr_line': 'Earliest credit line date',
     'open_acc': 'Number of open credit accounts',
-    'pub_rec': 'Has derogatory public records (0/1)',
+    'pub_rec': 'Number of derogatory public records',
     'revol_bal': 'Revolving balance ($)',
     'revol_util': 'Revolving utilization rate (%)',
     'total_acc': 'Total number of credit accounts',
     'initial_list_status': 'Initial listing status (w=whole, f=fractional)',
     'application_type': 'Individual or joint application',
-    'mort_acc': 'Has mortgage accounts (0/1)',
-    'pub_rec_bankruptcies': 'Has public record bankruptcies (0/1)',
+    'mort_acc': 'Number of mortgage accounts',
+    'pub_rec_bankruptcies': 'Number of public-record bankruptcies',
+    # Added (matches the ML feature set):
+    'fico_range_low': 'FICO credit score (lower bound, 300-850)',
+    'fico_range_high': 'FICO credit score (upper bound, 300-850)',
+    'delinq_2yrs': 'Number of 30+ day delinquencies in the last 2 years',
+    'inq_last_6mths': 'Number of credit inquiries in the last 6 months',
+    'mths_since_last_delinq': 'Months since most recent delinquency',
+    'has_past_delinq': 'Has any delinquency on record (1=yes, 0=no)',
+    'acc_open_past_24mths': 'Number of accounts opened in the last 24 months',
+    'emp_length': 'Employment length in years (0-10, where 10 = 10+ years)',
+    'credit_history_years': 'Length of credit history at loan issue (years)',
 }
 
 
@@ -59,41 +90,51 @@ def load_llm_sample():
     return df
 
 
-def sample_new_batch(n=100, random_state=99):
-    """
-    Sample a different batch of n loans from the test set (with descriptions).
-    Uses the same preprocessing logic as 02_Preprocessing to select from test rows.
-    """
+_LENDINGCLUB_KEEP_COLS = [
+    'loan_amnt', 'term', 'int_rate', 'installment', 'grade', 'sub_grade',
+    'home_ownership', 'annual_inc', 'verification_status', 'issue_d',
+    'loan_status', 'purpose', 'dti', 'earliest_cr_line', 'open_acc',
+    'pub_rec', 'revol_bal', 'revol_util', 'total_acc',
+    'initial_list_status', 'application_type', 'mort_acc',
+    'pub_rec_bankruptcies', 'zip_code', 'addr_state', 'desc',
+]
+_lendingclub_cache = None
+
+
+def _load_lendingclub_filtered():
+    """Load 02_Preprocessing's source frame: 2012–2014, binary status only,
+    `loan_status` mapped to 1/0. Cached for the process — both `sample_new_batch`
+    and `build_few_shot_examples` consume this and the raw .csv.gz is ~1GB."""
+    global _lendingclub_cache
+    if _lendingclub_cache is not None:
+        return _lendingclub_cache
+
+    df = pd.read_csv(RAW_DATA_PATH, low_memory=False)
+    df = df[_LENDINGCLUB_KEEP_COLS].copy()
+    df = df[df['loan_status'].isin(['Fully Paid', 'Charged Off'])]
+    df['issue_d'] = pd.to_datetime(df['issue_d'], format='%b-%Y')
+    df = df[(df['issue_d'].dt.year >= 2012) & (df['issue_d'].dt.year <= 2014)]
+    df['loan_status'] = df.loan_status.map({'Fully Paid': 1, 'Charged Off': 0})
+    _lendingclub_cache = df
+    return df
+
+
+def _train_test_split_canonical(df):
+    """The same split 02_Preprocessing uses (random_state=42, test_size=0.33).
+    Anything that needs to talk about train/test rows must use this split or
+    risk leakage between the LLM sample and the train rows."""
     from sklearn.model_selection import train_test_split
+    return train_test_split(df, test_size=0.33, random_state=42)
 
-    full_data = pd.read_csv("../../data/raw/accepted_2007_to_2018Q4.csv.gz", low_memory=False)
-    keep_cols = [
-        'loan_amnt', 'term', 'int_rate', 'installment', 'grade', 'sub_grade',
-        'home_ownership', 'annual_inc', 'verification_status', 'issue_d',
-        'loan_status', 'purpose', 'dti', 'earliest_cr_line', 'open_acc',
-        'pub_rec', 'revol_bal', 'revol_util', 'total_acc',
-        'initial_list_status', 'application_type', 'mort_acc',
-        'pub_rec_bankruptcies', 'zip_code', 'addr_state', 'desc'
-    ]
-    full_data = full_data[keep_cols].copy()
-    full_data = full_data[full_data['loan_status'].isin(['Fully Paid', 'Charged Off'])]
-    full_data['issue_d'] = pd.to_datetime(full_data['issue_d'], format='%b-%Y')
-    full_data = full_data[
-        (full_data['issue_d'].dt.year >= 2012) &
-        (full_data['issue_d'].dt.year <= 2014)
-    ]
-    full_data['loan_status'] = full_data.loan_status.map({'Fully Paid': 1, 'Charged Off': 0})
 
-    # Same split as preprocessing (random_state=42)
-    _, test_data = train_test_split(full_data, test_size=0.33, random_state=42)
+def sample_new_batch(n=100, random_state=99):
+    """Sample a new batch of n loans from the test set (with descriptions),
+    excluding rows already in `02_llm_sample.csv`."""
+    _, test_data = _train_test_split_canonical(_load_lendingclub_filtered())
 
-    # Only rows with descriptions
     test_with_desc = test_data[test_data['desc'].notna() & (test_data['desc'].str.strip() != '')]
 
-    # Exclude the original 100 sample rows
     original = load_llm_sample()
-    original_idx = set(original.index) if 'index' not in original.columns else set()
-    # Use a content-based dedup: match on loan_amnt + int_rate + annual_inc
     orig_keys = set(zip(original['loan_amnt'], original['int_rate'], original['annual_inc']))
     mask = ~test_with_desc.apply(
         lambda r: (r['loan_amnt'], r['int_rate'], r['annual_inc']) in orig_keys, axis=1
@@ -120,14 +161,35 @@ def run_ml_on_sample(llm_sample):
 
     df = llm_sample.copy()
 
-    # Apply same preprocessing as 02_Preprocessing
+    # Apply same preprocessing as 02_Preprocessing.
     term_values = {' 36 months': 36, ' 60 months': 60}
     if df['term'].dtype == object:
         df['term'] = df.term.map(term_values)
 
-    df.drop(columns=['grade', 'zip_code', 'addr_state', 'issue_d', 'desc'],
+    # Ordinal-encode emp_length to match preprocessing.
+    if 'emp_length' in df.columns and df['emp_length'].dtype == object:
+        emp_length_map = {
+            '< 1 year': 0, '1 year': 1, '2 years': 2, '3 years': 3, '4 years': 4,
+            '5 years': 5, '6 years': 6, '7 years': 7, '8 years': 8, '9 years': 9,
+            '10+ years': 10,
+        }
+        df['emp_length'] = df['emp_length'].map(emp_length_map)
+
+    # mths_since_last_delinq sentinel + flag (mirrors 02_Preprocessing).
+    if 'mths_since_last_delinq' in df.columns:
+        df['has_past_delinq'] = df['mths_since_last_delinq'].notna().astype(int)
+        df['mths_since_last_delinq'] = df['mths_since_last_delinq'].fillna(999)
+
+    # Compute credit_history_years (years between earliest credit line and
+    # loan issue) before dropping the date columns.
+    if 'issue_d' in df.columns and 'earliest_cr_line' in df.columns:
+        issue_d = pd.to_datetime(df['issue_d'])
+        ecl     = pd.to_datetime(df['earliest_cr_line'])
+        df['credit_history_years'] = (issue_d - ecl).dt.days / 365.25
+
+    df.drop(columns=['grade', 'zip_code', 'addr_state', 'issue_d',
+                     'earliest_cr_line', 'desc'],
             errors='ignore', inplace=True)
-    df['earliest_cr_line'] = pd.to_datetime(df['earliest_cr_line']).dt.year
 
     dummies = ['sub_grade', 'verification_status', 'purpose',
                'initial_list_status', 'application_type', 'home_ownership']
@@ -149,9 +211,18 @@ def format_loan_features(row, include_desc=False):
     """Format a single loan's features as a readable string for the LLM."""
     lines = []
     for feat in LLM_FEATURES:
-        if feat in row and pd.notna(row[feat]):
-            label = FEATURE_DESCRIPTIONS.get(feat, feat)
-            lines.append(f"- {label}: {row[feat]}")
+        if feat not in row or pd.isna(row[feat]):
+            continue
+        label = FEATURE_DESCRIPTIONS.get(feat, feat)
+        val = row[feat]
+
+        # `mths_since_last_delinq == 999` is the sentinel encoding for "no
+        # delinquency on record" (set during preprocessing). Show that
+        # explicitly so the LLM doesn't try to interpret 999 as a real count.
+        if feat == 'mths_since_last_delinq' and val == 999:
+            val = 'no delinquency on record'
+
+        lines.append(f"- {label}: {val}")
 
     if include_desc and 'desc' in row and pd.notna(row['desc']):
         lines.append(f"- Borrower description: {row['desc']}")
@@ -184,32 +255,8 @@ def build_few_shot_examples(n_examples=5, random_state=42):
     Build few-shot examples from the training set (not the LLM sample).
     Returns a string with labeled examples.
     """
-    from sklearn.model_selection import train_test_split
+    train_data, _ = _train_test_split_canonical(_load_lendingclub_filtered())
 
-    # Reload the full processed data to get training rows
-    full_data = pd.read_csv("../../data/raw/accepted_2007_to_2018Q4.csv.gz",
-                            low_memory=False)
-    keep_cols = [
-        'loan_amnt', 'term', 'int_rate', 'installment', 'grade', 'sub_grade',
-        'home_ownership', 'annual_inc', 'verification_status', 'issue_d',
-        'loan_status', 'purpose', 'dti', 'earliest_cr_line', 'open_acc',
-        'pub_rec', 'revol_bal', 'revol_util', 'total_acc',
-        'initial_list_status', 'application_type', 'mort_acc',
-        'pub_rec_bankruptcies', 'desc'
-    ]
-    full_data = full_data[keep_cols].copy()
-    full_data = full_data[full_data['loan_status'].isin(['Fully Paid', 'Charged Off'])]
-    full_data['issue_d'] = pd.to_datetime(full_data['issue_d'], format='%b-%Y')
-    full_data = full_data[
-        (full_data['issue_d'].dt.year >= 2012) &
-        (full_data['issue_d'].dt.year <= 2014)
-    ]
-    full_data['loan_status'] = full_data.loan_status.map({'Fully Paid': 1, 'Charged Off': 0})
-
-    # Use the same split as preprocessing to get training rows only
-    train_data, _ = train_test_split(full_data, test_size=0.33, random_state=42)
-
-    # Sample balanced examples
     n_per_class = n_examples // 2
     paid = train_data[train_data.loan_status == 1].sample(n=n_per_class, random_state=random_state)
     default = train_data[train_data.loan_status == 0].sample(
@@ -229,17 +276,11 @@ def build_few_shot_examples(n_examples=5, random_state=42):
 # ── LLM API call ──────────────────────────────────────────────────────────────
 
 def _load_env():
-    """Load .env file into os.environ (once)."""
-    import os
-    from pathlib import Path
-
-    env_path = Path(__file__).parent / ".env"
-    if env_path.exists():
-        for line in env_path.read_text().splitlines():
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                key, val = line.split("=", 1)
-                os.environ.setdefault(key.strip(), val.strip())
+    """Load .env files into os.environ. Checks both the llm_models folder and
+    the repo root so provider keys can live in either location."""
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent / ".env", override=False)
+    load_dotenv(_PROJECT_ROOT / ".env", override=False)
 
 
 def load_api_key(api_provider, model=None):
@@ -267,15 +308,155 @@ def load_api_key(api_provider, model=None):
         return os.environ.get("GEMINI_API_KEY")
 
     key_map = {
-        "gemini": "GEMINI_API_KEY",
+        "gemini":    "GEMINI_API_KEY",
         "anthropic": "ANTHROPIC_API_KEY",
-        "openai": "OPENAI_API_KEY",
+        "openai":    "OPENAI_API_KEY",
+        "nvidia":    "NVIDIA_API_KEY",
     }
     env_var = key_map.get(api_provider)
     return os.environ.get(env_var) if env_var else None
 
 
-def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_key=None):
+_USAGE_ATTRS = {
+    "gemini":    ("usage_metadata", "prompt_token_count", "candidates_token_count"),
+    "openai":    ("usage",          "prompt_tokens",      "completion_tokens"),
+    "nvidia":    ("usage",          "prompt_tokens",      "completion_tokens"),
+    "anthropic": ("usage",          "input_tokens",       "output_tokens"),
+}
+_USAGE_WARNED = set()
+
+
+def _extract_usage(api_provider, response):
+    """Pull (input_tokens, output_tokens) off a provider's response object.
+    Returns (0, 0) and warns once per provider if the shape is unexpected,
+    so cost rows are still written but the user knows the data is missing."""
+    spec = _USAGE_ATTRS.get(api_provider)
+    if spec is None:
+        return 0, 0
+    container, in_attr, out_attr = spec
+    try:
+        u = getattr(response, container, None)
+        if u is None:
+            raise AttributeError(f"{container} is None")
+        return int(getattr(u, in_attr, 0) or 0), int(getattr(u, out_attr, 0) or 0)
+    except Exception as e:
+        if api_provider not in _USAGE_WARNED:
+            _USAGE_WARNED.add(api_provider)
+            warnings.warn(
+                f"Could not extract token usage from {api_provider} response ({e}); "
+                f"cost rows for this provider will record 0 tokens.",
+                stacklevel=2,
+            )
+        return 0, 0
+
+
+_LOGPROBS_WARNED = set()
+_REASONING_EFFORT_WARNED = set()
+_PREDICTION_RE = re.compile(r'"prediction"\s*:\s*([01])')
+
+
+def find_best_threshold(y_true, probs):
+    """Find the threshold that maximises F1 for the minority class
+    (Charged Off = 0). Generic — works on any (y_true, probs) pair from any
+    model. Returns (threshold, precision, recall, f1) for the minority class."""
+    y_true = np.asarray(y_true)
+    probs = np.asarray(probs)
+    fpr, tpr, thresholds = roc_curve(y_true, probs)
+    recall_co = 1 - fpr
+    n_co = (y_true == 0).sum()
+    n_fp = (y_true == 1).sum()
+    tp_co = recall_co * n_co
+    fp_co = (1 - tpr) * n_fp
+    precision_co = tp_co / (tp_co + fp_co + 1e-8)
+    f1_co = 2 * (precision_co * recall_co) / (precision_co + recall_co + 1e-8)
+    best_idx = int(np.argmax(f1_co))
+    return (float(thresholds[best_idx]), float(precision_co[best_idx]),
+            float(recall_co[best_idx]),  float(f1_co[best_idx]))
+
+
+def _extract_token_logprobs(api_provider, response):
+    """Return [(token_text, [(alt_token, alt_logprob), ...]), ...] for the
+    output, or None if logprobs aren't available. Anthropic doesn't expose them
+    so this always returns None for that provider."""
+    try:
+        if api_provider == "openai":
+            content = getattr(getattr(response.choices[0], "logprobs", None), "content", None)
+            if not content:
+                return None
+            return [(t.token, [(tl.token, tl.logprob) for tl in (t.top_logprobs or [])])
+                    for t in content]
+        if api_provider == "gemini":
+            lp = getattr(response.candidates[0], "logprobs_result", None)
+            if lp is None:
+                return None
+            chosen = list(getattr(lp, "chosen_candidates", []) or [])
+            tops = list(getattr(lp, "top_candidates", []) or [])
+            out = []
+            for i, c in enumerate(chosen):
+                tok_text = getattr(c, "token", "")
+                alts = []
+                if i < len(tops):
+                    for x in (getattr(tops[i], "candidates", []) or []):
+                        alts.append((getattr(x, "token", ""),
+                                     getattr(x, "log_probability", 0.0)))
+                out.append((tok_text, alts))
+            return out
+    except Exception:
+        return None
+    return None
+
+
+def _extract_prediction_prob(api_provider, raw_text, token_data):
+    """Find the `"prediction": <0|1>` token in the response and return the
+    normalised P(prediction=1), i.e. P("1") / (P("1") + P("0")). Returns None
+    if logprobs are missing or the prediction token can't be located."""
+    if not token_data:
+        return None
+    m = _PREDICTION_RE.search(raw_text or "")
+    if not m:
+        return None
+    digit_pos = m.start(1)
+
+    pos = 0
+    target = None
+    for tok, alts in token_data:
+        next_pos = pos + len(tok)
+        if pos <= digit_pos < next_pos:
+            target = (tok, alts)
+            break
+        pos = next_pos
+
+    if target is None:
+        return None
+    _, alts = target
+    p_one = 0.0
+    p_zero = 0.0
+    for cand_tok, cand_lp in alts:
+        cs = (cand_tok or "").lstrip()
+        if not cs:
+            continue
+        if cs[0] == "1":
+            p_one += math.exp(cand_lp)
+        elif cs[0] == "0":
+            p_zero += math.exp(cand_lp)
+
+    total = p_one + p_zero
+    if total <= 0:
+        if api_provider not in _LOGPROBS_WARNED:
+            _LOGPROBS_WARNED.add(api_provider)
+            warnings.warn(
+                f"Logprobs for {api_provider} located the prediction token but "
+                "found no '0' or '1' alternatives in top_logprobs. Increase "
+                "top_logprobs (currently set to 5) or check provider response.",
+                stacklevel=2,
+            )
+        return None
+    return p_one / total
+
+
+def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
+             api_key=None, return_usage=False, with_logprobs=False, max_tokens=None,
+             reasoning_effort=None):
     """
     Call the LLM API. Supports gemini, anthropic, and openai providers.
 
@@ -285,25 +466,62 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_
         api_provider: "gemini", "anthropic", or "openai"
         model: Model name (if None, uses default for provider)
         api_key: API key (if None, reads from .env / environment)
+        return_usage: if True, return (text, meta) where `meta` includes
+                      input_tokens, output_tokens, and (when with_logprobs=True)
+                      prob_fully_paid in [0, 1] or None.
+        with_logprobs: ask the provider for top-K token logprobs and use them
+                       to compute P(prediction=1). Anthropic doesn't expose
+                       logprobs and is silently skipped (prob_fully_paid=None).
 
     Returns:
-        Raw response text from the LLM.
+        Raw response text, or (text, meta_dict) if return_usage=True.
     """
     if api_key is None:
         api_key = load_api_key(api_provider, model=model)
 
+    # reasoning_effort is OpenAI-specific (gpt-5 family). Warn once if a caller
+    # passes it for another provider; don't raise — keeps the API uniform.
+    if reasoning_effort is not None and api_provider != "openai":
+        if api_provider not in _REASONING_EFFORT_WARNED:
+            _REASONING_EFFORT_WARNED.add(api_provider)
+            warnings.warn(
+                f"reasoning_effort is OpenAI-specific; ignored for {api_provider}.",
+                stacklevel=2,
+            )
+
     if api_provider == "gemini":
+        # google.genai (Jan 2026) does not retry 503/429 internally — wrap manually.
+        # The openai and anthropic SDKs already retry these on their own.
         import time
         from google import genai
         client = genai.Client(api_key=api_key)
         model = model or "gemini-2.5-flash"
+        config = None
+        if with_logprobs:
+            try:
+                from google.genai import types
+                config = types.GenerateContentConfig(response_logprobs=True, logprobs=5)
+            except Exception as e:
+                if "gemini" not in _LOGPROBS_WARNED:
+                    _LOGPROBS_WARNED.add("gemini")
+                    warnings.warn(f"Could not build Gemini logprobs config: {e}", stacklevel=2)
         for attempt in range(5):
             try:
                 response = client.models.generate_content(
                     model=model,
                     contents=f"{system_prompt}\n\n{user_prompt}",
+                    config=config,
                 )
-                return response.text
+                text = response.text
+                if return_usage:
+                    in_t, out_t = _extract_usage("gemini", response)
+                    meta = {"input_tokens": in_t, "output_tokens": out_t}
+                    if with_logprobs:
+                        meta["prob_fully_paid"] = _extract_prediction_prob(
+                            "gemini", text, _extract_token_logprobs("gemini", response)
+                        )
+                    return text, meta
+                return text
             except Exception as e:
                 if "503" in str(e) or "429" in str(e) or "UNAVAILABLE" in str(e):
                     wait = 2 ** attempt * 5
@@ -323,12 +541,33 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_
             system=system_prompt,
             messages=[{"role": "user", "content": user_prompt}],
         )
-        return response.content[0].text
+        text = response.content[0].text
+        if return_usage:
+            in_t, out_t = _extract_usage("anthropic", response)
+            meta = {"input_tokens": in_t, "output_tokens": out_t}
+            if with_logprobs:
+                # Anthropic API does not expose logprobs.
+                if "anthropic" not in _LOGPROBS_WARNED:
+                    _LOGPROBS_WARNED.add("anthropic")
+                    warnings.warn(
+                        "Anthropic API does not expose token logprobs; "
+                        "prob_fully_paid will be None for this provider.",
+                        stacklevel=2,
+                    )
+                meta["prob_fully_paid"] = None
+            return text, meta
+        return text
 
     elif api_provider == "openai":
         import openai
         client = openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
         model = model or "gpt-4o"
+        kwargs = {}
+        if with_logprobs:
+            kwargs["logprobs"] = True
+            kwargs["top_logprobs"] = 5
+        if reasoning_effort is not None:
+            kwargs["reasoning_effort"] = reasoning_effort
         response = client.chat.completions.create(
             model=model,
             max_completion_tokens=2048,
@@ -336,8 +575,67 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None, api_
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
+            **kwargs,
         )
-        return response.choices[0].message.content
+        text = response.choices[0].message.content
+        if return_usage:
+            in_t, out_t = _extract_usage("openai", response)
+            meta = {"input_tokens": in_t, "output_tokens": out_t}
+            if with_logprobs:
+                meta["prob_fully_paid"] = _extract_prediction_prob(
+                    "openai", text, _extract_token_logprobs("openai", response)
+                )
+            return text, meta
+        return text
+
+    elif api_provider == "nvidia":
+        import time
+        import openai
+        client = openai.OpenAI(
+            api_key=api_key,
+            base_url="https://integrate.api.nvidia.com/v1",
+        )
+        model = model or "meta/llama-3.3-70b-instruct"
+        kwargs = {}
+        if with_logprobs:
+            kwargs["logprobs"] = True
+            kwargs["top_logprobs"] = 5
+        for attempt in range(8):
+            try:
+                response = client.chat.completions.create(
+                    model=model,
+                    max_tokens=max_tokens or 2048,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    **kwargs,
+                )
+                text = response.choices[0].message.content
+                if return_usage:
+                    in_t, out_t = _extract_usage("nvidia", response)
+                    meta = {"input_tokens": in_t, "output_tokens": out_t}
+                    if with_logprobs:
+                        meta["prob_fully_paid"] = _extract_prediction_prob(
+                            "openai", text, _extract_token_logprobs("openai", response)
+                        )
+                    return text, meta
+                return text
+            except Exception as e:
+                err = str(e).lower()
+                is_rate_limit = "429" in str(e) or "too many requests" in err or "rate" in err
+                is_connection = "connection" in err or "timeout" in err or "503" in str(e) or "502" in str(e)
+                if is_rate_limit:
+                    wait = 2 ** attempt * 10  # 10s, 20s, 40s …
+                    print(f"  [nvidia] Rate limited — retry {attempt+1}/8 in {wait}s...")
+                    time.sleep(wait)
+                elif is_connection:
+                    wait = 5 * (attempt + 1)  # 5s, 10s, 15s …
+                    print(f"  [nvidia] Connection error — retry {attempt+1}/8 in {wait}s...")
+                    time.sleep(wait)
+                else:
+                    raise
+        raise RuntimeError("NVIDIA NIM API failed after 8 retries")
 
     else:
         raise ValueError(f"Unknown api_provider: {api_provider}")
@@ -363,10 +661,113 @@ def parse_llm_response(text):
         return {'prediction': None, 'reasoning': f'PARSE_ERROR: {text[:200]}'}
 
 
+def format_loans_batch(df, user_prompt_fn=None, include_desc=False):
+    """
+    Format a DataFrame of loans as a compact numbered table for batch prediction.
+    TOON-inspired: field headers once, then pipe-separated rows — ~40% fewer tokens
+    than repeating field names per loan.
+
+    When user_prompt_fn is provided (e.g. top_features_only, chain_of_thought),
+    each loan section uses the custom prompt but is wrapped with an index marker
+    so the model knows which index to return.
+    """
+    n = len(df)
+    lines = []
+
+    if user_prompt_fn is not None:
+        lines.append(f"Predict outcomes for the {n} loans below.")
+        lines.append("Return a JSON array: "
+                     '[{"i": 0, "prediction": 1, "reasoning": "..."}, ...]')
+        lines.append("")
+        for i, (_, row) in enumerate(df.iterrows()):
+            lines.append(f"--- LOAN #{i} ---")
+            lines.append(user_prompt_fn(row))
+    else:
+        features = [c for c in LLM_FEATURES if c in df.columns]
+        lines.append(f"Predict outcomes for the {n} loans below.")
+        lines.append("Return a JSON array: "
+                     '[{"i": 0, "prediction": 1, "reasoning": "..."}, ...]')
+        lines.append("")
+        lines.append("Fields: " + " | ".join(features))
+        for i, (_, row) in enumerate(df.iterrows()):
+            vals = []
+            for f in features:
+                v = row.get(f, "N/A")
+                vals.append("N/A" if pd.isna(v) else str(v))
+            lines.append(f"#{i}: " + " | ".join(vals))
+
+    return "\n".join(lines)
+
+
+def _batch_system_prompt(system_prompt, n):
+    """
+    Rewrite the single-prediction JSON instruction in system_prompt for batch use.
+    Replaces the per-loan output spec with an array output spec.
+    """
+    # Remove the existing single-prediction JSON block
+    import re as _re
+    cleaned = _re.sub(
+        r"Respond ONLY with valid JSON.*?reasoning.*?\}.*?$",
+        "",
+        system_prompt,
+        flags=_re.DOTALL | _re.IGNORECASE,
+    ).rstrip()
+    batch_instruction = (
+        f"\n\nYou will receive {n} loans. "
+        "Respond ONLY with a JSON array — one object per loan:\n"
+        '[{"i": 0, "prediction": 1, "reasoning": "brief"}, '
+        '{"i": 1, "prediction": 0, "reasoning": "brief"}, ...]\n'
+        "prediction: 1 = Fully Paid, 0 = Charged Off. "
+        "reasoning: 1-2 sentences. Include ALL loans — do not skip any index."
+    )
+    return cleaned + batch_instruction
+
+
+def parse_batch_llm_response(text, n):
+    """
+    Parse a batch response containing a JSON array of {i, prediction, reasoning}.
+    Returns (predictions, reasonings) — lists of length n, None/MISSING for gaps.
+    """
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("```")[1]
+        if text.startswith("json"):
+            text = text[4:]
+        text = text.strip()
+
+    predictions = [None] * n
+    reasonings  = ["MISSING"] * n
+
+    try:
+        data = json.loads(text)
+        if isinstance(data, dict):
+            for key in ("predictions", "results", "loans", "data"):
+                if key in data and isinstance(data[key], list):
+                    data = data[key]
+                    break
+        for item in data:
+            idx = item.get("i", item.get("index", item.get("loan_index")))
+            if idx is None:
+                continue
+            idx = int(idx)
+            if 0 <= idx < n:
+                raw_pred = item.get("prediction")
+                predictions[idx] = int(raw_pred) if raw_pred is not None else None
+                reasonings[idx]  = str(item.get("reasoning", ""))
+    except (json.JSONDecodeError, KeyError, ValueError, TypeError):
+        pass
+
+    return predictions, reasonings
+
+
 # ── Evaluation ────────────────────────────────────────────────────────────────
 
-def evaluate_predictions(y_true, y_pred, label="Model"):
-    """Print classification metrics for a set of predictions."""
+def evaluate_predictions(y_true, y_pred, label="Model", probabilities=None):
+    """Print classification metrics for a set of predictions.
+
+    probabilities: optional list/array of P(class=1=Fully Paid) per row, same
+    length as y_pred. When supplied, AUC is reported (computed only over rows
+    where both prediction and probability are non-None)."""
     valid = [i for i in range(len(y_pred)) if y_pred[i] is not None]
     if len(valid) < len(y_pred):
         print(f"Warning: {len(y_pred) - len(valid)} unparseable predictions excluded")
@@ -378,6 +779,18 @@ def evaluate_predictions(y_true, y_pred, label="Model"):
     print(f"{label} Results ({len(valid)} samples)")
     print(f"{'=' * 50}")
     print(f"Accuracy: {accuracy_score(y_true_v, y_pred_v) * 100:.1f}%")
+
+    auc = None
+    if probabilities is not None:
+        prob_valid = [(i, probabilities[i]) for i in valid if probabilities[i] is not None]
+        if len(prob_valid) >= 2 and len(set(int(y_true[i]) for i, _ in prob_valid)) == 2:
+            idxs = [i for i, _ in prob_valid]
+            scores = np.array([p for _, p in prob_valid])
+            auc = roc_auc_score(np.array(y_true)[idxs], scores)
+            print(f"AUC:      {auc:.3f}  (over {len(prob_valid)} rows with logprobs)")
+        else:
+            print(f"AUC:      n/a  (only {len(prob_valid)} rows had usable probabilities)")
+
     print(f"\nClassification Report:")
     print(classification_report(y_true_v, y_pred_v,
                                 target_names=['Charged Off', 'Fully Paid']))
@@ -389,6 +802,7 @@ def evaluate_predictions(y_true, y_pred, label="Model"):
         'precision_charged_off': precision_score(y_true_v, y_pred_v, pos_label=0),
         'recall_charged_off': recall_score(y_true_v, y_pred_v, pos_label=0),
         'f1_charged_off': f1_score(y_true_v, y_pred_v, pos_label=0),
+        'auc': auc,
         'n_valid': len(valid),
     }
 
@@ -409,10 +823,35 @@ def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None):
     return df
 
 
+# ── Per-call LLM log (tokens, cost, prediction probability) ─────────────────
+
+_LLM_CALLS_LOCK = threading.Lock()
+LLM_CALLS_PATH = Path(RESULTS_DIR) / "llm_calls.csv"
+
+
+def _append_llm_calls(rows):
+    """
+    Append per-call rows to data/results/llm/llm_calls.csv. One row per
+    successful API call: tokens, cost, and (when logprobs are available)
+    P(prediction=1). Thread-safe — 04b runs experiments concurrently and
+    each calls this once when its loop returns. Only invoked on successful
+    completion; interrupted runs drop their buffer and never reach this.
+    """
+    if not rows:
+        return
+    df = pd.DataFrame(rows)
+    with _LLM_CALLS_LOCK:
+        LLM_CALLS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        write_header = not LLM_CALLS_PATH.exists()
+        df.to_csv(LLM_CALLS_PATH, mode="a", header=write_header, index=False)
+
+
 # ── Experiment runner ────────────────────────────────────────────────────────
 
 def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
-                       api_key=None, label=None):
+                       api_key=None, label=None, with_logprobs=True,
+                       system_prompt=None, user_prompt_fn=None,
+                       batch_size=None, reasoning_effort=None):
     """
     Run the full LLM prediction loop on a sample.
 
@@ -423,64 +862,179 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         include_desc: whether to include borrower description
         api_key: optional API key override
         label: display label (defaults to model_name)
+        with_logprobs: request token logprobs and compute P(prediction=1) per
+                       call so AUC is reportable. Default True. Anthropic
+                       silently skips (probabilities will be None).
+                       Ignored in batch mode (logprobs are per-call, not per-loan).
+        system_prompt: optional system prompt string override. If None, uses
+                       build_system_prompt().
+        user_prompt_fn: optional callable(row) -> str override for building
+                        the user prompt. If None, uses build_user_prompt(row,
+                        include_desc=include_desc).
+        batch_size: if 0, send all loans in a single API call (TOON-style compact
+                    table). If N > 0, send chunks of N loans per call. If None,
+                    use the original one-call-per-loan loop.
 
     Returns:
-        dict with 'predictions', 'reasonings', 'raw_responses', 'metrics', 'label'
+        dict with 'predictions', 'probabilities', 'reasonings', 'raw_responses',
+        'metrics', 'label', 'desc_tag'
     """
     import time as _time
 
     label = label or model_name
     desc_tag = "with_desc" if include_desc else "no_desc"
     tag = f"[{label} | {desc_tag}]"
+    experiment_id = f"{label}|{desc_tag}"
 
-    system_prompt = build_system_prompt()
+    # Resolve pricing once, fail-fast on unknown model before burning API calls.
+    in_price_per_1k, out_price_per_1k = get_price(model_name)
+
+    system_prompt = system_prompt or build_system_prompt()
     y_true = llm_sample['loan_status'].values
 
-    # Fail-fast: test first call before committing to the full loop
-    first_row = llm_sample.iloc[0]
-    test_prompt = build_user_prompt(first_row, include_desc=include_desc)
+    call_rows = []
+
+    def _record(row_index, meta):
+        in_t = meta.get("input_tokens", 0)
+        out_t = meta.get("output_tokens", 0)
+        cost_usd = (in_t / 1000.0) * in_price_per_1k + (out_t / 1000.0) * out_price_per_1k
+        call_rows.append({
+            "timestamp":             datetime.now(timezone.utc).isoformat(),
+            "experiment_id":         experiment_id,
+            "label":                 label,
+            "desc_tag":              desc_tag,
+            "provider":              api_provider,
+            "model":                 model_name,
+            "row_index":             row_index,
+            "input_tokens":          in_t,
+            "output_tokens":         out_t,
+            "input_price_per_1k_usd":  in_price_per_1k,
+            "output_price_per_1k_usd": out_price_per_1k,
+            "cost_usd":              cost_usd,
+            "prob_fully_paid":       meta.get("prob_fully_paid"),
+            "reasoning_effort":      reasoning_effort,
+        })
+
+    def _build_user_prompt(row):
+        if user_prompt_fn is not None:
+            return user_prompt_fn(row)
+        return build_user_prompt(row, include_desc=include_desc)
+
+    def _do_call(prompt):
+        return call_llm(
+            system_prompt, prompt,
+            api_provider=api_provider, model=model_name, api_key=api_key,
+            return_usage=True, with_logprobs=with_logprobs,
+            reasoning_effort=reasoning_effort,
+        )
+
+    # ── Batch mode ────────────────────────────────────────────────────────────
+    if batch_size is not None:
+        n = len(llm_sample)
+        chunk = n if batch_size == 0 else batch_size
+        chunks = [llm_sample.iloc[i:i+chunk] for i in range(0, n, chunk)]
+        n_calls = len(chunks)
+
+        predictions   = [None] * n
+        probabilities = [None] * n
+        reasonings    = ["MISSING"] * n
+        raw_responses = []
+
+        start = _time.time()
+        for call_i, sub_df in enumerate(chunks):
+            offset = call_i * chunk
+
+            batch_sys = _batch_system_prompt(system_prompt, len(sub_df))
+            batch_usr = format_loans_batch(sub_df, user_prompt_fn=user_prompt_fn,
+                                           include_desc=include_desc)
+            print(f"{tag} Batch call {call_i+1}/{n_calls} "
+                  f"(loans {offset}–{offset+len(sub_df)-1}) ...")
+            try:
+                raw, meta = call_llm(
+                    batch_sys, batch_usr,
+                    api_provider=api_provider, model=model_name, api_key=api_key,
+                    return_usage=True, with_logprobs=False,
+                    max_tokens=len(sub_df) * 120,  # ~120 tokens per prediction
+                )
+                raw_responses.append(raw)
+                _record(offset, meta)
+
+                preds, reasns = parse_batch_llm_response(raw, len(sub_df))
+                for j, (pred, rsn) in enumerate(zip(preds, reasns)):
+                    predictions[offset + j]   = pred
+                    reasonings[offset + j]    = rsn
+                    probabilities[offset + j] = None
+
+                n_ok = sum(1 for p in preds if p is not None)
+                print(f"{tag}  -> {n_ok}/{len(sub_df)} parsed OK "
+                      f"({_time.time()-start:.0f}s elapsed)")
+            except Exception as e:
+                print(f"{tag} Batch call {call_i+1} FAILED: {e}")
+                raw_responses.append(None)
+
+        n_errors = sum(1 for p in predictions if p is None)
+        total_time = _time.time() - start
+        print(f"{tag} COMPLETE — {n_calls} batch calls, "
+              f"{n - n_errors}/{n} predictions parsed, {total_time:.0f}s total")
+
+    # ── Original per-loan loop ────────────────────────────────────────────────
+    else:
+        first_row = llm_sample.iloc[0]
+        try:
+            test_raw, test_meta = _do_call(_build_user_prompt(first_row))
+            test_parsed = parse_llm_response(test_raw)
+            print(f"{tag} First call OK (pred={test_parsed['prediction']}, "
+                  f"prob={test_meta.get('prob_fully_paid')}). Starting full run...")
+        except Exception as e:
+            print(f"{tag} FAILED on first call: {e}")
+            raise RuntimeError(f"{tag} cannot reach API: {e}")
+
+        _record(0, test_meta)
+
+        predictions   = [test_parsed['prediction']]
+        probabilities = [test_meta.get('prob_fully_paid')]
+        reasonings    = [test_parsed['reasoning']]
+        raw_responses = [test_raw]
+
+        start = _time.time()
+        for i, (_, row) in enumerate(llm_sample.iterrows()):
+            if i == 0:
+                continue
+
+            raw, meta = _do_call(_build_user_prompt(row))
+            raw_responses.append(raw)
+            _record(i, meta)
+
+            parsed = parse_llm_response(raw)
+            predictions.append(parsed['prediction'])
+            probabilities.append(meta.get('prob_fully_paid'))
+            reasonings.append(parsed['reasoning'])
+
+            if (i + 1) % 10 == 0:
+                elapsed = _time.time() - start
+                rate = (i + 1) / elapsed
+                eta = (len(llm_sample) - i - 1) / rate
+                print(f"{tag} {i+1}/100 done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
+
+        n_errors = sum(1 for p in predictions if p is None)
+        n_probs = sum(1 for p in probabilities if p is not None)
+        total_time = _time.time() - start
+        print(f"{tag} COMPLETE — {len(predictions)} predictions, {n_errors} parse errors, "
+              f"{n_probs} with logprobs, {total_time:.0f}s total")
+
     try:
-        test_raw = call_llm(system_prompt, test_prompt,
-                            api_provider=api_provider, model=model_name, api_key=api_key)
-        test_parsed = parse_llm_response(test_raw)
-        print(f"{tag} First call OK (pred={test_parsed['prediction']}). Starting full run...")
+        _append_llm_calls(call_rows)
     except Exception as e:
-        print(f"{tag} FAILED on first call: {e}")
-        raise RuntimeError(f"{tag} cannot reach API: {e}")
+        print(f"Warning: could not write call log: {e}")
 
-    predictions = [test_parsed['prediction']]
-    reasonings = [test_parsed['reasoning']]
-    raw_responses = [test_raw]
-
-    start = _time.time()
-    for i, (_, row) in enumerate(llm_sample.iterrows()):
-        if i == 0:
-            continue  # already done above
-
-        user_prompt = build_user_prompt(row, include_desc=include_desc)
-        raw = call_llm(system_prompt, user_prompt,
-                       api_provider=api_provider, model=model_name, api_key=api_key)
-        raw_responses.append(raw)
-
-        parsed = parse_llm_response(raw)
-        predictions.append(parsed['prediction'])
-        reasonings.append(parsed['reasoning'])
-
-        # Progress every 10 rows
-        if (i + 1) % 10 == 0:
-            elapsed = _time.time() - start
-            rate = (i + 1) / elapsed
-            eta = (len(llm_sample) - i - 1) / rate
-            print(f"{tag} {i+1}/100 done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
-
-    n_errors = sum(1 for p in predictions if p is None)
-    total_time = _time.time() - start
-    print(f"{tag} COMPLETE — {len(predictions)} predictions, {n_errors} parse errors, {total_time:.0f}s total")
-
-    metrics = evaluate_predictions(y_true, predictions, label=f"{label} ({desc_tag})")
+    metrics = evaluate_predictions(
+        y_true, predictions, label=f"{label} ({desc_tag})",
+        probabilities=probabilities,
+    )
 
     return {
         'predictions': predictions,
+        'probabilities': probabilities,
         'reasonings': reasonings,
         'raw_responses': raw_responses,
         'metrics': metrics,

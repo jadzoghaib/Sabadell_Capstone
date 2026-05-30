@@ -1,0 +1,30 @@
+# Core data / ML
+pandas
+numpy
+scipy
+scikit-learn
+xgboost
+optuna
+tensorflow
+joblib
+
+# Explainability / stats
+shap
+statsmodels
+
+# Plotting
+matplotlib
+seaborn
+
+# Notebook tooling
+jupyter
+ipykernel
+
+# Env / config
+python-dotenv
+pyyaml  # used by promptfoo/prepare_tests.py
+
+# LLM SDKs
+google-genai
+openai
+anthropic

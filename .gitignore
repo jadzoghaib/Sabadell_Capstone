@@ -19,25 +19,12 @@ env/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# Data files (large datasets — store externally)
+# Data files — only exclude large raw datasets and the heavy processed array
 data/raw/*
 data/interim/*
-data/processed/*
-data/results/ml/*
-data/results/llm/*
-!data/**/.keep
-*.csv
-*.parquet
-*.feather
-*.h5
-*.hdf5
-*.pkl
-*.pickle
-*.joblib
-*.npy
-*.npz
+data/processed/02_processed_data.npz
 
-# Models
+# Models (large binary files, regenerable from notebooks)
 models/*
 !models/.keep
 *.pt
@@ -64,3 +51,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Per-user Claude Code allowlist (not shared)
+.claude/settings.local.json

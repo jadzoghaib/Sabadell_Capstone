@@ -1,0 +1,5 @@
+variant,accuracy,f1_charged_off,n_valid,characterisation
+baseline,0.57,0.3174603174603174,100,
+conservative,0.52,0.3142857142857143,100,
+chain_of_thought,0.62,0.3214285714285714,100,
+top_features_only,0.6,0.375,100,

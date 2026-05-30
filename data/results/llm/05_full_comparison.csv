@@ -1,0 +1,11 @@
+variant,description,with_desc,accuracy,precision_charged_off,recall_charged_off,f1_charged_off,n_valid
+baseline,Current production prompt — control group,No,0.58,0.213,0.667,0.323,100
+baseline,Current production prompt — control group,Yes,0.67,0.2,0.4,0.267,100
+conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,No,0.53,0.192,0.667,0.299,100
+conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,Yes,0.5,0.193,0.733,0.306,100
+chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,No,0.65,0.206,0.467,0.286,100
+chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,Yes,0.69,0.25,0.533,0.34,100
+top_features_only,Only the 8 most important features by XGBoost importance are passed in,No,0.59,0.24,0.8,0.369,100
+top_features_only,Only the 8 most important features by XGBoost importance are passed in,Yes,0.62,0.233,0.667,0.345,100
+structured_4factor,Explicit 4-factor evaluation framework in the system prompt,No,0.57,0.182,0.533,0.271,100
+structured_4factor,Explicit 4-factor evaluation framework in the system prompt,Yes,0.57,0.182,0.533,0.271,100
