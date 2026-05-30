@@ -643,7 +643,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
             except Exception as e:
                 err = str(e).lower()
                 is_rate_limit = "429" in str(e) or "too many requests" in err or "rate" in err
-                is_connection = "connection" in err or "timeout" in err or "503" in str(e) or "502" in str(e)
+                is_connection = "connection" in err or "timeout" in err or "503" in str(e) or "502" in str(e) or "504" in str(e)
                 if is_rate_limit:
                     wait = 2 ** attempt * 10  # 10s, 20s, 40s …
                     print(f"  [nvidia] Rate limited — retry {attempt+1}/8 in {wait}s...")
@@ -791,12 +791,22 @@ def evaluate_predictions(y_true, y_pred, label="Model", probabilities=None):
     if len(valid) < len(y_pred):
         print(f"Warning: {len(y_pred) - len(valid)} unparseable predictions excluded")
 
-    y_true_v = np.array(y_true)[valid]
-    y_pred_v = np.array(y_pred)[valid]
-
     print(f"\n{'=' * 50}")
     print(f"{label} Results ({len(valid)} samples)")
     print(f"{'=' * 50}")
+
+    # All calls failed (e.g. persistent 504) — return a null metrics dict rather
+    # than crashing the whole experiment loop.
+    if len(valid) == 0:
+        print("No valid predictions — all API calls failed.")
+        return {
+            'accuracy': None, 'auc': None,
+            'precision_charged_off': None, 'recall_charged_off': None,
+            'f1_charged_off': None, 'n_valid': 0,
+        }
+
+    y_true_v = np.array(y_true)[valid]
+    y_pred_v = np.array(y_pred)[valid]
     print(f"Accuracy: {accuracy_score(y_true_v, y_pred_v) * 100:.1f}%")
 
     auc = None

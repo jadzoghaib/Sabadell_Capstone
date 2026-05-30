@@ -78,17 +78,19 @@ Two parallel pipelines:
 
 1. **ML pipeline** — `notebooks/ml_models/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
    (Logistic Regression, XGBoost tuned with Optuna, Keras ANN).
-2. **LLM evaluation** — `notebooks/llm_models/` runs as three numbered phases:
-   `01_model_selection/` (pick the model **and its config**: GPT-5 over Gemini
-   Pro/Flash by comparing accuracy, consistency, and robustness ±desc, plus a
-   GPT-5 reasoning-effort sweep — pick the best effort by AUC); `02_prompt_variance/`
-   (explores how much prompt *design* matters on a fixed model — Llama-3.3-70b via
-   NVIDIA NIM — across 6 variants, plus a promptfoo LLM-as-judge characterisation);
-   and `03_final_benchmark/` (**the spine** — takes the finalist prompts × GPT-5 at
-   the chosen effort, tunes the decision threshold, and reports metrics **alongside
-   cost** vs the XGBoost baseline. Threshold tuning lives here and *only* here, on
-   the actual finalists. This is the stage that ties the others together into one
-   comparable, presentable result; the notebook is a scaffold awaiting the API runs).
+2. **LLM evaluation** — `notebooks/llm_models/` runs as four numbered phases:
+   `01_model_selection/` (pick the model **and its config**: GPT-5.4 vs Gemini
+   3.1 Pro vs Claude Sonnet 4.6 / Opus 4.8 by accuracy, consistency, robustness
+   ±desc, a GPT reasoning-effort sweep, and a confidence/calibration meta-analysis);
+   `02_prompt_variance/` (how much prompt *design* matters on a fixed model —
+   Llama-3.3-70b via NVIDIA NIM — across 6 variants); `03_final_benchmark/`
+   (**the spine** — finalist prompts × the chosen GPT at the chosen effort, tunes
+   the decision threshold, reports metrics **alongside cost** vs the XGBoost
+   baseline. Threshold tuning lives here and *only* here, on the actual finalists);
+   and `04_hybrid/` (Jad's **blended XGBoost + LLM** exploration — soft-probability
+   blend, confidence-gated consultation/routing, and a description risk-scorer —
+   testing whether the two models' complementary strengths beat either solo on
+   Charged-Off F1).
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
@@ -133,8 +135,8 @@ data/   # tracked for collab so teammates can pull results without re-running
     ml/        03_model_performance.csv                                        (tracked)
     llm/       01d_* (reasoning effort, once run), 01e_confidence_metrics.csv +
                01e_*.png (confidence/calibration), 02_*.csv/.json/.png (prompt
-               variance), 02b_qualitative_summary.csv, 03_final_benchmark.csv,
-               llm_calls.csv (per-call cost log)                               (tracked)
+               variance), 03_final_benchmark.csv, 04_blend_*.csv + 04_*.png
+               (hybrid), llm_calls.csv (per-call cost log)                     (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                              (TRACKED — small, and
                the LLM notebooks load xgb_model + scaler + thresholds via run_ml_on_sample)
@@ -163,13 +165,18 @@ notebooks/
                                        # → 01e_confidence_metrics.csv + 01e_*.png
     02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
       02_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
-      02b_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 02b_qualitative_summary.csv
-    03_final_benchmark/      # PHASE 3 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
+                                    # (top_features_only derives its features LIVE from XGBoost
+                                    # importances via llm_utils.top_xgb_features — never hard-coded)
+    03_final_benchmark/      # PHASE 3 (the spine): finalists × GPT, threshold + COST vs XGBoost
       03_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 03_final_benchmark.csv
                                     # Threshold tuning lives ONLY here, on the actual finalists.
-    # NAMING: file prefix = phase (01a, 02, 03). Result CSVs share the same
+    04_hybrid/               # PHASE 4: blended XGBoost + LLM (Jad). Beat both solo on Charged-Off F1?
+      04_Blended_LLM_ML.ipynb       # soft-prob blend (alpha×threshold grid), confidence-gated routing,
+                                    # description risk-scorer (Part 6 needs sentence-transformers, skips
+                                    # if absent). Reads 02_predictions.csv → 04_blend_*.csv + 04_*.png
+    # NAMING: file prefix = phase (01a, 02, 03, 04). Result CSVs share the same
     # prefix as the notebook that writes them. The dead gemini-flash pilots were deleted.
-promptfoo/     judge config + test generation for 02b_Promptfoo_Qualitative (pyyaml)
+    # The promptfoo LLM-as-judge notebook (02b) + promptfoo/ dir were removed May 2026.
 reports/       Progress report 1.pdf, output.png
 ```
 
@@ -191,7 +198,8 @@ Only re-run the ML pipeline if you change preprocessing/features:
 python llm_models/sample_generation.py    [generates robustness_batch + test_batch; only before 01c / benchmark]
 01_model_selection/01a,01b,01c,01d        [independent, any order]
 01_model_selection/01e                    [LAST in phase 1 — reads 01a/01b/01d's logprobs from llm_calls.csv]
-02_prompt_variance/02,02b   ·   03_final_benchmark/03_Final_Benchmark
+02_prompt_variance/02                      [writes 02_predictions.csv — feeds the hybrid]
+03_final_benchmark/03_Final_Benchmark      ·   04_hybrid/04_Blended_LLM_ML  [needs 02_predictions.csv]
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.

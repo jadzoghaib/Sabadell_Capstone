@@ -22,9 +22,13 @@ ipykernel
 
 # Env / config
 python-dotenv
-pyyaml  # used by promptfoo/prepare_tests.py
+pyyaml
 
 # LLM SDKs
 google-genai
 openai
 anthropic
+
+# Optional — only for 04_hybrid Part 6 (borrower-description embeddings).
+# The notebook skips that section gracefully if this isn't installed.
+# sentence-transformers
