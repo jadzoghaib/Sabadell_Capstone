@@ -904,8 +904,17 @@ def _append_llm_calls(rows):
     df = pd.DataFrame(rows)
     with _LLM_CALLS_LOCK:
         LLM_CALLS_PATH.parent.mkdir(parents=True, exist_ok=True)
-        write_header = not LLM_CALLS_PATH.exists()
-        df.to_csv(LLM_CALLS_PATH, mode="a", header=write_header, index=False)
+        if LLM_CALLS_PATH.exists():
+            try:
+                # Read existing CSV and align columns by name to prevent shifted columns
+                existing_df = pd.read_csv(LLM_CALLS_PATH)
+                combined = pd.concat([existing_df, df], ignore_index=True)
+                combined.to_csv(LLM_CALLS_PATH, index=False)
+            except Exception:
+                # Fallback to direct append if read/concat fails
+                df.to_csv(LLM_CALLS_PATH, mode="a", header=False, index=False)
+        else:
+            df.to_csv(LLM_CALLS_PATH, index=False)
 
 
 # ── Experiment runner ────────────────────────────────────────────────────────
