@@ -266,10 +266,12 @@ def build_few_shot_examples(n_examples=5, random_state=42):
 
 def _load_env():
     """Load .env files into os.environ. Checks both the llm_models folder and
-    the repo root so provider keys can live in either location."""
+    the repo root so provider keys can live in either location.
+    override=True so keys in .env win over any empty env-var shells inherit
+    (e.g. ANTHROPIC_API_KEY='' from system config)."""
     from dotenv import load_dotenv
-    load_dotenv(Path(__file__).parent / ".env", override=False)
-    load_dotenv(_PROJECT_ROOT / ".env", override=False)
+    load_dotenv(Path(__file__).parent / ".env", override=True)
+    load_dotenv(_PROJECT_ROOT / ".env", override=True)
 
 
 def load_api_key(api_provider, model=None):
