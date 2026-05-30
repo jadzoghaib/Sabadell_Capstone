@@ -131,7 +131,8 @@ data/   # tracked for collab so teammates can pull results without re-running
                share one 35-col schema; see "Samples" below)
   results/
     ml/        03_model_performance.csv                                        (tracked)
-    llm/       01d_* (reasoning effort, once run), 02_*.csv/.json/.png (prompt
+    llm/       01d_* (reasoning effort, once run), 01e_confidence_metrics.csv +
+               01e_*.png (confidence/calibration), 02_*.csv/.json/.png (prompt
                variance), 02b_qualitative_summary.csv, 03_final_benchmark.csv,
                llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
@@ -154,6 +155,12 @@ notebooks/
       01c_Robustness.ipynb          # GPT-5 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
       01d_reasoning_effort_runs.ipynb  # GPT-5 reasoning_effort sweep → 01d_predictions/01d_metrics
                                        # (pick best effort by AUC; carry it into the final benchmark)
+      01e_Confidence_Calibration.ipynb # META-ANALYSIS (no API cost): reads llm_calls.csv +
+                                       # tuning labels → calibration (ECE/Brier/reliability),
+                                       # confidence-vs-correctness, confidence-vs-stability (01b link),
+                                       # cross-model. OpenAI+Gemini only (Anthropic has no logprobs).
+                                       # Run LAST — it reads what 01a/01b/01d logged.
+                                       # → 01e_confidence_metrics.csv + 01e_*.png
     02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
       02_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
       02b_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 02b_qualitative_summary.csv
@@ -183,6 +190,7 @@ Only re-run the ML pipeline if you change preprocessing/features:
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
 python llm_models/sample_generation.py    [generates robustness_batch + test_batch; only before 01c / benchmark]
 01_model_selection/01a,01b,01c,01d        [independent, any order]
+01_model_selection/01e                    [LAST in phase 1 — reads 01a/01b/01d's logprobs from llm_calls.csv]
 02_prompt_variance/02,02b   ·   03_final_benchmark/03_Final_Benchmark
 ```
 
