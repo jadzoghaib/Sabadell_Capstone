@@ -78,19 +78,17 @@ Two parallel pipelines:
 
 1. **ML pipeline** — `notebooks/ml_models/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
    (Logistic Regression, XGBoost tuned with Optuna, Keras ANN).
-2. **LLM evaluation** — `notebooks/llm_models/` runs as four numbered phases:
-   `01_model_selection/` (concluded — picked GPT-5 over Gemini Pro/Flash by comparing
-   accuracy, consistency, and robustness ±desc); `02_prompt_variance/` (explores how
-   much prompt *design* matters on a fixed model — Llama-3.3-70b via NVIDIA NIM —
-   across 6 variants, plus a promptfoo LLM-as-judge characterisation);
-   `03_optimization/` (improving GPT-5 specifically on the **no-desc /
-   structured-features only** condition, per the supervisor's redirect:
-   a reasoning-effort sweep — pick the best effort by AUC); and `04_final_benchmark/`
-   (**the spine** — takes the finalist prompts × GPT-5 at the chosen effort,
-   tunes the decision threshold, and reports metrics **alongside cost** vs the
-   XGBoost baseline. Threshold tuning lives here and *only* here, on the actual
-   finalists. This is the stage that ties the others together into one comparable,
-   presentable result; the notebook is a scaffold awaiting the actual API runs).
+2. **LLM evaluation** — `notebooks/llm_models/` runs as three numbered phases:
+   `01_model_selection/` (pick the model **and its config**: GPT-5 over Gemini
+   Pro/Flash by comparing accuracy, consistency, and robustness ±desc, plus a
+   GPT-5 reasoning-effort sweep — pick the best effort by AUC); `02_prompt_variance/`
+   (explores how much prompt *design* matters on a fixed model — Llama-3.3-70b via
+   NVIDIA NIM — across 6 variants, plus a promptfoo LLM-as-judge characterisation);
+   and `03_final_benchmark/` (**the spine** — takes the finalist prompts × GPT-5 at
+   the chosen effort, tunes the decision threshold, and reports metrics **alongside
+   cost** vs the XGBoost baseline. Threshold tuning lives here and *only* here, on
+   the actual finalists. This is the stage that ties the others together into one
+   comparable, presentable result; the notebook is a scaffold awaiting the API runs).
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
@@ -132,8 +130,8 @@ data/   # tracked for collab so teammates can pull results without re-running
                02_feature_columns.joblib, held_out_batch.csv                  (tracked)
   results/
     ml/        03_model_performance.csv                                        (tracked)
-    llm/       02_*.csv/.json/.png (prompt variance), 02b_qualitative_summary.csv,
-               03a_* (optimization, once run), 04_final_benchmark.csv,
+    llm/       01d_* (reasoning effort, once run), 02_*.csv/.json/.png (prompt
+               variance), 02b_qualitative_summary.csv, 03_final_benchmark.csv,
                llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                              (TRACKED — small, and
@@ -147,21 +145,20 @@ notebooks/
     .env                     # API keys, gitignored — see "API keys" below
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
     llm_pricing.py           # per-model USD/1k token prices used by the cost logger
-    01_model_selection/      # PHASE 1 (concluded): pick the LLM → GPT-5
+    01_model_selection/      # PHASE 1: pick the model AND its config → GPT-5
       00_Sample_New_Batch.ipynb     # builds data/processed/held_out_batch.csv
       01a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 01a_predictions.csv + 01a_metrics.csv
       01b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 01b_predictions.csv + 01b_metrics.csv
       01c_Robustness.ipynb          # GPT-5 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
+      01d_reasoning_effort_runs.ipynb  # GPT-5 reasoning_effort sweep → 01d_predictions/01d_metrics
+                                       # (pick best effort by AUC; carry it into the final benchmark)
     02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
       02_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
       02b_Promptfoo_Qualitative.ipynb # LLM-as-judge reasoning characterisation → 02b_qualitative_summary.csv
-    03_optimization/         # PHASE 3: improve GPT-5 no-desc
-      03a_reasoning_effort_runs.ipynb    # GPT-5 reasoning_effort sweep → 03a_predictions/03a_metrics
-                                         # (pick best effort by AUC from 03a_metrics; carry it into 04.
-                                         #  Threshold tuning lives ONLY in 04 — on the actual finalists.)
-    04_final_benchmark/      # PHASE 4 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
-      04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
-    # NAMING: file prefix = phase (01a, 02, 03a, 04). Result CSVs share the same
+    03_final_benchmark/      # PHASE 3 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
+      03_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 03_final_benchmark.csv
+                                    # Threshold tuning lives ONLY here, on the actual finalists.
+    # NAMING: file prefix = phase (01a, 02, 03). Result CSVs share the same
     # prefix as the notebook that writes them. The dead gemini-flash pilots were deleted.
 promptfoo/     judge config + test generation for 02b_Promptfoo_Qualitative (pyyaml)
 reports/       Progress report 1.pdf, output.png
@@ -183,8 +180,8 @@ Only re-run the ML pipeline if you change preprocessing/features:
 ```
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
 01_model_selection/00_Sample_New_Batch    [only needed before 01c / the held-out benchmark]
-01_model_selection/01a,01b,01c            [independent, any order]
-02_prompt_variance/02,02b   ·   03_optimization/03a   ·   04_final_benchmark/04_Final_Benchmark
+01_model_selection/01a,01b,01c,01d        [independent, any order]
+02_prompt_variance/02,02b   ·   03_final_benchmark/03_Final_Benchmark
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
@@ -241,7 +238,7 @@ in current notebooks.
   `notebooks/llm_models/<subfolder>/` need a one-liner `import sys;
   sys.path.insert(0, "..")` before `from llm_utils import ...`. This is
   already in place in every phase notebook; copy the pattern for new notebooks
-  under `04_final_benchmark/`.
+  under `03_final_benchmark/`.
 - **`llm_utils.LLM_FEATURES`** is the canonical **30-feature** list that LLMs see
   (the original 21 + FICO, delinquency, inquiries, `emp_length`,
   `credit_history_years` — matching the ML feature set). Excludes the target,
