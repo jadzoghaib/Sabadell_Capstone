@@ -838,8 +838,8 @@ def evaluate_predictions(y_true, y_pred, label="Model", probabilities=None):
             'f1_charged_off': None, 'n_valid': 0,
         }
 
-    y_true_v = np.array(y_true)[valid]
-    y_pred_v = np.array(y_pred)[valid]
+    y_true_v = np.array(y_true)[valid].astype(int)
+    y_pred_v = np.array(y_pred)[valid].astype(int)
     print(f"Accuracy: {accuracy_score(y_true_v, y_pred_v) * 100:.1f}%")
 
     auc = None
