@@ -86,7 +86,7 @@ FEATURE_DESCRIPTIONS = {
 
 def load_llm_sample():
     """Load the 100-row human-readable LLM evaluation sample."""
-    df = pd.read_csv(f"{DATA_DIR}/02_llm_sample.csv")
+    df = pd.read_csv(f"{DATA_DIR}/tuning_sample.csv")
     return df
 
 
@@ -103,8 +103,8 @@ _lendingclub_cache = None
 
 def _load_lendingclub_filtered():
     """Load 02_Preprocessing's source frame: 2012–2014, binary status only,
-    `loan_status` mapped to 1/0. Cached for the process — both `sample_new_batch`
-    and `build_few_shot_examples` consume this and the raw .csv.gz is ~1GB."""
+    `loan_status` mapped to 1/0. Cached for the process — `build_few_shot_examples`
+    consumes this and the raw .csv.gz is ~1GB."""
     global _lendingclub_cache
     if _lendingclub_cache is not None:
         return _lendingclub_cache
@@ -127,21 +127,10 @@ def _train_test_split_canonical(df):
     return train_test_split(df, test_size=0.33, random_state=42)
 
 
-def sample_new_batch(n=100, random_state=99):
-    """Sample a new batch of n loans from the test set (with descriptions),
-    excluding rows already in `02_llm_sample.csv`."""
-    _, test_data = _train_test_split_canonical(_load_lendingclub_filtered())
-
-    test_with_desc = test_data[test_data['desc'].notna() & (test_data['desc'].str.strip() != '')]
-
-    original = load_llm_sample()
-    orig_keys = set(zip(original['loan_amnt'], original['int_rate'], original['annual_inc']))
-    mask = ~test_with_desc.apply(
-        lambda r: (r['loan_amnt'], r['int_rate'], r['annual_inc']) in orig_keys, axis=1
-    )
-    available = test_with_desc[mask]
-
-    return available.sample(n=n, random_state=random_state).reset_index(drop=True)
+# NOTE: held-out batch generation moved to sample_generation.py
+# (get_robustness_batch / get_test_batch). load_llm_sample() above still loads
+# the tuning sample; _load_lendingclub_filtered / _train_test_split_canonical
+# remain for build_few_shot_examples.
 
 
 # ── XGBoost prediction on LLM sample rows ───────────────────────────────────
@@ -163,11 +152,11 @@ def run_ml_on_sample(llm_sample):
 
     # Apply same preprocessing as 02_Preprocessing.
     term_values = {' 36 months': 36, ' 60 months': 60}
-    if df['term'].dtype == object:
-        df['term'] = df.term.map(term_values)
+    if not pd.api.types.is_numeric_dtype(df['term']):
+        df['term'] = df['term'].map(term_values)
 
     # Ordinal-encode emp_length to match preprocessing.
-    if 'emp_length' in df.columns and df['emp_length'].dtype == object:
+    if 'emp_length' in df.columns and not pd.api.types.is_numeric_dtype(df['emp_length']):
         emp_length_map = {
             '< 1 year': 0, '1 year': 1, '2 years': 2, '3 years': 3, '4 years': 4,
             '5 years': 5, '6 years': 6, '7 years': 7, '8 years': 8, '9 years': 9,

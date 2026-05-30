@@ -126,8 +126,9 @@ experiments unless explicitly asked.
 data/   # tracked for collab so teammates can pull results without re-running
   raw/         accepted_2007_to_2018Q4.csv.gz, lending_club_loan_two.csv.zip   (gitignored — huge source dumps)
   processed/   02_processed_data.npz                                          (gitignored — 109MB, over GitHub's limit)
-               02_llm_sample.csv, 02_scaler.joblib,
-               02_feature_columns.joblib, held_out_batch.csv                  (tracked)
+               tuning_sample.csv, robustness_batch.csv, test_batch.csv,       (tracked)
+               02_scaler.joblib, 02_feature_columns.joblib                    (the 3 samples
+               share one 35-col schema; see "Samples" below)
   results/
     ml/        03_model_performance.csv                                        (tracked)
     llm/       01d_* (reasoning effort, once run), 02_*.csv/.json/.png (prompt
@@ -145,8 +146,10 @@ notebooks/
     .env                     # API keys, gitignored — see "API keys" below
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
     llm_pricing.py           # per-model USD/1k token prices used by the cost logger
+    sample_generation.py     # the 3 samples: get_tuning_sample/get_robustness_batch/get_test_batch
+                             # (load-if-exists + force; deterministic; mutually exclusive)
     01_model_selection/      # PHASE 1: pick the model AND its config → GPT-5
-      00_Sample_New_Batch.ipynb     # builds data/processed/held_out_batch.csv
+      00_Sample_New_Batch.ipynb     # generates robustness_batch + test_batch via sample_generation.py
       01a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 01a_predictions.csv + 01a_metrics.csv
       01b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 01b_predictions.csv + 01b_metrics.csv
       01c_Robustness.ipynb          # GPT-5 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
@@ -173,7 +176,7 @@ over GitHub's limit), and `.env`. `.keep` files preserve otherwise-empty dirs.
 ## Run order
 
 Because models are now tracked, a teammate can run the LLM notebooks **without**
-re-running the ML pipeline (the LLM notebooks load `02_llm_sample.csv` + the saved
+re-running the ML pipeline (the LLM notebooks load `tuning_sample.csv` + the saved
 scaler/feature-columns/XGBoost model via `llm_utils.run_ml_on_sample`, all in git).
 Only re-run the ML pipeline if you change preprocessing/features:
 
@@ -185,8 +188,28 @@ Only re-run the ML pipeline if you change preprocessing/features:
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
-`00_Sample_New_Batch.ipynb` uses `random_state=99` and dedupes against
-`02_llm_sample.csv` on `(loan_amnt, int_rate, annual_inc)`.
+
+## Samples
+
+Three role-based samples, **all generated through `llm_models/sample_generation.py`**
+(the held-out batch logic used to be scattered across `00_Sample_New_Batch` + a
+`sample_new_batch` helper — now centralized):
+
+| Sample | Role | Seed | Made by |
+| ------ | ---- | ---- | ------- |
+| `tuning_sample.csv` | dev / tuning (01a/b/d, 02, threshold tuning) | 42 | `ml_models/02_Preprocessing` (stratified); util loads it |
+| `robustness_batch.csv` | robustness check (01c) | 99 | `get_robustness_batch()` — excludes tuning |
+| `test_batch.csv` | **final test, touched once** (03 benchmark) | 2024 | `get_test_batch()` — excludes tuning + robustness |
+
+- **`get_*()` is load-if-exists** (never clobbers a committed sample); pass
+  `force=True` to regenerate. Deterministic given the raw CSV.
+- **All three share one 35-column schema** (incl. FICO, delinquency, inquiries,
+  `emp_length`, `credit_history_years`) so `run_ml_on_sample` and the LLM see the
+  same features on every batch. *(The old `held_out_batch.csv` was missing the 9
+  newer features — XGBoost was scoring it with FICO=0, etc. Fixed by regenerating
+  all batches through the util.)*
+- `run_ml_on_sample` encodes `term`/`emp_length` via `is_numeric_dtype` checks
+  (not `== object`) so it works under pandas versions that infer `str` dtype.
 
 ## API keys
 
