@@ -512,9 +512,15 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         # google.genai (Jan 2026) does not retry 503/429 internally — wrap manually.
         # The openai and anthropic SDKs already retry these on their own.
         import time
+        import os
         from google import genai
-        client = genai.Client(api_key=api_key)
-        model = model or "gemini-3.1-pro-preview"
+        gcp_project = os.environ.get("GCP_PROJECT_ID")
+        gcp_location = os.environ.get("GCP_LOCATION", "us-central1")
+        if gcp_project and "3.5" not in model:
+            client = genai.Client(vertexai=True, project=gcp_project, location=gcp_location)
+        else:
+            client = genai.Client(api_key=api_key)
+        model = model or "gemini-3.5-flash"
         config = None
         if with_logprobs:
             try:
@@ -542,6 +548,33 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
                     return text, meta
                 return text
             except Exception as e:
+                err_str = str(e).lower()
+                if with_logprobs and "logprobs" in err_str and ("not enabled" in err_str or "invalid" in err_str):
+                    if "gemini" not in _LOGPROBS_WARNED:
+                        _LOGPROBS_WARNED.add("gemini")
+                        warnings.warn(
+                            f"Gemini model {model} does not support logprobs. "
+                            "Falling back to calling without logprobs.",
+                            stacklevel=2,
+                        )
+                    with_logprobs = False
+                    config = None
+                    # Retry immediately without waiting
+                    try:
+                        response = client.models.generate_content(
+                            model=model,
+                            contents=f"{system_prompt}\n\n{user_prompt}",
+                            config=config,
+                        )
+                        text = response.text
+                        if return_usage:
+                            in_t, out_t = _extract_usage("gemini", response)
+                            meta = {"input_tokens": in_t, "output_tokens": out_t, "prob_fully_paid": None}
+                            return text, meta
+                        return text
+                    except Exception as fallback_err:
+                        e = fallback_err
+                
                 if "503" in str(e) or "429" in str(e) or "UNAVAILABLE" in str(e):
                     wait = 2 ** attempt * 5
                     print(f"  Retry {attempt+1}/5 in {wait}s...")

@@ -1,1 +1,9 @@
 timestamp,experiment_id,label,desc_tag,provider,model,row_index,input_tokens,output_tokens,input_price_per_1k_usd,output_price_per_1k_usd,cost_usd,prob_fully_paid
+2026-05-30T21:56:37.810681+00:00,Gemini 3.5 Flash|no_desc,Gemini 3.5 Flash,no_desc,gemini,gemini-3.5-flash,0,554,69,0.0015,0.009,0.0014520000000000002,,
+2026-05-30T21:56:42.589102+00:00,Gemini 3.5 Flash|no_desc,Gemini 3.5 Flash,no_desc,gemini,gemini-3.5-flash,1,538,68,0.0015,0.009,0.0014190000000000001,,
+2026-05-30T22:07:49.088051+00:00,Gemini 2.5 Flash (Vertex AI)|no_desc,Gemini 2.5 Flash (Vertex AI),no_desc,gemini,gemini-2.5-flash,0,553,88,0.0003,0.0025,0.0003859,0.999999781463979,
+2026-05-30T22:07:57.321531+00:00,Gemini 2.5 Flash (Vertex AI)|no_desc,Gemini 2.5 Flash (Vertex AI),no_desc,gemini,gemini-2.5-flash,1,537,76,0.0003,0.0025,0.0003511,0.9999983232094991,
+2026-05-30T22:09:16.670702+00:00,Gemini 2.5 Pro (Vertex AI)|no_desc,Gemini 2.5 Pro (Vertex AI),no_desc,gemini,gemini-2.5-pro,0,553,60,0.00125,0.01,0.0012912499999999999,1.0,
+2026-05-30T22:09:30.127015+00:00,Gemini 2.5 Pro (Vertex AI)|no_desc,Gemini 2.5 Pro (Vertex AI),no_desc,gemini,gemini-2.5-pro,1,537,59,0.00125,0.01,0.0012612500000000002,1.0,
+2026-05-30T22:12:17.354016+00:00,Gemini 2.5 Pro (Vertex AI)|no_desc,Gemini 2.5 Pro (Vertex AI),no_desc,gemini,gemini-2.5-pro,0,553,82,0.00125,0.01,0.00151125,1.0,
+2026-05-30T22:12:22.669361+00:00,Gemini 3.5 Flash (AI Studio)|no_desc,Gemini 3.5 Flash (AI Studio),no_desc,gemini,gemini-3.5-flash,0,554,69,0.0015,0.009,0.0014520000000000002,,

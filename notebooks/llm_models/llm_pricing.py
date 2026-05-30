@@ -23,6 +23,7 @@ PRICES = {
 
     # Google Gemini — 3.1 Pro Preview is the current stable Pro tier (≤200k ctx)
     "gemini-3.1-pro-preview": (0.00200, 0.01200),
+    "gemini-3.5-flash":        (0.00150, 0.00900),
 
     # Anthropic — Sonnet 4.6 and Opus 4.8 (latest as of May 2026)
     "claude-sonnet-4-6": (0.00300, 0.01500),
