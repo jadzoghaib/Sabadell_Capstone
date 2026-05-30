@@ -484,7 +484,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         import time
         from google import genai
         client = genai.Client(api_key=api_key)
-        model = model or "gemini-2.5-flash"
+        model = model or "gemini-3.1-pro-preview"
         config = None
         if with_logprobs:
             try:
@@ -523,7 +523,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
     elif api_provider == "anthropic":
         import anthropic
         client = anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
-        model = model or "claude-sonnet-4-20250514"
+        model = model or "claude-sonnet-4-6"
         response = client.messages.create(
             model=model,
             max_tokens=256,

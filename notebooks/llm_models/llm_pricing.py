@@ -16,18 +16,27 @@ PRICING_DATE = "2026-05"
 
 # (input_price_per_1k_usd, output_price_per_1k_usd)
 PRICES = {
-    # OpenAI
-    "gpt-5":            (0.00125, 0.01000),
+    # ── Current models (May 2026) ────────────────────────────────────────────
 
-    # Google Gemini (standard ≤200k-token context tier)
-    "gemini-2.5-pro":   (0.00125, 0.01000),
-    "gemini-2.5-flash": (0.00030, 0.00250),
+    # OpenAI — gpt-5.4 released 2026-03-05; alias resolves to gpt-5.4-2026-03-05
+    "gpt-5.4":          (0.00250, 0.01500),
 
-    # Anthropic (not used in current experiments — placeholder)
-    "claude-sonnet-4-20250514": (0.00300, 0.01500),
+    # Google Gemini — 3.1 Pro Preview is the current stable Pro tier (≤200k ctx)
+    "gemini-3.1-pro-preview": (0.00200, 0.01200),
 
-    # NVIDIA NIM — verify at https://build.nvidia.com/pricing
+    # Anthropic — Sonnet 4.6 and Opus 4.8 (latest as of May 2026)
+    "claude-sonnet-4-6": (0.00300, 0.01500),
+    "claude-opus-4-8":   (0.00500, 0.02500),
+
+    # NVIDIA NIM (phase 02) — verify at https://build.nvidia.com/pricing
     "meta/llama-3.3-70b-instruct": (0.00077, 0.00077),
+
+    # ── Legacy entries — kept so historical llm_calls.csv rows stay accurate ─
+    "gpt-5":                   (0.00125, 0.01000),
+    "gemini-2.5-pro":          (0.00125, 0.01000),
+    "gemini-2.5-flash":        (0.00030, 0.00250),
+    "claude-sonnet-4-20250514": (0.00300, 0.01500),
+    "claude-opus-4-7":         (0.00500, 0.02500),
 }
 
 
