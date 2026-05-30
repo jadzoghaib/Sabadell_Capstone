@@ -76,7 +76,7 @@ are precision / recall / F1 (and AUC, once added) on the `Charged Off` class.
 
 Two parallel pipelines:
 
-1. **ML pipeline** — `notebooks/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
+1. **ML pipeline** — `notebooks/ml_models/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
    (Logistic Regression, XGBoost tuned with Optuna, Keras ANN).
 2. **LLM evaluation** — `notebooks/llm_models/` runs as four numbered phases:
    `01_model_selection/` (concluded — picked GPT-5 over Gemini Pro/Flash by comparing
@@ -133,15 +133,16 @@ data/   # tracked for collab so teammates can pull results without re-running
   results/
     ml/        03_model_performance.csv                                        (tracked)
     llm/       02_*.csv/.json/.png (prompt variance), 02b_qualitative_summary.csv,
-               03a_*/03b_* (optimization, once run), 04_final_benchmark.csv,
+               03a_* (optimization, once run), 04_final_benchmark.csv,
                llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                              (TRACKED — small, and
                the LLM notebooks load xgb_model + scaler + thresholds via run_ml_on_sample)
 notebooks/
-  01_EDA.ipynb
-  02_Preprocessing.ipynb     # writes data/processed/02_*
-  03_Modeling.ipynb          # writes models/* and data/results/ml/03_model_performance.csv
+  ml_models/                 # classical ML pipeline (parallel to llm_models/)
+    01_EDA.ipynb
+    02_Preprocessing.ipynb   # writes data/processed/02_*
+    03_Modeling.ipynb        # writes models/* and data/results/ml/03_model_performance.csv
   llm_models/
     .env                     # API keys, gitignored — see "API keys" below
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
@@ -160,7 +161,7 @@ notebooks/
                                          #  Threshold tuning lives ONLY in 04 — on the actual finalists.)
     04_final_benchmark/      # PHASE 4 (the spine): finalists × GPT-5, threshold + COST vs XGBoost
       04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
-    # NAMING: file prefix = phase (01a, 02, 03b, 04). Result CSVs share the same
+    # NAMING: file prefix = phase (01a, 02, 03a, 04). Result CSVs share the same
     # prefix as the notebook that writes them. The dead gemini-flash pilots were deleted.
 promptfoo/     judge config + test generation for 02b_Promptfoo_Qualitative (pyyaml)
 reports/       Progress report 1.pdf, output.png
@@ -234,8 +235,8 @@ in current notebooks.
   `RESULTS_DIR`, and `RAW_DATA_PATH` to `Path(__file__).resolve().parent.parent.parent`
   (the repo root), so any notebook under `notebooks/llm_models/**` can import
   `llm_utils` and read/write the right files regardless of nesting depth. The
-  ML notebooks (`01/02/03`) under `notebooks/` still use plain relative paths
-  (`../data/...`) — run them from their own directory.
+  ML notebooks (`01/02/03`) under `notebooks/ml_models/` use plain relative paths
+  (`../../data/...`, `../../models/...`) — run them from their own directory.
 - **Importing `llm_utils` from a subfolder**: notebooks living under
   `notebooks/llm_models/<subfolder>/` need a one-liner `import sys;
   sys.path.insert(0, "..")` before `from llm_utils import ...`. This is
