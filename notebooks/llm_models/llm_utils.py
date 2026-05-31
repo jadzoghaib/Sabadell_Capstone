@@ -620,15 +620,40 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
             kwargs["top_logprobs"] = 5
         if reasoning_effort is not None:
             kwargs["reasoning_effort"] = reasoning_effort
-        response = client.chat.completions.create(
-            model=model,
-            max_completion_tokens=2048,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            **kwargs,
-        )
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                max_completion_tokens=2048,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                **kwargs,
+            )
+        except Exception as e:
+            err_str = str(e).lower()
+            if with_logprobs and "logprobs" in err_str:
+                if "openai" not in _LOGPROBS_WARNED:
+                    _LOGPROBS_WARNED.add("openai")
+                    warnings.warn(
+                        f"OpenAI model {model} does not support logprobs under current settings. "
+                        "Falling back to calling without logprobs.",
+                        stacklevel=2,
+                    )
+                with_logprobs = False
+                kwargs.pop("logprobs", None)
+                kwargs.pop("top_logprobs", None)
+                response = client.chat.completions.create(
+                    model=model,
+                    max_completion_tokens=2048,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    **kwargs,
+                )
+            else:
+                raise
         text = response.choices[0].message.content
         if return_usage:
             in_t, out_t = _extract_usage("openai", response)
@@ -895,7 +920,7 @@ def _append_llm_calls(rows):
     """
     Append per-call rows to data/results/llm/llm_calls.csv. One row per
     successful API call: tokens, cost, and (when logprobs are available)
-    P(prediction=1). Thread-safe — 04b runs experiments concurrently and
+    P(prediction=1). Thread-safe — 01b runs experiments concurrently and
     each calls this once when its loop returns. Only invoked on successful
     completion; interrupted runs drop their buffer and never reach this.
     """
@@ -955,7 +980,6 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
     label = label or model_name
     desc_tag = "with_desc" if include_desc else "no_desc"
     tag = f"[{label} | {desc_tag}]"
-    experiment_id = f"{label}|{desc_tag}"
 
     # Resolve pricing once, fail-fast on unknown model before burning API calls.
     in_price_per_1k, out_price_per_1k = get_price(model_name)
@@ -971,7 +995,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         cost_usd = (in_t / 1000.0) * in_price_per_1k + (out_t / 1000.0) * out_price_per_1k
         call_rows.append({
             "timestamp":             datetime.now(timezone.utc).isoformat(),
-            "experiment_id":         experiment_id,
+            "notebook_id":           os.path.basename(os.getcwd()),
             "label":                 label,
             "desc_tag":              desc_tag,
             "provider":              api_provider,

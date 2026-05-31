@@ -8,7 +8,7 @@ Dataset: LendingClub 2012–2014 credit risk sample (100 loans, binary: Fully Pa
 
 ## What this is
 
-The model selection notebooks (04a/04b/04c) established *which LLM* predicts credit risk best. This notebook asks a different question: **given a fixed model, how much does the prompt design matter?**
+The model selection notebooks (01a/01b/01c) established *which LLM* predicts credit risk best. This notebook asks a different question: **given a fixed model, how much does the prompt design matter?**
 
 Six prompt variants are tested through the same three-phase evaluation pipeline used for model selection — comparison, consistency, and robustness — so the results are directly comparable in methodology.
 
@@ -108,4 +108,4 @@ Charged Off is the minority class (~20% of loans). A model that predicts "Fully 
 Controlling the sample isolates prompt effects from data variance. Phase 3 then deliberately introduces a new sample to test whether those effects hold out-of-sample.
 
 **Why not compare against the XGBoost baseline here?**  
-The classical ML comparison is covered in the model selection notebooks (04a/04b/04c). This notebook's scope is prompt engineering, not model selection — adding the XGBoost baseline here would require running `03_Modeling.ipynb` first and conflates two separate questions.
+The classical ML comparison is covered in the model selection notebooks (01a/01b/01c). This notebook's scope is prompt engineering, not model selection — adding the XGBoost baseline here would require running `03_Modeling.ipynb` first and conflates two separate questions.
