@@ -331,6 +331,7 @@ def load_api_key(api_provider, model=None):
         "anthropic": "ANTHROPIC_API_KEY",
         "openai":    "OPENAI_API_KEY",
         "nvidia":    "NVIDIA_API_KEY",
+        "groq":      "GROQ_API_KEY",
     }
     env_var = key_map.get(api_provider)
     return os.environ.get(env_var) if env_var else None
@@ -341,6 +342,7 @@ _USAGE_ATTRS = {
     "openai":    ("usage",          "prompt_tokens",      "completion_tokens"),
     "nvidia":    ("usage",          "prompt_tokens",      "completion_tokens"),
     "anthropic": ("usage",          "input_tokens",       "output_tokens"),
+    "groq":      ("usage",          "prompt_tokens",      "completion_tokens"),
 }
 _USAGE_WARNED = set()
 
@@ -475,9 +477,9 @@ def _extract_prediction_prob(api_provider, raw_text, token_data):
 
 def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
              api_key=None, return_usage=False, with_logprobs=False, max_tokens=None,
-             reasoning_effort=None):
+             reasoning_effort=None, temperature=None):
     """
-    Call the LLM API. Supports gemini, anthropic, and openai providers.
+    Call the LLM API. Supports gemini, anthropic, openai, and groq providers.
 
     Args:
         system_prompt: System message
@@ -713,6 +715,87 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
                 else:
                     raise
         raise RuntimeError("NVIDIA NIM API failed after 8 retries")
+
+    elif api_provider == "groq":
+        # Groq is OpenAI-compatible (https://api.groq.com/openai/v1). Same retry
+        # shape as nvidia. Logprobs are not reliably exposed by Groq for the
+        # Llama models, so with_logprobs is accepted but prob_fully_paid will be
+        # None unless the provider returns usable token data.
+        import time
+        import openai
+        client = openai.OpenAI(
+            api_key=api_key,
+            base_url="https://api.groq.com/openai/v1",
+        )
+        model = model or "llama-3.3-70b-versatile"
+        kwargs = {}
+        if with_logprobs:
+            kwargs["logprobs"] = True
+            kwargs["top_logprobs"] = 5
+        if temperature is not None:
+            kwargs["temperature"] = temperature
+        for attempt in range(8):
+            try:
+                response = client.chat.completions.create(
+                    model=model,
+                    max_tokens=max_tokens or 2048,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    **kwargs,
+                )
+                text = response.choices[0].message.content
+                if return_usage:
+                    in_t, out_t = _extract_usage("groq", response)
+                    meta = {"input_tokens": in_t, "output_tokens": out_t}
+                    if with_logprobs:
+                        meta["prob_fully_paid"] = _extract_prediction_prob(
+                            "openai", text, _extract_token_logprobs("openai", response)
+                        )
+                    return text, meta
+                return text
+            except Exception as e:
+                estr = str(e)
+                err = estr.lower()
+                is_rate_limit = "429" in estr or "too many requests" in err or "rate" in err
+                is_connection = "connection" in err or "timeout" in err or "503" in estr or "502" in estr
+                if is_rate_limit:
+                    # Surface Groq's exact reason + retry-after so we can tell which
+                    # limit hit: per-minute (RPM/TPM, resets in seconds) vs per-day
+                    # (RPD/TPD, resets at midnight UTC). Groq names it in the body.
+                    retry_after = None
+                    resp = getattr(e, "response", None)
+                    if resp is not None:
+                        try:
+                            ra = resp.headers.get("retry-after")
+                            retry_after = float(ra) if ra is not None else None
+                        except Exception:
+                            retry_after = None
+                    reason = ""
+                    body = getattr(e, "body", None)
+                    if isinstance(body, dict):
+                        reason = str(body.get("error", {}).get("message", ""))[:300]
+                    if not reason:
+                        reason = estr[:300]
+                    # A long retry-after means a daily cap — won't clear by waiting,
+                    # so fail fast with a clear message instead of sleeping for ~1h.
+                    if retry_after is not None and retry_after > 120:
+                        raise RuntimeError(
+                            f"[groq] day-scale rate limit hit (retry-after={retry_after:.0f}s, "
+                            f"~={retry_after/60:.0f} min). This is a per-DAY quota (RPD/TPD); "
+                            f"it resets at midnight UTC. Reason: {reason}"
+                        )
+                    wait = retry_after if retry_after is not None else min(2 ** attempt * 10, 60)
+                    print(f"  [groq] 429 [{reason}] — retry {attempt+1}/8 in {wait:.0f}s")
+                    time.sleep(wait)
+                elif is_connection:
+                    wait = 5 * (attempt + 1)  # 5s, 10s, 15s …
+                    print(f"  [groq] Connection error — retry {attempt+1}/8 in {wait}s...")
+                    time.sleep(wait)
+                else:
+                    raise
+        raise RuntimeError("Groq API failed after 8 retries")
 
     else:
         raise ValueError(f"Unknown api_provider: {api_provider}")
