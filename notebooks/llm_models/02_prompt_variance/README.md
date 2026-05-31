@@ -1,12 +1,12 @@
 # Phase 2 — Prompt Structuring, Batching & Variance
 
-Branch: `promptvar-gpt5.4`  
 Model: `gpt-5.4` (and legacy Llama-3.3-70b comparison)  
 Dataset: LendingClub 2012–2014 credit risk sample (100 loans, binary: Fully Paid / Charged Off)
 
-This folder contains two notebooks exploring how prompt engineering and prompt execution architectures impact LLM credit risk predictions:
+This folder contains three notebooks exploring how prompt engineering, compact formats, and prompt execution architectures impact credit risk predictions and operational costs:
 1. `02a_Batching_Formatting_Tax.ipynb` — System optimization analysis (Formatting & Batching).
 2. `02b_Prompt_Variance.ipynb` — Linguistic optimization analysis (System prompts & Personas).
+3. `02c_Qualitative_Financial_Analysis.ipynb` — Phase 2 qualitative and financial analysis gate.
 
 ---
 
@@ -22,35 +22,46 @@ This notebook isolates and quantifies the predictive and operational impacts of 
 ### Key Outputs
 * `data/results/llm/02a_tax_metrics.csv` — Accuracy, F1, Recall, Token Counts, Cost, and Latency for all 4 conditions.
 * `data/results/llm/02a_tax_comparison.png` — Visual breakdown of the predictive and cost deltas.
+* `02a_Batching_Formatting_Tax_Analysis.md` — Supplemental markdown summarizing key optimization findings.
 
 ---
 
 ## 02b — Prompt Variance (`02b_Prompt_Variance.ipynb`)
 
-Given a fixed model (`gpt-5.4`), how much does the semantic framing of the prompt matter? This notebook tests 6 distinct prompt variants through the standard 3-phase evaluation rigour (Comparison, Consistency, and Robustness):
+Given a fixed model (`gpt-5.4`), how much does the semantic framing of the prompt matter? This notebook tests 7 distinct prompt variants through the standard 3-phase evaluation rigour (Comparison, Consistency, and Robustness):
 
-| # | Name | What changes |
+| # | Name | Description / Framing |
 |---|------|--------------|
-| 0 | `baseline` | Current production prompt — control group |
-| 1 | `conservative` | Role reframed as risk-averse underwriter; biased toward flagging defaults when uncertain |
-| 2 | `chain_of_thought` | Explicit step-by-step reasoning through risk signals before predicting |
-| 3 | `few_shot` | 4 labeled training examples prepended to each user prompt (requires raw CSV) |
-| 4 | `top_features_only` | Only the 8 most XGBoost-important features passed in (int_rate, sub_grade, dti, …) |
-| 5 | `structured_4factor` | Explicit 4-factor evaluation framework in the system prompt |
+| 0 | `baseline` | Current production prompt — control group. |
+| 1 | `conservative` | Role reframed as risk-averse underwriter; biased toward flagging defaults when uncertain. |
+| 2 | `chain_of_thought` | Explicit step-by-step reasoning through risk signals before predicting. |
+| 3 | `few_shot` | 4 labeled training examples prepended to each user prompt. |
+| 4 | `top_features_only` | Only the 8 most XGBoost-important features passed in (`int_rate`, `sub_grade`, `dti`, etc.). |
+| 5 | `structured_4factor` | Explicit 4-factor evaluation framework in the system prompt. |
+| 6 | `risk_signal_guide` | Incorporates detailed risk flags and credit rating guidelines. |
 
 ### Key Outputs
 * `data/results/llm/02b_phase1_metrics.csv` — Accuracy, AUC, Charged Off F1 for every variant.
 * `data/results/llm/02b_phase2_consistency.csv` — Per-run metrics for the winning variant (3 runs).
-* `data/results/llm/02b_phase3_robustness.csv` — Original sample vs new batch performance for the winner.
-* `data/results/llm/02b_predictions.csv` — Per-loan predictions, actuals, and correctness across all phases.
+* `data/results/llm/02b_phase3_robustness.csv` — Original sample vs. new batch performance for the winner.
+* `data/results/llm/02b_predictions.csv` — Per-loan predictions, actuals, and correctness.
 * `data/results/llm/02b_reasonings.jsonl` — Full LLM reasoning text per loan per variant.
-* `data/results/llm/02b_qualitative.json` — Judge-derived qualitative characterisations of each variant's reasoning fingerprint.
+* `data/results/llm/02b_variant_comparison.png` — Visual chart of variant metrics.
+
+---
+
+## 02c — Qualitative & Financial Analysis Gate (`02c_Qualitative_Financial_Analysis.ipynb`)
+
+This notebook serves as the Phase 2 analysis gate, evaluating prompt caching economics, business trade-offs, and reasoning fingerprints:
+* **Cost Simulation:** Models OpenAI's automatic prompt caching economics (piecewise 50% discount on static prefix input tokens, triggered only when the total prompt length exceeds 1,024 tokens).
+* **Qualitative Fingerprinting:** Runs a `gpt-5.4` judge that profiles and categorizes each prompt variant's credit reasoning style based on their full written rationales.
+* **Outputs:** `02c_qualitative_financial.json`.
 
 ---
 
 ## Running the Notebooks
 
-Ensure the OpenAI API key is configured in `notebooks/llm_models/.env`:
+Ensure your OpenAI API key is configured in `notebooks/llm_models/.env`:
 ```env
 OPENAI_API_KEY=sk-...
 ```
@@ -66,4 +77,9 @@ python -m jupyter nbconvert --to notebook --execute \
 python -m jupyter nbconvert --to notebook --execute \
   --ExecutePreprocessor.timeout=3600 \
   --inplace notebooks/llm_models/02_prompt_variance/02b_Prompt_Variance.ipynb
+
+# To run the Qualitative Financial Analysis Gate (02c)
+python -m jupyter nbconvert --to notebook --execute \
+  --ExecutePreprocessor.timeout=3600 \
+  --inplace notebooks/llm_models/02_prompt_variance/02c_Qualitative_Financial_Analysis.ipynb
 ```
