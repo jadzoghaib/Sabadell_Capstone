@@ -29,6 +29,6 @@ google-genai
 openai
 anthropic
 
-# Optional — only for 04_hybrid Part 6 (borrower-description embeddings).
+# Optional — only for 03_hybrid Part 7 (borrower-description embeddings).
 # The notebook skips that section gracefully if this isn't installed.
 # sentence-transformers

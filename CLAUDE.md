@@ -48,18 +48,20 @@ relevant rather than assuming they're done:
   is the bar.*
 - **Per-call LLM log**: implemented. Every successful run of
   `llm_utils.run_llm_experiment` appends per-call rows to
-  `data/results/llm/llm_calls.csv` with columns: `timestamp, experiment_id,
+  `data/results/llm/llm_calls.csv` with columns: `timestamp, notebook_id,
   label, desc_tag, provider, model, row_index, input_tokens, output_tokens,
-  input_price_per_1k_usd, output_price_per_1k_usd, cost_usd, prob_fully_paid`.
+  input_price_per_1k_usd, output_price_per_1k_usd, cost_usd,
+  prob_fully_paid, reasoning_effort`.
+  `notebook_id` records the name of the subfolder from which the notebook was
+  executed (e.g. `01_model_selection`, `02_prompt_variance`) so you can
+  always trace which phase generated each row.
   Prices come from `notebooks/llm_models/llm_pricing.py` — update that file
   when providers change rates; historical rows already on disk keep whatever
   price was logged at call time. `prob_fully_paid` is the per-call
   P(prediction=1) extracted from token logprobs (OpenAI/Gemini); Anthropic
   rows record `NaN`. **Interrupted runs (KeyboardInterrupt or exceptions)
   drop their buffer and never write**, so `llm_calls.csv` only reflects
-  fully-completed experiments. To compute AUC later, join `llm_calls.csv` to
-  the per-experiment results CSV on `(experiment_id, row_index)` for the
-  ground-truth labels.
+  fully-completed experiments.
 - **SHAP** is not in any notebook. The XGBoost model in `models/xgb_model.joblib`
   is SHAP-friendly; the explainability comparison is the natural place to add it.
 - **Anonymised/synthetic data**: the brief mentions this; the team is using
@@ -79,20 +81,28 @@ Two parallel pipelines:
 1. **ML pipeline** — `notebooks/ml_models/01_EDA.ipynb` → `02_Preprocessing.ipynb` → `03_Modeling.ipynb`
    (Logistic Regression, XGBoost tuned with Optuna, Keras ANN).
 2. **LLM evaluation** — `notebooks/llm_models/` runs as four numbered phases:
-   `01_model_selection/` (pick the model **and its config**: GPT-5.4 vs Gemini
-   3.1 Pro vs Claude Sonnet 4.6 / Opus 4.8 by accuracy, consistency, robustness
-   ±desc, a GPT reasoning-effort sweep, and a confidence/calibration meta-analysis);
-   `02_prompt_variance/` (how much prompt *design* matters on a fixed model —
-   Llama-3.3-70b via NVIDIA NIM — across 6 variants); `03_hybrid/` (Jad's
-   **blended XGBoost + LLM** exploration — soft-probability blend, confidence-gated
-   consultation/routing, and a description risk-scorer — testing whether the two
-   models' complementary strengths beat either solo on Charged-Off F1; an
-   exploration on the tuning sample, like prompt variance); and
-   `04_final_benchmark/` (**the spine, run last** — finalist prompts × the chosen
-   GPT at the chosen effort on the untouched test batch, tunes the decision
-   threshold, reports metrics **alongside cost** vs the XGBoost baseline. Threshold
-   tuning lives here and *only* here, on the actual finalists — the conclusive,
-   presentable result).
+   - `01_model_selection/` — pick the model **and its config**: GPT-5.4 vs
+     Gemini 2.5 Pro vs Gemini 3.5 Flash vs Claude Sonnet 4.6 / Opus 4.8
+     by accuracy, consistency, robustness ±desc, a GPT reasoning-effort
+     sweep, and a confidence/calibration meta-analysis.
+   - `02_prompt_variance/` — how much prompt *design* matters on a fixed
+     model — Llama-3.3-70b via NVIDIA NIM — across 5 variants
+     (baseline, chain_of_thought, few_shot, top_features_only,
+     structured_4factor).
+   - `03_hybrid/` — Jad's **blended XGBoost + LLM** exploration using
+     Llama-3.3-70b via **Groq** — soft-probability blend, confidence-gated
+     routing, and 5A/5B risk scorers — testing whether the two models'
+     complementary strengths beat either solo on Charged-Off F1. Tuned on
+     `tuning_sample`, strategy-selected on `robustness_batch`. **The test
+     set is strictly held out** — never loaded or evaluated here.
+   - `04_final_benchmark/` — **the spine, run last** — finalist prompts ×
+     GPT-5.4 at the chosen effort on the untouched test batch, tunes the
+     decision threshold, reports metrics **alongside cost** vs the XGBoost
+     baseline. Also loads the frozen hybrid strategy parameters from Phase 3
+     (`03_locked_params.csv`) and applies them **post-hoc** to the test
+     predictions — no extra API calls needed for the ensembled comparisons.
+     Threshold tuning lives here and *only* here, on the actual finalists —
+     the conclusive, presentable result.
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
@@ -135,10 +145,16 @@ data/   # tracked for collab so teammates can pull results without re-running
                share one 35-col schema; see "Samples" below)
   results/
     ml/        03_model_performance.csv                                        (tracked)
-    llm/       01d_* (reasoning effort, once run), 01e_confidence_metrics.csv +
-               01e_*.png (confidence/calibration), 02_*.csv/.json/.png (prompt
-               variance), 03_blend_*.csv + 03_*.png (hybrid),
-               04_final_benchmark.csv, llm_calls.csv (per-call cost log)       (tracked)
+    llm/       01a_*.csv (model comparison), 01b_*.csv (consistency),
+               01c_*.csv (robustness), 01d_*.csv (reasoning effort),
+               01e_confidence_metrics.csv + 01e_*.png (calibration),
+               02_*.csv/.json/.jsonl/.png (prompt variance),
+               02b_qualitative_summary.csv,
+               03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
+               (hybrid — written when 03 runs),
+               04_final_benchmark.csv + 04_*.png (final benchmark — written
+               when 04 runs),
+               llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                              (TRACKED — small, and
                the LLM notebooks load xgb_model + scaler + thresholds via run_ml_on_sample)
@@ -148,37 +164,40 @@ notebooks/
     02_Preprocessing.ipynb   # writes data/processed/02_*
     03_Modeling.ipynb        # writes models/* and data/results/ml/03_model_performance.csv
   llm_models/
-    .env                     # API keys, gitignored — see "API keys" below
+    .env                     # API keys + GCP config, gitignored — see "API keys" below
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
     llm_pricing.py           # per-model USD/1k token prices used by the cost logger
     sample_generation.py     # the 3 samples: get_tuning_sample/get_robustness_batch/get_test_batch
                              # (load-if-exists + force; deterministic; mutually exclusive)
-    01_model_selection/      # PHASE 1: pick the model AND its config → GPT-5
-      01a_Model_Comparison.ipynb    # GPT-5 / Gemini Pro / Gemini Flash, ±desc → 01a_predictions.csv + 01a_metrics.csv
-      01b_Consistency.ipynb         # GPT-5 only, 3 runs × 2 conditions → 01b_predictions.csv + 01b_metrics.csv
-      01c_Robustness.ipynb          # GPT-5 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
-      01d_reasoning_effort_runs.ipynb  # GPT-5 reasoning_effort sweep → 01d_predictions/01d_metrics
+    01_model_selection/      # PHASE 1: pick the model AND its config → GPT-5.4
+      01a_Model_Comparison.ipynb    # GPT-5.4 / Gemini 2.5 Pro / Gemini 3.5 Flash / Claude Sonnet 4.6 / Claude Opus 4.8
+                                    # ±desc → 01a_predictions.csv + 01a_metrics.csv
+      01b_Consistency.ipynb         # GPT-5.4 only, 3 runs × 2 conditions → 01b_predictions.csv + 01b_metrics.csv
+      01c_Robustness.ipynb          # GPT-5.4 on held-out batch → 01c_predictions.csv + 01c_metrics.csv
+      01d_reasoning_effort_runs.ipynb  # GPT-5.4 reasoning_effort sweep → 01d_predictions/01d_metrics
                                        # (pick best effort by AUC; carry it into the final benchmark)
       01e_Confidence_Calibration.ipynb # META-ANALYSIS (no API cost): reads llm_calls.csv +
                                        # tuning labels → calibration (ECE/Brier/reliability),
                                        # confidence-vs-correctness, confidence-vs-stability (01b link),
                                        # cross-model. OpenAI+Gemini only (Anthropic has no logprobs).
-                                       # Run LAST — it reads what 01a/01b/01d logged.
+                                       # Run LAST in phase 1 — it reads what 01a/01b/01d logged.
                                        # → 01e_confidence_metrics.csv + 01e_*.png
     02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
-      02_Prompt_Variance.ipynb      # 6 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
-                                    # (top_features_only derives its features LIVE from XGBoost
-                                    # importances via llm_utils.top_xgb_features — never hard-coded)
+      02_Prompt_Variance.ipynb      # 5 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
     03_hybrid/               # PHASE 3: blended XGBoost + LLM (Jad). Beat both solo on Charged-Off F1?
-      03_Blended_LLM_ML.ipynb       # soft-prob blend (alpha×threshold grid), confidence-gated routing,
-                                    # description risk-scorer (Part 6 needs sentence-transformers, skips
-                                    # if absent). Reads 02_predictions.csv → 03_blend_*.csv + 03_*.png
-    04_final_benchmark/      # PHASE 4 (the spine, run last): finalists × GPT, threshold + COST vs XGBoost
-      04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $) → 04_final_benchmark.csv
+      03_Blended_LLM_ML.ipynb       # Uses Groq (Llama-3.3-70b-versatile). Batched + cached signals.
+                                    # Tuned on tuning_sample, strategy-selected on robustness_batch.
+                                    # TEST SET IS NEVER LOADED — strict holdout.
+                                    # Strategies: soft blend, confidence gate, 5A/5B risk scorers,
+                                    # sentence embeddings (Part 7, optional — needs sentence-transformers).
+                                    # → 03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
+    04_final_benchmark/      # PHASE 4 (the spine, run last): finalists × GPT-5.4, threshold + COST vs XGBoost
+      04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $).
+                                    # Loads 03_locked_params.csv to apply hybrid ensembles post-hoc.
+                                    # → 04_final_benchmark.csv + 04_benchmark_f1_vs_cost.png
                                     # Threshold tuning lives ONLY here, on the actual finalists.
     # NAMING: file prefix = phase (01a, 02, 03, 04). Result CSVs share the same
-    # prefix as the notebook that writes them. The dead gemini-flash pilots were deleted.
-    # The promptfoo LLM-as-judge notebook (02b) + promptfoo/ dir were removed May 2026.
+    # prefix as the notebook that writes them.
 reports/       Progress report 1.pdf, output.png
 ```
 
@@ -200,8 +219,9 @@ Only re-run the ML pipeline if you change preprocessing/features:
 python llm_models/sample_generation.py    [generates robustness_batch + test_batch; only before 01c / benchmark]
 01_model_selection/01a,01b,01c,01d        [independent, any order]
 01_model_selection/01e                    [LAST in phase 1 — reads 01a/01b/01d's logprobs from llm_calls.csv]
-02_prompt_variance/02                      [writes 02_predictions.csv — feeds the hybrid]
-03_hybrid/03_Blended_LLM_ML                [needs 02_predictions.csv]   ·   04_final_benchmark/04_Final_Benchmark  [run last]
+02_prompt_variance/02                     [writes 02_predictions.csv]
+03_hybrid/03_Blended_LLM_ML              [standalone — uses Groq directly, does NOT read 02_predictions.csv]
+04_final_benchmark/04_Final_Benchmark     [run LAST — loads 03_locked_params.csv if phase 3 was run]
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
@@ -214,9 +234,9 @@ Three role-based samples, **all generated through `llm_models/sample_generation.
 
 | Sample | Role | Seed | Made by |
 | ------ | ---- | ---- | ------- |
-| `tuning_sample.csv` | dev / tuning (01a/b/d, 02, threshold tuning) | 42 | `ml_models/02_Preprocessing` (stratified); util loads it |
-| `robustness_batch.csv` | robustness check (01c) | 99 | `get_robustness_batch()` — excludes tuning |
-| `test_batch.csv` | **final test, touched once** (03 benchmark) | 2024 | `get_test_batch()` — excludes tuning + robustness |
+| `tuning_sample.csv` | dev / tuning (01a/b/d, 02, 03 blend tuning, 04 threshold tuning) | 42 | `ml_models/02_Preprocessing` (stratified); util loads it |
+| `robustness_batch.csv` | robustness check (01c) + **validation / strategy selection** (03 hybrid) | 99 | `get_robustness_batch()` — excludes tuning |
+| `test_batch.csv` | **final test, touched once in 04 only** | 2024 | `get_test_batch()` — excludes tuning + robustness |
 
 - **`get_*()` is load-if-exists** (never clobbers a committed sample); pass
   `force=True` to regenerate. Deterministic given the raw CSV.
@@ -228,20 +248,55 @@ Three role-based samples, **all generated through `llm_models/sample_generation.
 - `run_ml_on_sample` encodes `term`/`emp_length` via `is_numeric_dtype` checks
   (not `== object`) so it works under pandas versions that infer `str` dtype.
 
+## Strict test holdout protocol
+
+**`test_batch.csv` must NEVER be loaded, queried, or evaluated outside of
+`04_Final_Benchmark.ipynb`.** This is a non-negotiable rule established
+May 2026.
+
+- **Phase 3 (03_hybrid)** tunes hyperparameters on `tuning_sample` and
+  selects the winning strategy on `robustness_batch` (validation). It saves
+  `03_locked_params.csv` with the frozen parameters.
+- **Phase 4 (04_final_benchmark)** is the ONLY notebook that loads
+  `test_batch.csv`. It runs the finalist LLM prompts and XGBoost on the
+  test set, then applies the Phase 3 hybrid strategies **post-hoc** using
+  the locked parameters — requiring zero additional API calls for the
+  ensembled comparisons.
+- If you create a new notebook that needs to evaluate model performance,
+  use `tuning_sample.csv` or `robustness_batch.csv`. **Never import or
+  reference `test_batch.csv`** outside Phase 4.
+
 ## API keys
 
 `notebooks/llm_models/.env` (gitignored) holds:
 
 ```
-GEMINI_API_KEY_FLASH=...
-GEMINI_API_KEY_PRO=...
 OPENAI_API_KEY=...
+OPENAI_API_KEY_2=...          # spare
+OPENAI_API_KEY_3=...          # spare
+GEMINI_API_KEY_PRO=...
+GEMINI_API_KEY_FLASH=...
+ANTHROPIC_API_KEY=...
+ANTHROPIC_API_KEY_2=...       # spare
+NVIDIA_API_KEY=...            # phase 02 NVIDIA NIM (Llama)
+NVIDIA_API_KEY_2=...          # spare
+GROQ_API_KEY=...              # phase 03 Groq (Llama) — add this before running 03_hybrid
+GCP_PROJECT_ID=capstonesabadell   # Vertex AI project for Gemini logprobs
+GCP_LOCATION=europe-west4        # Netherlands — reliable for newest Gemini models in EU
 ```
 
 `llm_utils.load_api_key(api_provider, model)` reads this file. Gemini keys are
-selected per-model (Flash vs Pro). Add `ANTHROPIC_API_KEY` here if running the
-Anthropic branch — the code path exists in `llm_utils.call_llm` but isn't used
-in current notebooks.
+selected per-model (Flash vs Pro). The `GCP_*` variables are used by the Gemini
+provider in `call_llm` to route through Vertex AI when a project is configured.
+
+**Supported providers** (each with retry logic in `call_llm`):
+| Provider | `api_provider` value | Key env var | Used in |
+|----------|---------------------|-------------|---------|
+| OpenAI   | `"openai"` | `OPENAI_API_KEY` | 01a–01e, 04 |
+| Google Gemini | `"gemini"` | `GEMINI_API_KEY_PRO` / `_FLASH` | 01a |
+| Anthropic | `"anthropic"` | `ANTHROPIC_API_KEY` | 01a |
+| NVIDIA NIM | `"nvidia"` | `NVIDIA_API_KEY` | 02 |
+| Groq | `"groq"` | `GROQ_API_KEY` | 03 |
 
 ## Environment
 
@@ -259,7 +314,10 @@ in current notebooks.
   notebooks and `llm_utils.py` import; pin versions there if you need reproducibility.
 - Key packages: `pandas`, `numpy`, `scikit-learn`, `xgboost`, `optuna`,
   `tensorflow` (Keras), `shap`, `statsmodels`, `joblib`, `matplotlib`,
-  `seaborn`, `python-dotenv`, `google-genai`, `openai`, `anthropic`.
+  `seaborn`, `python-dotenv`, `pyyaml`, `google-genai`, `openai`, `anthropic`.
+- `sentence-transformers` is optional — only needed for Part 7 of
+  `03_Blended_LLM_ML.ipynb` (borrower-description embeddings). That section
+  skips gracefully if it's not installed.
 
 ## Conventions / gotchas
 
@@ -285,18 +343,60 @@ in current notebooks.
   `desc`, and identifiers. If you change features in `02_Preprocessing.ipynb`,
   update `LLM_FEATURES` and `FEATURE_DESCRIPTIONS` in `llm_utils.py` to match,
   otherwise `run_ml_on_sample` will misalign columns.
-- **Retry logic** for LLM calls: `llm_utils.call_llm` retries 5× with
-  exponential backoff on 503/429/`UNAVAILABLE`. If a run hangs, that's the
-  loop — kill the cell rather than waiting it out.
-- **GPT-5 model name**: the notebooks pass the literal string `gpt-5` to the
-  OpenAI SDK. If that route 404s, check the model registry and update the
-  string in the notebook (not in `llm_utils.py`).
-- **Branch**: development happens on `alessandro`, integrated into `main` via
-  PR. Don't push directly to `main`.
+- **Retry logic** for LLM calls: `llm_utils.call_llm` retries 8× with
+  exponential backoff on 503/429/502/504/connection errors. Groq has
+  custom retry-after header parsing and day-scale quota detection (fails
+  fast if RPD/TPD is exhausted rather than sleeping for hours). If a run
+  hangs, that's the loop — kill the cell rather than waiting it out.
+- **GPT-5.4 model name**: the notebooks pass the literal string `gpt-5.4` to
+  the OpenAI SDK (resolved to `gpt-5.4-2026-03-05`). The final benchmark uses
+  `MODEL = 'gpt-5.4'`. If that route 404s, check the model registry and
+  update the string in the notebook (not in `llm_utils.py`).
+- **Groq rate limits**: Groq's free tier is tight (30 RPM / 1000 RPD / 12000
+  TPM). The `03_hybrid` notebook uses batched requests (50 loans/call for
+  binary, 20 loans/call for 5B) and a 2-second throttle between calls to
+  stay under these limits. Signal results are cached per-sample as
+  `03_groq_{signal}_{sample}.csv` so a quota interruption resumes without
+  re-burning tokens.
+- **`llm_calls.csv` column schema** (14 columns): `timestamp, notebook_id,
+  label, desc_tag, provider, model, row_index, input_tokens, output_tokens,
+  input_price_per_1k_usd, output_price_per_1k_usd, cost_usd,
+  prob_fully_paid, reasoning_effort`. The `notebook_id` column records the
+  folder name of the executing notebook (e.g. `01_model_selection`). **Do
+  not add or remove columns** — pandas pivot tables in the analysis
+  notebooks depend on this schema.
+- **Phase 3 output files**: `03_locked_params.csv` contains the frozen
+  strategy hyperparameters (alpha, threshold, band) chosen on the validation
+  set. Phase 4 loads this file automatically for post-hoc ensembling on the
+  test set. If you change the Phase 3 strategies, re-run Phase 3 to
+  regenerate this file before running Phase 4.
+- **No hardcoded feature lists in notebooks**: the `top_features_only`
+  prompt variant in Phase 2 (`02_Prompt_Variance`) derives its features
+  LIVE from XGBoost importances via `llm_utils.top_xgb_features(n=8)` — never
+  hard-coded. If you retrain XGBoost, the feature list updates automatically.
+  Exception: Phase 3's batched Groq calls use a static `TOP_FEATURES` list
+  for the binary signal (matching the Phase 1 winner prompt structure).
+- **Branch**: development happens on `main`. Don't create feature branches
+  unless working on experimental changes that may need reverting.
 - **Commit attribution**: do **not** add a `Co-Authored-By: Claude …` trailer
   to commits. Commits should be attributed only to the human GitHub user
   (`Alessandro Mezzanotte`). When committing on this repo, omit the
   Claude co-author line entirely.
+
+## Model lineup (May 2026)
+
+| Model | Provider | `api_provider` | Phase | Logprobs |
+|-------|----------|---------------|-------|----------|
+| GPT-5.4 | OpenAI | `"openai"` | 01, 04 | ✅ |
+| Gemini 2.5 Pro | Google (Vertex AI) | `"gemini"` | 01 | ✅ |
+| Gemini 3.5 Flash | Google (AI Studio) | `"gemini"` | 01 | ❌ |
+| Claude Sonnet 4.6 | Anthropic | `"anthropic"` | 01 | ❌ |
+| Claude Opus 4.8 | Anthropic | `"anthropic"` | 01 | ❌ |
+| Llama-3.3-70b-instruct | NVIDIA NIM | `"nvidia"` | 02 | ❌ |
+| Llama-3.3-70b-versatile | Groq | `"groq"` | 03 | ❌ |
+
+Pricing for all models lives in `llm_pricing.py` (`PRICES` dict). Legacy
+entries are kept so historical `llm_calls.csv` rows stay accurate.
 
 ## Reports
 
