@@ -1,0 +1,7 @@
+variant,description,accuracy,precision_charged_off,recall_charged_off,f1_charged_off,auc,n_valid
+conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,0.54,0.19607843137254902,0.6666666666666666,0.30303030303030304,0.62,100
+chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,0.83,0.4166666666666667,0.3333333333333333,0.37037037037037035,0.6447058823529412,100
+few_shot,4 labeled training examples prepended before each prediction request,0.82,0.38461538461538464,0.3333333333333333,0.35714285714285715,0.6372549019607843,100
+top_features_only,Only the 8 most important features by XGBoost importance are passed in,0.68,0.22580645161290322,0.4666666666666667,0.30434782608695654,0.632156862745098,100
+structured_4factor,Explicit 4-factor evaluation framework in the system prompt,0.78,0.3157894736842105,0.4,0.35294117647058826,0.6125490196078431,100
+risk_signal_guide,Expert prompt: 7 ranked risk signals with empirical thresholds (Jad's; false 'balanced ~50%' claim removed),0.75,0.2727272727272727,0.4,0.32432432432432434,0.6352941176470588,100
