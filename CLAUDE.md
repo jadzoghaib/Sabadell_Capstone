@@ -84,11 +84,13 @@ Two parallel pipelines:
    - `01_model_selection/` — pick the model **and its config**: GPT-5.4 vs
      Gemini 2.5 Pro vs Gemini 3.5 Flash vs Claude Sonnet 4.6 / Opus 4.8
      by accuracy, consistency, robustness ±desc, a GPT reasoning-effort
-     sweep, and a confidence/calibration meta-analysis.
-   - `02_prompt_variance/` — how much prompt *design* matters on a fixed
-     model — Llama-3.3-70b via NVIDIA NIM — across 5 variants
-     (baseline, chain_of_thought, few_shot, top_features_only,
-     structured_4factor).
+     sweep, and a confidence/calibration meta-analysis. `01f` is the
+     phase-1 **analysis gate** — a GPT-5.4 "judge" that fingerprints each
+     model/effort's reasoning style plus a portfolio cost ledger.
+   - `02_prompt_variance/` — prompt formatting, batching, and design:
+     - `02a_Batching_Formatting_Tax.ipynb` — isolates and quantifies the "batching tax" and "formatting tax" on credit risk predictions using GPT-5.4.
+     - `02b_Prompt_Variance.ipynb` — how much prompt *design* matters across 7 variants (currently GPT-5.4; older Llama-3.3-70b run archived under `data/results/llm/llama_02/`).
+     - `02c_Qualitative_Financial_Analysis.ipynb` — phase-2 **analysis gate** (mirror of `01f`): GPT-5.4 judge fingerprints each prompt variant + cost ledger. Needs `02b`'s outputs first.
    - `03_hybrid/` — Jad's **blended XGBoost + LLM** exploration using
      Llama-3.3-70b via **Groq** — soft-probability blend, confidence-gated
      routing, and 5A/5B risk scorers — testing whether the two models'
@@ -148,12 +150,16 @@ data/   # tracked for collab so teammates can pull results without re-running
     llm/       01a_*.csv (model comparison), 01b_*.csv (consistency),
                01c_*.csv (robustness), 01d_*.csv (reasoning effort),
                01e_confidence_metrics.csv + 01e_*.png (calibration),
-               02_*.csv/.json/.jsonl/.png (prompt variance),
-               02b_qualitative_summary.csv,
+               01f_qualitative_financial.json (phase-1 judge fingerprints),
+               02a_tax_*.csv/.png (batching/formatting tax),
+               02b_*.csv/.jsonl/.png (prompt variance),
+               02c_qualitative_financial.json (phase-2 judge fingerprints —
+               written when 02c runs; needs 02b first),
+               llama_02/ (archived older Llama-3.3-70b prompt-variance run),
                03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
                (hybrid — written when 03 runs),
-               04_final_benchmark.csv + 04_*.png (final benchmark — written
-               when 04 runs),
+               04b_final_benchmark.csv + 04b_*.png (final benchmark — written
+               when 04b runs),
                llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
                thresholds.joblib                                              (TRACKED — small, and
@@ -182,8 +188,18 @@ notebooks/
                                        # cross-model. OpenAI+Gemini only (Anthropic has no logprobs).
                                        # Run LAST in phase 1 — it reads what 01a/01b/01d logged.
                                        # → 01e_confidence_metrics.csv + 01e_*.png
-    02_prompt_variance/      # PHASE 2: does prompt design matter? (Llama-3.3-70b via NVIDIA NIM)
-      02_Prompt_Variance.ipynb      # 5 prompt variants × comparison/consistency/robustness/±desc → 02_*.csv
+      01f_Qualitative_Financial_Analysis.ipynb # PHASE-1 ANALYSIS GATE (spends API $:
+                                       # GPT-5.4 judge). Part 1 = portfolio cost ledger for
+                                       # 01a models + 01d efforts (per-loan cost pulled from
+                                       # llm_calls.csv). Part 2 = GPT-5.4 "reasoning fingerprint"
+                                       # per model/effort. → 01f_qualitative_financial.json
+    02_prompt_variance/      # PHASE 2: prompt structuring & design
+      02a_Batching_Formatting_Tax.ipynb  # 4 formatting/batching conditions × 3 runs → 02a_*.csv
+      02b_Prompt_Variance.ipynb          # 7 prompt variants × comparison/consistency/robustness/±desc → 02b_*.csv
+      02c_Qualitative_Financial_Analysis.ipynb # PHASE-2 ANALYSIS GATE (spends API $:
+                                         # GPT-5.4 judge). Part 1 = cost ledger for 02b variants.
+                                         # Part 2 = GPT-5.4 reasoning fingerprint per variant.
+                                         # Needs 02b's outputs first. → 02c_qualitative_financial.json
     03_hybrid/               # PHASE 3: blended XGBoost + LLM (Jad). Beat both solo on Charged-Off F1?
       03_Blended_LLM_ML.ipynb       # Uses Groq (Llama-3.3-70b-versatile). Batched + cached signals.
                                     # Tuned on tuning_sample, strategy-selected on robustness_batch.
@@ -192,11 +208,15 @@ notebooks/
                                     # sentence embeddings (Part 7, optional — needs sentence-transformers).
                                     # → 03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
     04_final_benchmark/      # PHASE 4 (the spine, run last): finalists × GPT-5.4, threshold + COST vs XGBoost
-      04_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $).
+      04a_Financial_Simulation.ipynb # EXECUTIVE FINALIST DASHBOARD (no API $): set
+                                    # FINALISTS at top; pulls each one's metrics + per-loan
+                                    # cost (llm_calls.csv) + qualitative fingerprint (01f/02c
+                                    # JSON) into one presentation-ready credit-vs-token table.
+      04b_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $).
                                     # Loads 03_locked_params.csv to apply hybrid ensembles post-hoc.
-                                    # → 04_final_benchmark.csv + 04_benchmark_f1_vs_cost.png
+                                    # → 04b_final_benchmark.csv + 04b_benchmark_f1_vs_cost.png
                                     # Threshold tuning lives ONLY here, on the actual finalists.
-    # NAMING: file prefix = phase (01a, 02, 03, 04). Result CSVs share the same
+    # NAMING: file prefix = phase (01a, 02, 03, 04a, 04b). Result CSVs share the same
     # prefix as the notebook that writes them.
 reports/       Progress report 1.pdf, output.png
 ```
@@ -218,10 +238,14 @@ Only re-run the ML pipeline if you change preprocessing/features:
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
 python llm_models/sample_generation.py    [generates robustness_batch + test_batch; only before 01c / benchmark]
 01_model_selection/01a,01b,01c,01d        [independent, any order]
-01_model_selection/01e                    [LAST in phase 1 — reads 01a/01b/01d's logprobs from llm_calls.csv]
-02_prompt_variance/02                     [writes 02_predictions.csv]
+01_model_selection/01e                    [reads 01a/01b/01d's logprobs from llm_calls.csv]
+01_model_selection/01f                    [analysis gate — after 01a+01d; GPT-5.4 judge → 01f_qualitative_financial.json]
+02_prompt_variance/02a                   [writes 02a_tax_metrics.csv]
+02_prompt_variance/02b                   [writes 02b_predictions.csv + 02b_phase1_metrics.csv]
+02_prompt_variance/02c                   [analysis gate — AFTER 02b; GPT-5.4 judge → 02c_qualitative_financial.json]
 03_hybrid/03_Blended_LLM_ML              [standalone — uses Groq directly, does NOT read 02_predictions.csv]
-04_final_benchmark/04_Final_Benchmark     [run LAST — loads 03_locked_params.csv if phase 3 was run]
+04_final_benchmark/04a_Financial_Simulation [dashboard — reads 01f + 02c JSONs + metrics; no API $]
+04_final_benchmark/04b_Final_Benchmark     [run LAST — loads 03_locked_params.csv if phase 3 was run]
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
@@ -251,13 +275,13 @@ Three role-based samples, **all generated through `llm_models/sample_generation.
 ## Strict test holdout protocol
 
 **`test_batch.csv` must NEVER be loaded, queried, or evaluated outside of
-`04_Final_Benchmark.ipynb`.** This is a non-negotiable rule established
+`04b_Final_Benchmark.ipynb`.** This is a non-negotiable rule established
 May 2026.
 
 - **Phase 3 (03_hybrid)** tunes hyperparameters on `tuning_sample` and
   selects the winning strategy on `robustness_batch` (validation). It saves
   `03_locked_params.csv` with the frozen parameters.
-- **Phase 4 (04_final_benchmark)** is the ONLY notebook that loads
+- **Phase 4 (04b_Final_Benchmark.ipynb)** is the ONLY notebook that loads
   `test_batch.csv`. It runs the finalist LLM prompts and XGBoost on the
   test set, then applies the Phase 3 hybrid strategies **post-hoc** using
   the locked parameters — requiring zero additional API calls for the
@@ -371,7 +395,7 @@ provider in `call_llm` to route through Vertex AI when a project is configured.
   test set. If you change the Phase 3 strategies, re-run Phase 3 to
   regenerate this file before running Phase 4.
 - **No hardcoded feature lists in notebooks**: the `top_features_only`
-  prompt variant in Phase 2 (`02_Prompt_Variance`) derives its features
+  prompt variant in Phase 2 (`02b_Prompt_Variance`) derives its features
   LIVE from XGBoost importances via `llm_utils.top_xgb_features(n=8)` — never
   hard-coded. If you retrain XGBoost, the feature list updates automatically.
   Exception: Phase 3's batched Groq calls use a static `TOP_FEATURES` list

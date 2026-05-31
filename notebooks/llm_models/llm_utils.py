@@ -7,6 +7,7 @@ LLM API calls, evaluation metrics, and full experiment loops.
 
 import json
 import math
+import os
 import re
 import threading
 import warnings
@@ -625,7 +626,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         try:
             response = client.chat.completions.create(
                 model=model,
-                max_completion_tokens=2048,
+                max_completion_tokens=max_tokens or 2048,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
@@ -647,7 +648,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
                 kwargs.pop("top_logprobs", None)
                 response = client.chat.completions.create(
                     model=model,
-                    max_completion_tokens=2048,
+                    max_completion_tokens=max_tokens or 2048,
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt},
