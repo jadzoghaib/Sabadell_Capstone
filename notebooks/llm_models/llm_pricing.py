@@ -28,6 +28,9 @@ PRICES = {
 
     # NVIDIA NIM — verify at https://build.nvidia.com/pricing
     "meta/llama-3.3-70b-instruct": (0.00077, 0.00077),
+
+    # Groq — verify at https://groq.com/pricing
+    "llama-3.3-70b-versatile": (0.00059, 0.00079),
 }
 
 

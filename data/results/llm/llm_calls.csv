@@ -80,3 +80,6 @@ timestamp,experiment_id,label,desc_tag,provider,model,row_index,input_tokens,out
 2026-05-18T21:53:36.872225+00:00,Llama-3.3-70b | chain_of_thought + desc|with_desc,Llama-3.3-70b | chain_of_thought + desc,with_desc,nvidia,meta/llama-3.3-70b-instruct,0,29360,4729,0.00077,0.00077,0.02624853,
 2026-05-18T21:54:49.832332+00:00,Llama-3.3-70b | top_features_only + desc|with_desc,Llama-3.3-70b | top_features_only + desc,with_desc,nvidia,meta/llama-3.3-70b-instruct,0,15471,3836,0.00077,0.00077,0.01486639,
 2026-05-18T21:57:51.175738+00:00,Llama-3.3-70b | structured_4factor + desc|with_desc,Llama-3.3-70b | structured_4factor + desc,with_desc,nvidia,meta/llama-3.3-70b-instruct,0,29017,4687,0.00077,0.00077,0.02595208,
+2026-05-30T22:53:53.273760+00:00,top_features_only|no_desc,top_features_only,no_desc,groq,llama-3.3-70b-versatile,0,720,250,0.00059,0.00079,0.0006223,,
+2026-05-31T12:03:30.164358+00:00,top_features_only|no_desc,top_features_only,no_desc,groq,llama-3.3-70b-versatile,0,5491,1949,0.00059,0.00079,0.0047794,,
+2026-05-31T12:04:31.440114+00:00,top_features_only|no_desc,top_features_only,no_desc,groq,llama-3.3-70b-versatile,50,5491,1823,0.00059,0.00079,0.00467986,,
