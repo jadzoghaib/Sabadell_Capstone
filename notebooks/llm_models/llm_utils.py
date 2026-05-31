@@ -1025,6 +1025,67 @@ def _append_llm_calls(rows):
         else:
             df.to_csv(LLM_CALLS_PATH, index=False)
 
+def _get_notebook_name():
+    """
+    Dynamically retrieve the current notebook filename across multiple environments:
+    1. VS Code Jupyter Extension (`__vsc_ipynb_file__` or session metadata in shell namespace)
+    2. Jupyter Web / Browser (`JPY_SESSION_NAME` environment variable)
+    3. Jupyter/nbconvert execution parent command line parsing (via JPY_PARENT_PID)
+    Falls back to the current directory name if not running within a notebook context.
+    """
+    import os
+    import re
+    # 1. Inspect IPython namespace
+    try:
+        from IPython import get_ipython
+        ip = get_ipython()
+        if ip is not None:
+            # Check for VS Code ipynb file reference
+            vsc_file = ip.user_ns.get("__vsc_ipynb_file__")
+            if vsc_file:
+                return os.path.basename(vsc_file)
+            
+            # Check for standard ipykernel session reference
+            session = ip.user_ns.get("__session__")
+            if session and isinstance(session, str) and session.endswith(".ipynb"):
+                return os.path.basename(session)
+    except Exception:
+        pass
+
+    # 2. Check Jupyter session env vars
+    jpy_session = os.environ.get("JPY_SESSION_NAME")
+    if jpy_session:
+        return os.path.basename(jpy_session)
+
+    # 3. Check JPY_PARENT_PID for nbconvert/jupyter runner process command line
+    ppid = os.environ.get("JPY_PARENT_PID")
+    if ppid:
+        try:
+            import subprocess
+            import shlex
+            res = subprocess.run(["ps", "-p", str(ppid), "-o", "command="], capture_output=True, text=True)
+            parent_cmd = res.stdout.strip()
+            if parent_cmd:
+                try:
+                    tokens = shlex.split(parent_cmd)
+                except Exception:
+                    tokens = parent_cmd.split()
+                for token in tokens:
+                    token = token.strip("'\"")
+                    if ".ipynb" in token:
+                        base = token.split("?")[0]
+                        if base.endswith(".ipynb"):
+                            return os.path.basename(base)
+                        # Extract the notebook file if it's embedded in an arg
+                        match = re.search(r'([^/\\]+\.ipynb)', token)
+                        if match:
+                            return match.group(1)
+        except Exception:
+            pass
+
+    # Fallback to the current directory name
+    return os.path.basename(os.getcwd())
+
 
 # ── Experiment runner ────────────────────────────────────────────────────────
 
@@ -1079,7 +1140,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         cost_usd = (in_t / 1000.0) * in_price_per_1k + (out_t / 1000.0) * out_price_per_1k
         call_rows.append({
             "timestamp":             datetime.now(timezone.utc).isoformat(),
-            "notebook_id":           os.path.basename(os.getcwd()),
+            "notebook_id":           _get_notebook_name(),
             "label":                 label,
             "desc_tag":              desc_tag,
             "provider":              api_provider,
