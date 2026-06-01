@@ -386,9 +386,30 @@ provider in `call_llm` to route through Vertex AI when a project is configured.
   label, desc_tag, provider, model, row_index, input_tokens, output_tokens,
   input_price_per_1k_usd, output_price_per_1k_usd, cost_usd,
   prob_fully_paid, reasoning_effort`. The `notebook_id` column records the
-  folder name of the executing notebook (e.g. `01_model_selection`). **Do
-  not add or remove columns** — pandas pivot tables in the analysis
-  notebooks depend on this schema.
+  executing notebook's **filename** (e.g. `01a_Model_Comparison.ipynb`); outside
+  Jupyter it falls back to the cwd folder name, so pass `notebook_id=` to
+  `run_llm_experiment` explicitly when running from a script. **Do not add or
+  remove columns** — pandas pivot tables in the analysis notebooks depend on
+  this schema.
+- **`llm_calls.csv` is written idempotently + atomically** (`_append_llm_calls`
+  in `llm_utils.py`): re-running an experiment **replaces** its own rows
+  (keyed on `notebook_id, label, desc_tag`) instead of appending duplicates,
+  and writes go through a temp file + atomic rename so a crash can't corrupt
+  the log. Every logical run uses a distinct `label` (e.g. `... Run 1
+  (no_desc)`, `... | run1`, `reasoning=high`), so a re-run never clobbers a
+  sibling. Use `llm_utils.dedup_llm_calls()` once to collapse any legacy
+  duplicates from before this writer existed.
+- **Predictions files embed cost** (01a/01b/01c/01d/02b): `run_llm_experiment`
+  returns per-loan `input_tokens`/`output_tokens`/`cost_usd`, and the export
+  cells write them into the `*_predictions.csv`, so cost is derivable from the
+  predictions alone and can't silently drift from `llm_calls.csv`. (02a's
+  `Control (Natural Indiv)` row is intentionally **derived from 01b's no_desc
+  runs** via `load_baseline_metrics()` — it is not a separately-logged run.)
+- **Determinism / loud failures**: `run_llm_experiment` accepts `temperature`
+  and `seed` (forwarded to every provider; reasoning models ignore temperature —
+  use `reasoning_effort`), plus `strict=True`/`max_fail_frac` to raise (after
+  logging successful rows) if too many predictions fail, so a half-broken run
+  can't masquerade as complete.
 - **Phase 3 output files**: `03_locked_params.csv` contains the frozen
   strategy hyperparameters (alpha, threshold, band) chosen on the validation
   set. Phase 4 loads this file automatically for post-hoc ensembling on the

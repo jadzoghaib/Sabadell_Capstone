@@ -478,7 +478,7 @@ def _extract_prediction_prob(api_provider, raw_text, token_data):
 
 def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
              api_key=None, return_usage=False, with_logprobs=False, max_tokens=None,
-             reasoning_effort=None, temperature=None):
+             reasoning_effort=None, temperature=None, seed=None):
     """
     Call the LLM API. Supports gemini, anthropic, openai, and groq providers.
 
@@ -524,15 +524,27 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         else:
             client = genai.Client(api_key=api_key)
         model = model or "gemini-3.5-flash"
-        config = None
-        if with_logprobs:
+
+        def _gemini_config(use_logprobs):
+            cfg_kwargs = {}
+            if use_logprobs:
+                cfg_kwargs.update(response_logprobs=True, logprobs=5)
+            if temperature is not None:
+                cfg_kwargs["temperature"] = temperature
+            if seed is not None:
+                cfg_kwargs["seed"] = seed
+            if not cfg_kwargs:
+                return None
             try:
                 from google.genai import types
-                config = types.GenerateContentConfig(response_logprobs=True, logprobs=5)
+                return types.GenerateContentConfig(**cfg_kwargs)
             except Exception as e:
                 if "gemini" not in _LOGPROBS_WARNED:
                     _LOGPROBS_WARNED.add("gemini")
-                    warnings.warn(f"Could not build Gemini logprobs config: {e}", stacklevel=2)
+                    warnings.warn(f"Could not build Gemini config: {e}", stacklevel=2)
+                return None
+
+        config = _gemini_config(with_logprobs)
         for attempt in range(5):
             try:
                 response = client.models.generate_content(
@@ -561,7 +573,7 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
                             stacklevel=2,
                         )
                     with_logprobs = False
-                    config = None
+                    config = _gemini_config(False)
                     # Retry immediately without waiting
                     try:
                         response = client.models.generate_content(
@@ -590,11 +602,15 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         import anthropic
         client = anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
         model = model or "claude-sonnet-4-6"
+        anth_kwargs = {}
+        if temperature is not None:
+            anth_kwargs["temperature"] = temperature  # Anthropic has no seed param
         response = client.messages.create(
             model=model,
             max_tokens=256,
             system=system_prompt,
             messages=[{"role": "user", "content": user_prompt}],
+            **anth_kwargs,
         )
         text = response.content[0].text
         if return_usage:
@@ -623,6 +639,12 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
             kwargs["top_logprobs"] = 5
         if reasoning_effort is not None:
             kwargs["reasoning_effort"] = reasoning_effort
+        # temperature/seed: reasoning models (gpt-5 family) reject temperature, so
+        # only pass when a caller explicitly sets it. seed is best-effort determinism.
+        if temperature is not None:
+            kwargs["temperature"] = temperature
+        if seed is not None:
+            kwargs["seed"] = seed
         try:
             response = client.chat.completions.create(
                 model=model,
@@ -680,6 +702,10 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
         if with_logprobs:
             kwargs["logprobs"] = True
             kwargs["top_logprobs"] = 5
+        if temperature is not None:
+            kwargs["temperature"] = temperature
+        if seed is not None:
+            kwargs["seed"] = seed
         for attempt in range(8):
             try:
                 response = client.chat.completions.create(
@@ -735,6 +761,8 @@ def call_llm(system_prompt, user_prompt, api_provider="gemini", model=None,
             kwargs["top_logprobs"] = 5
         if temperature is not None:
             kwargs["temperature"] = temperature
+        if seed is not None:
+            kwargs["seed"] = seed
         for attempt in range(8):
             try:
                 response = client.chat.completions.create(
@@ -978,9 +1006,15 @@ def evaluate_predictions(y_true, y_pred, label="Model", probabilities=None):
     }
 
 
-def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None):
+def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None,
+                    input_tokens=None, output_tokens=None, cost_usd=None):
     """
     Build a comparison DataFrame of LLM vs XGBoost predictions.
+
+    Pass `input_tokens`/`output_tokens`/`cost_usd` (per-loan lists, e.g. from a
+    run_llm_experiment result) to embed cost data directly in the predictions
+    file. This makes cost derivable from predictions alone, so the predictions
+    file and the per-call cost log (llm_calls.csv) cannot silently drift.
     """
     df = pd.DataFrame({
         'actual': y_true,
@@ -991,6 +1025,12 @@ def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None):
     })
     if llm_reasonings:
         df['llm_reasoning'] = llm_reasonings
+    if input_tokens is not None:
+        df['input_tokens'] = input_tokens
+    if output_tokens is not None:
+        df['output_tokens'] = output_tokens
+    if cost_usd is not None:
+        df['cost_usd'] = cost_usd
     return df
 
 
@@ -999,31 +1039,93 @@ def compare_results(y_true, llm_preds, ml_preds, llm_reasonings=None):
 _LLM_CALLS_LOCK = threading.Lock()
 LLM_CALLS_PATH = Path(RESULTS_DIR) / "llm_calls.csv"
 
+# Frozen 14-column schema — pandas pivots in the analysis notebooks depend on it.
+# Do NOT add or remove columns here (per CLAUDE.md).
+LLM_CALLS_COLUMNS = [
+    "timestamp", "notebook_id", "label", "desc_tag", "provider", "model",
+    "row_index", "input_tokens", "output_tokens", "input_price_per_1k_usd",
+    "output_price_per_1k_usd", "cost_usd", "prob_fully_paid", "reasoning_effort",
+]
+# (notebook_id, label, desc_tag) uniquely identifies one run_llm_experiment call:
+# every notebook uses a distinct label per logical run (e.g. "GPT-5.4 Run 1
+# (no_desc)", "... | run1", "reasoning=high"), so replacing rows on this key on
+# re-run can never clobber a sibling run.
+_LLM_CALLS_KEY = ["notebook_id", "label", "desc_tag"]
 
-def _append_llm_calls(rows):
+
+def _atomic_write_csv(df, path):
+    """Write `df` to `path` via a temp file in the same directory + atomic
+    os.replace, so an interrupted write can never truncate or corrupt the
+    existing file (it is replaced in one atomic step or not at all)."""
+    import os
+    import tempfile
+    path = Path(path)
+    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=path.name + ".", suffix=".tmp")
+    os.close(fd)
+    try:
+        df.to_csv(tmp, index=False)
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+
+
+def _append_llm_calls(rows, replace=True):
     """
-    Append per-call rows to data/results/llm/llm_calls.csv. One row per
+    Persist per-call rows to data/results/llm/llm_calls.csv. One row per
     successful API call: tokens, cost, and (when logprobs are available)
-    P(prediction=1). Thread-safe — 01b runs experiments concurrently and
-    each calls this once when its loop returns. Only invoked on successful
-    completion; interrupted runs drop their buffer and never reach this.
+    P(prediction=1).
+
+    Idempotent and crash-safe (fixes the silent cost/metrics drift):
+    - replace=True (default): before writing, any existing rows whose
+      (notebook_id, label, desc_tag) match the incoming rows are dropped, so
+      re-running an experiment REPLACES its own rows instead of appending
+      duplicates (which would double-count cost). Distinct logical runs use
+      distinct labels, so a sibling run is never affected.
+    - the write goes through a temp file + atomic rename, so a crash mid-write
+      cannot corrupt the shared, git-tracked log.
+
+    Thread-safe. Only invoked on successful completion; interrupted runs drop
+    their buffer and never reach this.
     """
     if not rows:
         return
-    df = pd.DataFrame(rows)
+    new_df = pd.DataFrame(rows)
     with _LLM_CALLS_LOCK:
         LLM_CALLS_PATH.parent.mkdir(parents=True, exist_ok=True)
         if LLM_CALLS_PATH.exists():
             try:
-                # Read existing CSV and align columns by name to prevent shifted columns
-                existing_df = pd.read_csv(LLM_CALLS_PATH)
-                combined = pd.concat([existing_df, df], ignore_index=True)
-                combined.to_csv(LLM_CALLS_PATH, index=False)
+                existing = pd.read_csv(LLM_CALLS_PATH)
             except Exception:
-                # Fallback to direct append if read/concat fails
-                df.to_csv(LLM_CALLS_PATH, mode="a", header=False, index=False)
+                existing = pd.DataFrame(columns=LLM_CALLS_COLUMNS)
+            if replace and len(existing) and set(_LLM_CALLS_KEY).issubset(existing.columns):
+                ex_keys = existing[_LLM_CALLS_KEY].apply(tuple, axis=1)
+                new_keys = set(new_df[_LLM_CALLS_KEY].apply(tuple, axis=1))
+                existing = existing[~ex_keys.isin(new_keys)]
+            combined = pd.concat([existing, new_df], ignore_index=True)
         else:
-            df.to_csv(LLM_CALLS_PATH, index=False)
+            combined = new_df
+        _atomic_write_csv(combined, LLM_CALLS_PATH)
+
+
+def dedup_llm_calls(keep="last"):
+    """One-shot maintenance: collapse duplicate per-call rows in llm_calls.csv
+    on (notebook_id, label, desc_tag, row_index), keeping the most recent by
+    timestamp. Legitimate multi-run experiments use distinct labels, so they're
+    left intact — this only removes accidental double-logging from re-runs that
+    predate the idempotent writer. Returns (rows_before, rows_after)."""
+    with _LLM_CALLS_LOCK:
+        if not LLM_CALLS_PATH.exists():
+            return (0, 0)
+        df = pd.read_csv(LLM_CALLS_PATH)
+        before = len(df)
+        subset = [c for c in ["notebook_id", "label", "desc_tag", "row_index"]
+                  if c in df.columns]
+        df = (df.sort_values("timestamp")
+                .drop_duplicates(subset=subset, keep=keep)
+                .reset_index(drop=True))
+        _atomic_write_csv(df, LLM_CALLS_PATH)
+        return (before, len(df))
 
 def _get_notebook_name():
     """
@@ -1092,7 +1194,9 @@ def _get_notebook_name():
 def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                        api_key=None, label=None, with_logprobs=True,
                        system_prompt=None, user_prompt_fn=None,
-                       batch_size=None, reasoning_effort=None):
+                       batch_size=None, reasoning_effort=None,
+                       notebook_id=None, temperature=None, seed=None,
+                       strict=False, max_fail_frac=0.5):
     """
     Run the full LLM prediction loop on a sample.
 
@@ -1115,24 +1219,44 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         batch_size: if 0, send all loans in a single API call (TOON-style compact
                     table). If N > 0, send chunks of N loans per call. If None,
                     use the original one-call-per-loan loop.
+        notebook_id: explicit value for the cost log's notebook_id column. If
+                     None, falls back to _get_notebook_name() (which can mis-resolve
+                     outside Jupyter); pass it explicitly for deterministic tagging.
+        temperature/seed: determinism controls forwarded to call_llm. Default
+                          None = provider default. (Reasoning models ignore
+                          temperature; use reasoning_effort for those.)
+        strict: if True, raise RuntimeError when the fraction of failed/unparsed
+                predictions exceeds max_fail_frac — AFTER logging what succeeded —
+                so a half-broken run can't silently masquerade as complete.
+        max_fail_frac: failure-fraction threshold for `strict` (default 0.5).
 
     Returns:
         dict with 'predictions', 'probabilities', 'reasonings', 'raw_responses',
-        'metrics', 'label', 'desc_tag'
+        'metrics', 'label', 'desc_tag', plus per-loan 'input_tokens',
+        'output_tokens', 'cost_usd' (lists; None where a call failed or in batch
+        mode), and 'n_failed' / 'failed_indices'.
     """
     import time as _time
 
     label = label or model_name
     desc_tag = "with_desc" if include_desc else "no_desc"
     tag = f"[{label} | {desc_tag}]"
+    nb_id = notebook_id or _get_notebook_name()
 
     # Resolve pricing once, fail-fast on unknown model before burning API calls.
     in_price_per_1k, out_price_per_1k = get_price(model_name)
 
     system_prompt = system_prompt or build_system_prompt()
     y_true = llm_sample['loan_status'].values
+    n = len(llm_sample)
 
     call_rows = []
+    # Per-loan cost arrays, returned so the predictions file can embed cost and
+    # never drift from llm_calls.csv. None where a call failed / in batch gaps.
+    tok_in_arr = [None] * n
+    tok_out_arr = [None] * n
+    cost_arr = [None] * n
+    failed_indices = []
 
     def _record(row_index, meta):
         in_t = meta.get("input_tokens", 0)
@@ -1140,7 +1264,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         cost_usd = (in_t / 1000.0) * in_price_per_1k + (out_t / 1000.0) * out_price_per_1k
         call_rows.append({
             "timestamp":             datetime.now(timezone.utc).isoformat(),
-            "notebook_id":           _get_notebook_name(),
+            "notebook_id":           nb_id,
             "label":                 label,
             "desc_tag":              desc_tag,
             "provider":              api_provider,
@@ -1154,6 +1278,10 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             "prob_fully_paid":       meta.get("prob_fully_paid"),
             "reasoning_effort":      reasoning_effort,
         })
+        if 0 <= row_index < n:
+            tok_in_arr[row_index] = in_t
+            tok_out_arr[row_index] = out_t
+            cost_arr[row_index] = cost_usd
 
     def _build_user_prompt(row):
         if user_prompt_fn is not None:
@@ -1165,7 +1293,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             system_prompt, prompt,
             api_provider=api_provider, model=model_name, api_key=api_key,
             return_usage=True, with_logprobs=with_logprobs,
-            reasoning_effort=reasoning_effort,
+            reasoning_effort=reasoning_effort, temperature=temperature, seed=seed,
         )
 
     # ── Batch mode ────────────────────────────────────────────────────────────
@@ -1195,6 +1323,7 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                     api_provider=api_provider, model=model_name, api_key=api_key,
                     return_usage=True, with_logprobs=False,
                     max_tokens=len(sub_df) * 120,  # ~120 tokens per prediction
+                    temperature=temperature, seed=seed,
                 )
                 raw_responses.append(raw)
                 _record(offset, meta)
@@ -1236,19 +1365,35 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         reasonings    = [test_parsed['reasoning']]
         raw_responses = [test_raw]
 
+        # First call already counts as a parse error if it didn't parse.
+        if predictions[0] is None:
+            failed_indices.append(0)
+
         start = _time.time()
         for i, (_, row) in enumerate(llm_sample.iterrows()):
             if i == 0:
                 continue
 
-            raw, meta = _do_call(_build_user_prompt(row))
-            raw_responses.append(raw)
-            _record(i, meta)
-
-            parsed = parse_llm_response(raw)
-            predictions.append(parsed['prediction'])
-            probabilities.append(meta.get('prob_fully_paid'))
-            reasonings.append(parsed['reasoning'])
+            # Resilient: a transient failure on one loan (after call_llm's own
+            # retries) records a gap and continues, rather than discarding the
+            # whole run's buffer. Failures are counted and surfaced loudly below.
+            try:
+                raw, meta = _do_call(_build_user_prompt(row))
+                raw_responses.append(raw)
+                _record(i, meta)
+                parsed = parse_llm_response(raw)
+                predictions.append(parsed['prediction'])
+                probabilities.append(meta.get('prob_fully_paid'))
+                reasonings.append(parsed['reasoning'])
+                if parsed['prediction'] is None:
+                    failed_indices.append(i)
+            except Exception as e:
+                print(f"{tag}   loan {i} FAILED after retries: {e}")
+                raw_responses.append(None)
+                predictions.append(None)
+                probabilities.append(None)
+                reasonings.append(f"CALL_ERROR: {e}")
+                failed_indices.append(i)
 
             if (i + 1) % 10 == 0:
                 elapsed = _time.time() - start
@@ -1272,6 +1417,22 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         probabilities=probabilities,
     )
 
+    # Uniform failure accounting across per-loan and batch modes.
+    failed_indices = [i for i, p in enumerate(predictions) if p is None]
+    n_failed = len(failed_indices)
+    if n_failed:
+        print(f"{tag} ⚠️  {n_failed}/{n} predictions failed or did not parse "
+              f"(indices: {failed_indices[:20]}{'…' if n_failed > 20 else ''})")
+
+    # Loud guard: don't let a half-broken run masquerade as a complete result.
+    # The cost rows are still written above (so nothing is wasted), then we raise.
+    if strict and n > 0 and (n_failed / n) > max_fail_frac:
+        raise RuntimeError(
+            f"{tag} {n_failed}/{n} predictions failed (> {max_fail_frac:.0%} "
+            f"threshold). Cost rows were logged; aborting before this partial "
+            f"result is saved. Set strict=False to keep partial results."
+        )
+
     return {
         'predictions': predictions,
         'probabilities': probabilities,
@@ -1280,4 +1441,9 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         'metrics': metrics,
         'label': label,
         'desc_tag': desc_tag,
+        'input_tokens': tok_in_arr,
+        'output_tokens': tok_out_arr,
+        'cost_usd': cost_arr,
+        'n_failed': n_failed,
+        'failed_indices': failed_indices,
     }
