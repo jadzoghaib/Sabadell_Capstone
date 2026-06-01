@@ -1,7 +1,7 @@
 # Sabadell Capstone — Classical ML vs. LLM for Credit Scoring
 
 An ESADE Capstone Project (2026) sponsored by **Banc Sabadell – IT & OPs**.  
-**Authors:** Alessandro Mezzanotte, Jad Zoghaib, and Francesc (Cesc) Xavier.
+**Authors:** Alessandro Mezzanotte, Jad Zoghaib, and Francesc Canavate Quero.
 
 ---
 
