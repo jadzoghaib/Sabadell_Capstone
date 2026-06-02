@@ -143,6 +143,17 @@ def _train_test_split_canonical(df):
 
 # ── XGBoost prediction on LLM sample rows ───────────────────────────────────
 
+_ML_CACHE = {}
+
+def _load_ml_artifacts():
+    if not _ML_CACHE:
+        import joblib
+        _ML_CACHE['scaler'] = joblib.load(f"{DATA_DIR}/02_scaler.joblib")
+        _ML_CACHE['feature_cols'] = joblib.load(f"{DATA_DIR}/02_feature_columns.joblib")
+        _ML_CACHE['model'] = joblib.load(f"{MODEL_DIR}/xgb_model.joblib")
+        _ML_CACHE['thresholds'] = joblib.load(f"{MODEL_DIR}/thresholds.joblib")
+    return _ML_CACHE['scaler'], _ML_CACHE['feature_cols'], _ML_CACHE['model'], _ML_CACHE['thresholds']
+
 def encode_for_ml(llm_sample):
     """
     Re-encode and scale an LLM sample exactly as 02_Preprocessing did, and load
@@ -155,12 +166,7 @@ def encode_for_ml(llm_sample):
       model       : the loaded XGBoost classifier.
       threshold   : the tuned decision threshold (thresholds['xgb']).
     """
-    import joblib
-
-    scaler = joblib.load(f"{DATA_DIR}/02_scaler.joblib")
-    feature_cols = joblib.load(f"{DATA_DIR}/02_feature_columns.joblib")
-    model = joblib.load(f"{MODEL_DIR}/xgb_model.joblib")
-    thresholds = joblib.load(f"{MODEL_DIR}/thresholds.joblib")
+    scaler, feature_cols, model, thresholds = _load_ml_artifacts()
     threshold = thresholds['xgb']
 
     df = llm_sample.copy()
@@ -226,10 +232,7 @@ def top_xgb_features(n=8):
     the result is a subset of LLM_FEATURES suitable for prompt construction.
     Derived live from models/xgb_model.joblib — never hard-code the list, since
     the feature set has changed (FICO etc. were added)."""
-    import joblib
-
-    model = joblib.load(f"{MODEL_DIR}/xgb_model.joblib")
-    feature_cols = joblib.load(f"{DATA_DIR}/02_feature_columns.joblib")
+    _, feature_cols, model, _ = _load_ml_artifacts()
     importances = model.feature_importances_
 
     agg = {f: 0.0 for f in LLM_FEATURES}

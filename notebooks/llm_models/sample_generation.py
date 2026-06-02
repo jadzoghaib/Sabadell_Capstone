@@ -103,7 +103,7 @@ def _build_frame():
     if _frame_cache is not None:
         return _frame_cache
 
-    df = pd.read_csv(RAW_DATA_PATH, low_memory=False)[_RAW_COLS].copy()
+    df = pd.read_csv(RAW_DATA_PATH, low_memory=False, usecols=_RAW_COLS)
     df = df[df['loan_status'].isin(['Fully Paid', 'Charged Off'])]
     df['issue_d'] = pd.to_datetime(df['issue_d'], format='%b-%Y')
     df = df[(df['issue_d'].dt.year >= 2012) & (df['issue_d'].dt.year <= 2014)].copy()

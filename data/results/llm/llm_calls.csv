@@ -3705,213 +3705,13 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-01T14:10:46.387712+00:00,01a_Model_Comparison.ipynb,Gemini 2.5 Pro,no_desc,gemini,gemini-2.5-pro,97,553,76,0.00125,0.01,0.00145125,1.0,
 2026-06-01T14:11:00.417355+00:00,01a_Model_Comparison.ipynb,Gemini 2.5 Pro,no_desc,gemini,gemini-2.5-pro,98,556,80,0.00125,0.01,0.001495,1.7508457024830863e-10,
 2026-06-01T14:11:17.312341+00:00,01a_Model_Comparison.ipynb,Gemini 2.5 Pro,no_desc,gemini,gemini-2.5-pro,99,552,91,0.00125,0.01,0.0016,2.1507139027093415e-09,
-2026-06-02T15:50:08.575698+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,0,502,87,0.0025,0.015,0.0025599999999999,0.0,
-2026-06-02T15:50:11.214131+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,10,504,79,0.0025,0.015,0.002445,1.0,
-2026-06-02T15:50:11.294230+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,20,503,82,0.0025,0.015,0.0024875,1.0,
-2026-06-02T15:50:11.524820+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,18,504,75,0.0025,0.015,0.002385,1.0,
-2026-06-02T15:50:11.585065+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,40,503,94,0.0025,0.015,0.0026674999999999,0.0,
-2026-06-02T15:50:11.588205+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,6,498,80,0.0025,0.015,0.002445,1.0,
-2026-06-02T15:50:11.655291+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,38,503,74,0.0025,0.015,0.0023675,1.0,
-2026-06-02T15:50:11.692482+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,37,506,81,0.0025,0.015,0.00248,1.0,
-2026-06-02T15:50:11.712932+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,36,502,76,0.0025,0.015,0.002395,1.0,
-2026-06-02T15:50:11.720480+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,11,507,80,0.0025,0.015,0.0024675,1.0,
-2026-06-02T15:50:11.825535+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,31,503,90,0.0025,0.015,0.0026074999999999,1.0,
-2026-06-02T15:50:11.843220+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,19,507,78,0.0025,0.015,0.0024375,1.0,
-2026-06-02T15:50:11.859895+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,15,503,96,0.0025,0.015,0.0026975,1.0,
-2026-06-02T15:50:11.861903+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,35,503,84,0.0025,0.015,0.0025174999999999,1.0,
-2026-06-02T15:50:11.919812+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,13,500,79,0.0025,0.015,0.002435,1.0,
-2026-06-02T15:50:12.008646+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,14,507,83,0.0025,0.015,0.0025125,1.0,
-2026-06-02T15:50:12.025737+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,25,503,81,0.0025,0.015,0.0024725,0.5,
-2026-06-02T15:50:12.032278+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,23,502,88,0.0025,0.015,0.002575,1.0,
-2026-06-02T15:50:12.052249+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,3,507,81,0.0025,0.015,0.0024825,1.0,
-2026-06-02T15:50:12.055515+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,16,505,81,0.0025,0.015,0.0024774999999999,1.0,
-2026-06-02T15:50:12.065291+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,34,504,91,0.0025,0.015,0.0026249999999999,1.0,
-2026-06-02T15:50:12.104290+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,27,503,89,0.0025,0.015,0.0025924999999999,1.0,
-2026-06-02T15:50:12.108948+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,28,500,86,0.0025,0.015,0.0025399999999999,1.0,
-2026-06-02T15:50:12.187517+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,24,501,86,0.0025,0.015,0.0025424999999999,1.0,
-2026-06-02T15:50:12.197090+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,4,506,90,0.0025,0.015,0.002615,1.0,
-2026-06-02T15:50:12.326996+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,33,502,88,0.0025,0.015,0.002575,1.0,
-2026-06-02T15:50:12.364492+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,39,506,90,0.0025,0.015,0.002615,1.0,
-2026-06-02T15:50:12.402108+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,7,506,77,0.0025,0.015,0.00242,1.0,
-2026-06-02T15:50:12.618754+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,1,504,88,0.0025,0.015,0.00258,1.0,
-2026-06-02T15:50:12.690626+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,8,505,90,0.0025,0.015,0.0026125,1.0,
-2026-06-02T15:50:12.793386+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,29,502,92,0.0025,0.015,0.002635,1.0,
-2026-06-02T15:50:13.148755+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,12,504,77,0.0025,0.015,0.002415,1.0,
-2026-06-02T15:50:13.408441+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,32,503,84,0.0025,0.015,0.0025174999999999,1.0,
-2026-06-02T15:50:13.427023+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,45,501,74,0.0025,0.015,0.0023625,1.0,
-2026-06-02T15:50:13.529892+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,5,503,86,0.0025,0.015,0.0025475,1.0,
-2026-06-02T15:50:13.561958+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,26,502,79,0.0025,0.015,0.00244,1.0,
-2026-06-02T15:50:13.657946+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,30,504,87,0.0025,0.015,0.002565,1.0,
-2026-06-02T15:50:13.873104+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,48,504,81,0.0025,0.015,0.0024749999999999,1.0,
-2026-06-02T15:50:13.953877+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,42,502,78,0.0025,0.015,0.002425,1.0,
-2026-06-02T15:50:13.973943+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,43,506,87,0.0025,0.015,0.00257,1.0,
-2026-06-02T15:50:13.975698+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,22,505,77,0.0025,0.015,0.0024175,0.0,
-2026-06-02T15:50:14.116712+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,46,504,79,0.0025,0.015,0.002445,1.0,
-2026-06-02T15:50:14.162898+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,47,503,86,0.0025,0.015,0.0025475,1.0,
-2026-06-02T15:50:14.202647+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,52,507,78,0.0025,0.015,0.0024375,1.0,
-2026-06-02T15:50:14.231342+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,50,504,83,0.0025,0.015,0.002505,1.0,
-2026-06-02T15:50:14.271210+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,53,499,68,0.0025,0.015,0.0022675,1.0,
-2026-06-02T15:50:14.367662+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,51,503,82,0.0025,0.015,0.0024875,1.0,
-2026-06-02T15:50:14.418357+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,21,505,86,0.0025,0.015,0.0025525,1.0,
-2026-06-02T15:50:14.469961+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,56,505,77,0.0025,0.015,0.0024175,0.0,
-2026-06-02T15:50:14.487543+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,61,503,73,0.0025,0.015,0.0023524999999999,1.0,
-2026-06-02T15:50:14.549087+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,49,506,84,0.0025,0.015,0.002525,0.0,
-2026-06-02T15:50:14.642488+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,41,503,85,0.0025,0.015,0.0025325,1.0,
-2026-06-02T15:50:14.694203+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,54,504,85,0.0025,0.015,0.002535,1.0,
-2026-06-02T15:50:14.694748+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,2,502,79,0.0025,0.015,0.00244,1.0,
-2026-06-02T15:50:14.703008+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,59,501,78,0.0025,0.015,0.0024225,1.0,
-2026-06-02T15:50:14.722414+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,60,500,86,0.0025,0.015,0.0025399999999999,1.0,
-2026-06-02T15:50:14.829036+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,44,503,77,0.0025,0.015,0.0024124999999999,1.0,
-2026-06-02T15:50:14.834558+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,64,503,85,0.0025,0.015,0.0025325,0.1480471980316894,
-2026-06-02T15:50:14.874362+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,57,505,94,0.0025,0.015,0.0026725,1.0,
-2026-06-02T15:50:14.880353+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,65,503,80,0.0025,0.015,0.0024574999999999,1.0,
-2026-06-02T15:50:14.887514+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,55,502,97,0.0025,0.015,0.0027099999999999,1.0,
-2026-06-02T15:50:14.915169+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,67,506,86,0.0025,0.015,0.002555,1.0,
-2026-06-02T15:50:14.936033+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,63,499,87,0.0025,0.015,0.0025525,0.3775406687981454,
-2026-06-02T15:50:14.944157+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,58,503,92,0.0025,0.015,0.0026375,1.0,
-2026-06-02T15:50:15.062345+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,62,504,82,0.0025,0.015,0.00249,1.0,
-2026-06-02T15:50:15.598292+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,69,503,83,0.0025,0.015,0.0025025,0.0,
-2026-06-02T15:50:15.602386+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,66,502,88,0.0025,0.015,0.002575,0.9046505351008908,
-2026-06-02T15:50:15.603350+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,71,502,75,0.0025,0.015,0.00238,1.0,
-2026-06-02T15:50:16.037108+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,68,503,97,0.0025,0.015,0.0027124999999999,1.0,
-2026-06-02T15:50:16.120095+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,76,508,81,0.0025,0.015,0.002485,1.0,
-2026-06-02T15:50:16.121979+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,72,501,85,0.0025,0.015,0.0025275,0.9770226300899744,
-2026-06-02T15:50:16.147192+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,73,505,77,0.0025,0.015,0.0024175,1.0,
-2026-06-02T15:50:16.177580+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,74,503,83,0.0025,0.015,0.0025025,0.0,
-2026-06-02T15:50:16.215246+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,79,505,80,0.0025,0.015,0.0024625,0.0,
-2026-06-02T15:50:16.495632+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,80,502,90,0.0025,0.015,0.0026049999999999,1.0,
-2026-06-02T15:50:16.513568+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,83,507,83,0.0025,0.015,0.0025125,1.0,
-2026-06-02T15:50:16.516403+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,77,507,85,0.0025,0.015,0.0025425,1.0,
-2026-06-02T15:50:16.563740+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,75,506,86,0.0025,0.015,0.002555,1.0,
-2026-06-02T15:50:16.629106+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,86,506,77,0.0025,0.015,0.00242,1.0,
-2026-06-02T15:50:16.719952+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,88,501,81,0.0025,0.015,0.0024675,1.0,
-2026-06-02T15:50:16.777049+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,81,503,88,0.0025,0.015,0.0025775,1.0,
-2026-06-02T15:50:16.798077+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,85,507,82,0.0025,0.015,0.0024974999999999,1.0,
-2026-06-02T15:50:16.852010+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,89,499,86,0.0025,0.015,0.0025375,1.0,
-2026-06-02T15:50:16.861083+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,90,502,80,0.0025,0.015,0.0024549999999999,1.0,
-2026-06-02T15:50:16.877866+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,87,502,80,0.0025,0.015,0.0024549999999999,0.0,
-2026-06-02T15:50:17.019602+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,92,504,77,0.0025,0.015,0.002415,0.0,
-2026-06-02T15:50:17.053972+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,99,505,84,0.0025,0.015,0.0025225,1.0,
-2026-06-02T15:50:17.081996+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,95,507,87,0.0025,0.015,0.0025725,1.0,
-2026-06-02T15:50:17.118078+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,91,502,83,0.0025,0.015,0.0025,0.679178699175393,
-2026-06-02T15:50:17.149635+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,82,505,93,0.0025,0.015,0.0026575,0.0,
-2026-06-02T15:50:17.254580+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,78,502,90,0.0025,0.015,0.0026049999999999,1.0,
-2026-06-02T15:50:17.445142+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,96,506,88,0.0025,0.015,0.0025849999999999,1.0,
-2026-06-02T15:50:17.527776+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,98,506,87,0.0025,0.015,0.00257,1.0,
-2026-06-02T15:50:17.569133+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,94,503,78,0.0025,0.015,0.0024275,1.0,
-2026-06-02T15:50:17.703913+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,93,504,86,0.0025,0.015,0.00255,1.0,
-2026-06-02T15:50:17.757131+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,70,507,78,0.0025,0.015,0.0024375,1.0,
-2026-06-02T15:50:17.962078+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,97,503,93,0.0025,0.015,0.0026525,1.0,
-2026-06-02T15:50:18.917196+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,84,507,81,0.0025,0.015,0.0024825,1.0,
-2026-06-02T15:50:20.072855+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,9,502,90,0.0025,0.015,0.0026049999999999,1.0,
-2026-06-02T15:50:20.198497+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,17,506,87,0.0025,0.015,0.00257,1.0,
-2026-06-02T15:50:08.536142+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,0,555,70,0.0025,0.015,0.0024375,0.0,
-2026-06-02T15:50:10.986331+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,20,548,84,0.0025,0.015,0.00263,1.0,
-2026-06-02T15:50:11.438749+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,40,555,83,0.0025,0.015,0.0026325,0.0,
-2026-06-02T15:50:11.444653+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,30,556,80,0.0025,0.015,0.00259,1.0,
-2026-06-02T15:50:11.564609+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,25,611,86,0.0025,0.015,0.0028174999999999,1.0,
-2026-06-02T15:50:11.615073+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,9,526,73,0.0025,0.015,0.00241,1.0,
-2026-06-02T15:50:11.675138+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,4,533,76,0.0025,0.015,0.0024725,1.0,
-2026-06-02T15:50:11.710895+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,39,532,66,0.0025,0.015,0.00232,1.0,
-2026-06-02T15:50:11.715239+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,35,563,84,0.0025,0.015,0.0026674999999999,1.0,
-2026-06-02T15:50:11.733739+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,15,527,91,0.0025,0.015,0.0026825,1.0,
-2026-06-02T15:50:11.811883+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,37,542,88,0.0025,0.015,0.002675,1.0,
-2026-06-02T15:50:11.867804+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,38,585,84,0.0025,0.015,0.0027225,1.0,
-2026-06-02T15:50:11.870992+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,3,532,70,0.0025,0.015,0.00238,1.0,
-2026-06-02T15:50:11.933622+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,24,530,79,0.0025,0.015,0.00251,1.0,
-2026-06-02T15:50:11.952005+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,5,589,102,0.0025,0.015,0.0030025,1.0,
-2026-06-02T15:50:11.976641+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,13,613,76,0.0025,0.015,0.0026725,1.0,
-2026-06-02T15:50:11.989039+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,11,543,87,0.0025,0.015,0.0026625,1.0,
-2026-06-02T15:50:11.993195+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,31,536,81,0.0025,0.015,0.002555,1.0,
-2026-06-02T15:50:11.993946+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,23,525,86,0.0025,0.015,0.0026024999999999,1.0,
-2026-06-02T15:50:12.006787+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,14,563,89,0.0025,0.015,0.0027424999999999,1.0,
-2026-06-02T15:50:12.009438+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,36,538,85,0.0025,0.015,0.00262,1.0,
-2026-06-02T15:50:12.012004+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,1,532,84,0.0025,0.015,0.00259,1.0,
-2026-06-02T15:50:12.026522+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,7,563,78,0.0025,0.015,0.0025775,1.0,
-2026-06-02T15:50:12.070010+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,18,531,84,0.0025,0.015,0.0025875,1.0,
-2026-06-02T15:50:12.099424+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,8,581,82,0.0025,0.015,0.0026825,1.0,
-2026-06-02T15:50:12.110034+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,21,543,78,0.0025,0.015,0.0025275,1.0,
-2026-06-02T15:50:12.120532+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,10,527,85,0.0025,0.015,0.0025925,1.0,
-2026-06-02T15:50:12.125661+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,16,566,88,0.0025,0.015,0.0027349999999999,1.0,
-2026-06-02T15:50:12.150395+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,29,556,90,0.0025,0.015,0.00274,1.0,
-2026-06-02T15:50:12.192337+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,34,539,96,0.0025,0.015,0.0027875,1.0,
-2026-06-02T15:50:12.228875+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,27,568,86,0.0025,0.015,0.0027099999999999,1.0,
-2026-06-02T15:50:12.257383+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,26,578,92,0.0025,0.015,0.002825,1.0,
-2026-06-02T15:50:12.616078+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,19,534,81,0.0025,0.015,0.00255,1.0,
-2026-06-02T15:50:12.750331+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,6,552,83,0.0025,0.015,0.002625,1.0,
-2026-06-02T15:50:12.872954+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,12,537,75,0.0025,0.015,0.0024675,1.0,
-2026-06-02T15:50:13.444791+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,17,540,83,0.0025,0.015,0.002595,1.0,
-2026-06-02T15:50:13.447342+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,33,542,83,0.0025,0.015,0.0026,1.0,
-2026-06-02T15:50:13.450269+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,41,616,89,0.0025,0.015,0.002875,1.0,
-2026-06-02T15:50:13.673650+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,22,584,83,0.0025,0.015,0.002705,0.0,
-2026-06-02T15:50:14.031460+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,47,557,83,0.0025,0.015,0.0026375,1.0,
-2026-06-02T15:50:14.038031+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,42,579,82,0.0025,0.015,0.0026775,1.0,
-2026-06-02T15:50:14.063592+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,2,545,90,0.0025,0.015,0.0027125,1.0,
-2026-06-02T15:50:14.068081+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,45,524,74,0.0025,0.015,0.00242,1.0,
-2026-06-02T15:50:14.078442+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,70,530,75,0.0025,0.015,0.00245,1.0,
-2026-06-02T15:50:14.088541+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,46,529,81,0.0025,0.015,0.0025375,1.0,
-2026-06-02T15:50:14.140570+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,32,553,85,0.0025,0.015,0.0026575,1.0,
-2026-06-02T15:50:14.153514+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,53,523,76,0.0025,0.015,0.0024475,1.0,
-2026-06-02T15:50:14.155457+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,44,591,81,0.0025,0.015,0.0026924999999999,1.0,
-2026-06-02T15:50:14.315403+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,50,531,88,0.0025,0.015,0.0026474999999999,1.0,
-2026-06-02T15:50:14.374008+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,48,620,81,0.0025,0.015,0.002765,0.0,
-2026-06-02T15:50:14.389887+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,43,586,88,0.0025,0.015,0.0027849999999999,1.0,
-2026-06-02T15:50:14.426304+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,52,561,85,0.0025,0.015,0.0026775,1.0,
-2026-06-02T15:50:14.458847+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,55,597,79,0.0025,0.015,0.0026775,1.0,
-2026-06-02T15:50:14.492893+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,49,528,81,0.0025,0.015,0.002535,0.0,
-2026-06-02T15:50:14.498716+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,56,542,74,0.0025,0.015,0.002465,0.0,
-2026-06-02T15:50:14.517229+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,54,537,100,0.0025,0.015,0.0028425,1.0,
-2026-06-02T15:50:14.558747+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,60,560,86,0.0025,0.015,0.00269,1.0,
-2026-06-02T15:50:14.585731+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,64,560,83,0.0025,0.015,0.002645,1.0,
-2026-06-02T15:50:14.604175+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,68,539,86,0.0025,0.015,0.0026375,1.0,
-2026-06-02T15:50:14.693024+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,63,558,79,0.0025,0.015,0.00258,0.0,
-2026-06-02T15:50:14.832829+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,62,574,77,0.0025,0.015,0.00259,0.8807970779778824,
-2026-06-02T15:50:14.833891+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,61,580,73,0.0025,0.015,0.0025449999999999,1.0,
-2026-06-02T15:50:14.870918+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,67,541,92,0.0025,0.015,0.0027325,1.0,
-2026-06-02T15:50:14.873334+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,71,590,83,0.0025,0.015,0.00272,1.0,
-2026-06-02T15:50:14.875512+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,66,526,83,0.0025,0.015,0.0025599999999999,0.9046505351008906,
-2026-06-02T15:50:14.876245+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,69,536,75,0.0025,0.015,0.002465,0.0,
-2026-06-02T15:50:14.883725+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,51,548,86,0.0025,0.015,0.00266,1.0,
-2026-06-02T15:50:14.900994+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,65,526,85,0.0025,0.015,0.00259,1.0,
-2026-06-02T15:50:14.990642+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,57,530,90,0.0025,0.015,0.002675,1.0,
-2026-06-02T15:50:15.248802+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,73,575,85,0.0025,0.015,0.0027125,1.0,
-2026-06-02T15:50:15.262046+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,58,543,77,0.0025,0.015,0.0025125,1.0,
-2026-06-02T15:50:15.599774+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,77,543,86,0.0025,0.015,0.0026475,1.0,
-2026-06-02T15:50:15.601283+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,72,587,89,0.0025,0.015,0.0028025,1.0,
-2026-06-02T15:50:15.749575+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,76,551,78,0.0025,0.015,0.0025475,1.0,
-2026-06-02T15:50:16.002331+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,28,537,86,0.0025,0.015,0.0026325,1.0,
-2026-06-02T15:50:16.083214+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,82,578,73,0.0025,0.015,0.0025399999999999,0.0,
-2026-06-02T15:50:16.416322+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,78,534,91,0.0025,0.015,0.0027,1.0,
-2026-06-02T15:50:16.423884+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,74,544,81,0.0025,0.015,0.002575,0.9770226300899744,
-2026-06-02T15:50:16.443949+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,86,529,76,0.0025,0.015,0.0024625,1.0,
-2026-06-02T15:50:16.570787+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,89,538,81,0.0025,0.015,0.0025599999999999,1.0,
-2026-06-02T15:50:16.584399+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,84,530,81,0.0025,0.015,0.0025399999999999,1.0,
-2026-06-02T15:50:16.621344+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,87,539,80,0.0025,0.015,0.0025475,0.0,
-2026-06-02T15:50:16.695732+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,80,527,83,0.0025,0.015,0.0025625,1.0,
-2026-06-02T15:50:16.709909+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,83,543,78,0.0025,0.015,0.0025275,1.0,
-2026-06-02T15:50:16.779206+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,88,525,78,0.0025,0.015,0.0024825,1.0,
-2026-06-02T15:50:16.801092+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,75,533,86,0.0025,0.015,0.0026225,1.0,
-2026-06-02T15:50:16.898062+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,96,532,95,0.0025,0.015,0.002755,1.0,
-2026-06-02T15:50:16.922076+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,90,550,80,0.0025,0.015,0.002575,1.0,
-2026-06-02T15:50:16.946049+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,92,556,85,0.0025,0.015,0.002665,0.0,
-2026-06-02T15:50:16.959662+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,85,566,86,0.0025,0.015,0.002705,0.9241418199787564,
-2026-06-02T15:50:17.086435+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,79,553,86,0.0025,0.015,0.0026725,0.0,
-2026-06-02T15:50:17.140817+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,99,606,89,0.0025,0.015,0.00285,1.0,
-2026-06-02T15:50:17.144945+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,98,542,88,0.0025,0.015,0.002675,1.0,
-2026-06-02T15:50:17.222149+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,91,527,92,0.0025,0.015,0.0026975,0.9770226300899744,
-2026-06-02T15:50:17.289608+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,95,559,85,0.0025,0.015,0.0026725,1.0,
-2026-06-02T15:50:17.323444+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,93,540,81,0.0025,0.015,0.002565,1.0,
-2026-06-02T15:50:17.960382+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,97,532,84,0.0025,0.015,0.00259,1.0,
-2026-06-02T15:50:17.978514+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,59,550,80,0.0025,0.015,0.002575,1.0,
-2026-06-02T15:50:18.255746+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,94,571,88,0.0025,0.015,0.0027475,1.0,
-2026-06-02T15:50:21.347819+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,81,545,94,0.0025,0.015,0.0027725,1.0,
 2026-06-02T15:52:31.489605+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,0,520,219,0.0025,0.015,0.004585,0.0,
-2026-06-02T15:52:35.607804+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,14,525,157,0.0025,0.015,0.0036674999999999998,1.0,
+2026-06-02T15:52:35.607804+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,14,525,157,0.0025,0.015,0.0036674999999999,1.0,
 2026-06-02T15:52:35.731628+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,34,522,173,0.0025,0.015,0.0039,1.0,
 2026-06-02T15:52:35.837710+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,12,522,171,0.0025,0.015,0.00387,1.0,
 2026-06-02T15:52:35.841156+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,40,521,214,0.0025,0.015,0.0045125,0.0,
 2026-06-02T15:52:35.944360+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,37,524,188,0.0025,0.015,0.00413,1.0,
-2026-06-02T15:52:36.001307+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,5,521,178,0.0025,0.015,0.0039724999999999995,1.0,
+2026-06-02T15:52:36.001307+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,5,521,178,0.0025,0.015,0.0039724999999999,1.0,
 2026-06-02T15:52:36.055460+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,30,522,184,0.0025,0.015,0.004065,1.0,
 2026-06-02T15:52:36.138721+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,16,523,199,0.0025,0.015,0.0042925,1.0,
 2026-06-02T15:52:36.159310+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,7,524,181,0.0025,0.015,0.004025,1.0,
@@ -3921,16 +3721,16 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T15:52:36.257007+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,31,521,197,0.0025,0.015,0.0042575,1.0,
 2026-06-02T15:52:36.271186+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,20,521,193,0.0025,0.015,0.0041975,1.0,
 2026-06-02T15:52:36.374480+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,10,522,200,0.0025,0.015,0.004305,1.0,
-2026-06-02T15:52:36.409052+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,4,524,190,0.0025,0.015,0.0041600000000000005,1.0,
+2026-06-02T15:52:36.409052+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,4,524,190,0.0025,0.015,0.00416,1.0,
 2026-06-02T15:52:36.460592+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,13,518,173,0.0025,0.015,0.00389,1.0,
-2026-06-02T15:52:36.512967+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,21,523,213,0.0025,0.015,0.0045024999999999996,1.0,
+2026-06-02T15:52:36.512967+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,21,523,213,0.0025,0.015,0.0045024999999999,1.0,
 2026-06-02T15:52:36.530426+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,26,520,162,0.0025,0.015,0.00373,1.0,
 2026-06-02T15:52:36.552892+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,15,521,210,0.0025,0.015,0.0044525,1.0,
 2026-06-02T15:52:36.572427+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,1,522,166,0.0025,0.015,0.003795,1.0,
 2026-06-02T15:52:36.605972+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,25,521,230,0.0025,0.015,0.0047525,0.8519528019683105,
-2026-06-02T15:52:36.625861+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,2,520,233,0.0025,0.015,0.004795000000000001,1.0,
-2026-06-02T15:52:36.628100+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,18,522,212,0.0025,0.015,0.004484999999999999,1.0,
-2026-06-02T15:52:36.694476+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,35,521,205,0.0025,0.015,0.0043774999999999994,0.0,
+2026-06-02T15:52:36.625861+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,2,520,233,0.0025,0.015,0.004795,1.0,
+2026-06-02T15:52:36.628100+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,18,522,212,0.0025,0.015,0.0044849999999999,1.0,
+2026-06-02T15:52:36.694476+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,35,521,205,0.0025,0.015,0.0043774999999999,0.0,
 2026-06-02T15:52:36.714584+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,23,520,180,0.0025,0.015,0.004,1.0,
 2026-06-02T15:52:36.736149+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,11,525,225,0.0025,0.015,0.0046875,1.0,
 2026-06-02T15:52:36.780818+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,3,525,199,0.0025,0.015,0.0042975,1.0,
@@ -3939,7 +3739,7 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T15:52:36.823964+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,22,523,237,0.0025,0.015,0.0048625,0.0,
 2026-06-02T15:52:36.832126+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,32,521,223,0.0025,0.015,0.0046475,1.0,
 2026-06-02T15:52:36.948596+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,38,521,192,0.0025,0.015,0.0041825,1.0,
-2026-06-02T15:52:36.959269+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,28,518,222,0.0025,0.015,0.004625000000000001,1.0,
+2026-06-02T15:52:36.959269+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,28,518,222,0.0025,0.015,0.004625,1.0,
 2026-06-02T15:52:36.969681+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,36,520,217,0.0025,0.015,0.004555,1.0,
 2026-06-02T15:52:37.169404+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,24,519,213,0.0025,0.015,0.0044925,1.0,
 2026-06-02T15:52:37.194492+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,29,520,225,0.0025,0.015,0.004675,1.0,
@@ -3959,7 +3759,7 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T15:52:40.783652+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,48,522,186,0.0025,0.015,0.004095,1.0,
 2026-06-02T15:52:40.992905+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,64,521,192,0.0025,0.015,0.0041825,0.0,
 2026-06-02T15:52:41.074241+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,73,523,174,0.0025,0.015,0.0039175,1.0,
-2026-06-02T15:52:41.140100+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,63,517,174,0.0025,0.015,0.0039024999999999997,1.0,
+2026-06-02T15:52:41.140100+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,63,517,174,0.0025,0.015,0.0039024999999999,1.0,
 2026-06-02T15:52:41.229143+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,61,521,209,0.0025,0.015,0.0044375,1.0,
 2026-06-02T15:52:41.268122+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,50,522,210,0.0025,0.015,0.004455,1.0,
 2026-06-02T15:52:41.293867+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,68,521,200,0.0025,0.015,0.0043025,1.0,
@@ -3971,14 +3771,14 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T15:52:41.548443+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,55,520,194,0.0025,0.015,0.00421,1.0,
 2026-06-02T15:52:41.577173+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,56,523,217,0.0025,0.015,0.0045625,0.0,
 2026-06-02T15:52:41.791536+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,57,523,218,0.0025,0.015,0.0045775,1.0,
-2026-06-02T15:52:41.796296+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,79,523,203,0.0025,0.015,0.0043525000000000005,0.0,
+2026-06-02T15:52:41.796296+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,79,523,203,0.0025,0.015,0.0043525,0.0,
 2026-06-02T15:52:41.873244+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,49,524,236,0.0025,0.015,0.00485,0.0,
-2026-06-02T15:52:41.996405+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,66,520,186,0.0025,0.015,0.00409,0.9626731126558705,
+2026-06-02T15:52:41.996405+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,66,520,186,0.0025,0.015,0.00409,0.9626731126558704,
 2026-06-02T15:52:42.000185+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,76,526,236,0.0025,0.015,0.004855,1.0,
-2026-06-02T15:52:42.002653+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,78,520,199,0.0025,0.015,0.004285000000000001,1.0,
+2026-06-02T15:52:42.002653+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,78,520,199,0.0025,0.015,0.004285,1.0,
 2026-06-02T15:52:42.042227+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,60,518,224,0.0025,0.015,0.004655,1.0,
 2026-06-02T15:52:42.060652+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,77,525,206,0.0025,0.015,0.0044025,1.0,
-2026-06-02T15:52:42.331143+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,74,521,233,0.0025,0.015,0.0047975000000000005,0.0,
+2026-06-02T15:52:42.331143+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,74,521,233,0.0025,0.015,0.0047975,0.0,
 2026-06-02T15:52:42.396014+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,71,520,221,0.0025,0.015,0.004615,1.0,
 2026-06-02T15:52:42.543578+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,69,521,237,0.0025,0.015,0.0048575,0.0,
 2026-06-02T15:52:42.635406+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,62,522,222,0.0025,0.015,0.004635,0.0,
@@ -3987,14 +3787,14 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T15:52:43.671923+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,75,524,233,0.0025,0.015,0.004805,1.0,
 2026-06-02T15:52:43.989463+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,81,521,170,0.0025,0.015,0.0038525,1.0,
 2026-06-02T15:52:44.183330+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,85,525,179,0.0025,0.015,0.0039975,0.9241418199787564,
-2026-06-02T15:52:44.306653+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,84,525,170,0.0025,0.015,0.0038625000000000005,1.0,
-2026-06-02T15:52:44.953004+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,83,525,197,0.0025,0.015,0.0042675000000000005,1.0,
+2026-06-02T15:52:44.306653+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,84,525,170,0.0025,0.015,0.0038625,1.0,
+2026-06-02T15:52:44.953004+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,83,525,197,0.0025,0.015,0.0042675,1.0,
 2026-06-02T15:52:45.026660+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,93,522,172,0.0025,0.015,0.003885,1.0,
 2026-06-02T15:52:45.067759+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,92,522,167,0.0025,0.015,0.00381,0.0,
 2026-06-02T15:52:45.094685+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,89,517,209,0.0025,0.015,0.0044275,1.0,
 2026-06-02T15:52:45.134693+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,88,519,185,0.0025,0.015,0.0040725,1.0,
 2026-06-02T15:52:45.158130+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,99,523,163,0.0025,0.015,0.0037525,1.0,
-2026-06-02T15:52:45.439231+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,59,519,180,0.0025,0.015,0.003997499999999999,1.0,
+2026-06-02T15:52:45.439231+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,59,519,180,0.0025,0.015,0.0039974999999999,1.0,
 2026-06-02T15:52:45.524637+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,95,525,182,0.0025,0.015,0.0040425,1.0,
 2026-06-02T15:52:45.645116+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,91,520,204,0.0025,0.015,0.00436,1.0,
 2026-06-02T15:52:45.943133+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,87,520,247,0.0025,0.015,0.005005,0.0,
@@ -4005,3 +3805,503 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T15:52:48.650490+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,82,523,215,0.0025,0.015,0.0045325,0.0,
 2026-06-02T15:52:48.839114+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,86,524,250,0.0025,0.015,0.00506,1.0,
 2026-06-02T15:53:00.798308+00:00,02b_Prompt_Variance.ipynb,GPT-5.4 | chain_of_thought | new batch,no_desc,openai,gpt-5.4,94,521,221,0.0025,0.015,0.0046175,1.0,
+2026-06-02T18:00:15.961983+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,0,502,77,0.0025,0.015,0.00241,0.0,
+2026-06-02T18:00:18.336572+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,10,504,81,0.0025,0.015,0.0024749999999999,1.0,
+2026-06-02T18:00:18.446794+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,30,504,89,0.0025,0.015,0.002595,1.0,
+2026-06-02T18:00:18.510509+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,20,503,89,0.0025,0.015,0.0025924999999999,1.0,
+2026-06-02T18:00:18.790368+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,5,503,78,0.0025,0.015,0.0024275,1.0,
+2026-06-02T18:00:18.969720+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,40,503,86,0.0025,0.015,0.0025475,0.0,
+2026-06-02T18:00:19.032993+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,35,503,83,0.0025,0.015,0.0025025,0.9046505351008904,
+2026-06-02T18:00:19.229623+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,14,507,80,0.0025,0.015,0.0024675,1.0,
+2026-06-02T18:00:19.233065+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,36,502,85,0.0025,0.015,0.00253,1.0,
+2026-06-02T18:00:19.298487+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,18,504,78,0.0025,0.015,0.00243,1.0,
+2026-06-02T18:00:19.305774+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,7,506,88,0.0025,0.015,0.0025849999999999,1.0,
+2026-06-02T18:00:19.308379+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,15,503,84,0.0025,0.015,0.0025174999999999,1.0,
+2026-06-02T18:00:19.333513+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,8,505,87,0.0025,0.015,0.0025675,1.0,
+2026-06-02T18:00:19.334715+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,2,502,90,0.0025,0.015,0.0026049999999999,1.0,
+2026-06-02T18:00:19.402269+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,17,506,82,0.0025,0.015,0.002495,1.0,
+2026-06-02T18:00:19.535943+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,12,504,85,0.0025,0.015,0.002535,1.0,
+2026-06-02T18:00:19.538784+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,3,507,79,0.0025,0.015,0.0024525,1.0,
+2026-06-02T18:00:19.546622+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,16,505,84,0.0025,0.015,0.0025225,1.0,
+2026-06-02T18:00:19.547642+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,22,505,83,0.0025,0.015,0.0025075,0.0,
+2026-06-02T18:00:19.603061+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,34,504,82,0.0025,0.015,0.00249,1.0,
+2026-06-02T18:00:19.651575+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,37,506,85,0.0025,0.015,0.00254,1.0,
+2026-06-02T18:00:19.654284+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,26,502,78,0.0025,0.015,0.002425,1.0,
+2026-06-02T18:00:19.712278+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,33,502,85,0.0025,0.015,0.00253,1.0,
+2026-06-02T18:00:19.713231+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,9,502,90,0.0025,0.015,0.0026049999999999,1.0,
+2026-06-02T18:00:19.738486+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,28,500,77,0.0025,0.015,0.002405,1.0,
+2026-06-02T18:00:19.739377+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,13,500,79,0.0025,0.015,0.002435,1.0,
+2026-06-02T18:00:19.806729+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,6,498,78,0.0025,0.015,0.002415,1.0,
+2026-06-02T18:00:19.896948+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,31,503,91,0.0025,0.015,0.0026225,1.0,
+2026-06-02T18:00:19.916601+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,1,504,76,0.0025,0.015,0.0024,1.0,
+2026-06-02T18:00:19.917901+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,23,502,83,0.0025,0.015,0.0025,1.0,
+2026-06-02T18:00:19.986064+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,25,503,89,0.0025,0.015,0.0025924999999999,0.0474258731775667,
+2026-06-02T18:00:20.031476+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,39,506,81,0.0025,0.015,0.00248,1.0,
+2026-06-02T18:00:20.089142+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,24,501,93,0.0025,0.015,0.0026474999999999,1.0,
+2026-06-02T18:00:20.113231+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,4,506,90,0.0025,0.015,0.002615,1.0,
+2026-06-02T18:00:20.163911+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,19,507,82,0.0025,0.015,0.0024974999999999,1.0,
+2026-06-02T18:00:20.218970+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,29,502,96,0.0025,0.015,0.002695,1.0,
+2026-06-02T18:00:20.290645+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,21,505,90,0.0025,0.015,0.0026125,1.0,
+2026-06-02T18:00:20.327502+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,27,503,84,0.0025,0.015,0.0025174999999999,1.0,
+2026-06-02T18:00:20.736787+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,38,503,76,0.0025,0.015,0.0023975,1.0,
+2026-06-02T18:00:20.853945+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,41,503,84,0.0025,0.015,0.0025174999999999,1.0,
+2026-06-02T18:00:20.879463+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,11,507,84,0.0025,0.015,0.0025275,1.0,
+2026-06-02T18:00:20.979038+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,42,502,87,0.0025,0.015,0.0025599999999999,1.0,
+2026-06-02T18:00:21.038789+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,43,506,82,0.0025,0.015,0.002495,1.0,
+2026-06-02T18:00:21.102612+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,45,501,83,0.0025,0.015,0.0024974999999999,1.0,
+2026-06-02T18:00:21.340025+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,48,504,80,0.0025,0.015,0.00246,1.0,
+2026-06-02T18:00:21.477026+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,53,499,82,0.0025,0.015,0.0024775,1.0,
+2026-06-02T18:00:21.580269+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,44,503,81,0.0025,0.015,0.0024725,1.0,
+2026-06-02T18:00:21.609737+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,52,507,78,0.0025,0.015,0.0024375,1.0,
+2026-06-02T18:00:21.780396+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,55,502,86,0.0025,0.015,0.002545,1.0,
+2026-06-02T18:00:21.787209+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,47,503,81,0.0025,0.015,0.0024725,1.0,
+2026-06-02T18:00:21.797159+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,54,504,81,0.0025,0.015,0.0024749999999999,1.0,
+2026-06-02T18:00:21.854218+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,56,505,81,0.0025,0.015,0.0024774999999999,0.0,
+2026-06-02T18:00:21.878239+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,61,503,80,0.0025,0.015,0.0024574999999999,1.0,
+2026-06-02T18:00:22.072797+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,58,503,82,0.0025,0.015,0.0024875,1.0,
+2026-06-02T18:00:22.077097+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,69,503,78,0.0025,0.015,0.0024275,0.0,
+2026-06-02T18:00:22.080637+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,60,500,80,0.0025,0.015,0.00245,1.0,
+2026-06-02T18:00:22.129236+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,51,503,89,0.0025,0.015,0.0025924999999999,1.0,
+2026-06-02T18:00:22.148979+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,49,506,81,0.0025,0.015,0.00248,0.0,
+2026-06-02T18:00:22.247789+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,57,505,92,0.0025,0.015,0.0026425,1.0,
+2026-06-02T18:00:22.303082+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,59,501,92,0.0025,0.015,0.0026325,1.0,
+2026-06-02T18:00:22.344131+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,73,505,73,0.0025,0.015,0.0023575,1.0,
+2026-06-02T18:00:22.364122+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,62,504,86,0.0025,0.015,0.00255,1.0,
+2026-06-02T18:00:22.500762+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,65,503,98,0.0025,0.015,0.0027275,1.0,
+2026-06-02T18:00:22.539889+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,64,503,87,0.0025,0.015,0.0025624999999999,1.0,
+2026-06-02T18:00:22.541696+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,50,504,84,0.0025,0.015,0.00252,1.0,
+2026-06-02T18:00:22.659448+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,66,502,82,0.0025,0.015,0.002485,0.0,
+2026-06-02T18:00:22.660651+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,32,503,87,0.0025,0.015,0.0025624999999999,1.0,
+2026-06-02T18:00:22.725376+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,76,508,81,0.0025,0.015,0.002485,1.0,
+2026-06-02T18:00:22.727010+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,68,503,97,0.0025,0.015,0.0027124999999999,1.0,
+2026-06-02T18:00:22.784653+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,77,507,84,0.0025,0.015,0.0025275,1.0,
+2026-06-02T18:00:22.859654+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,67,506,85,0.0025,0.015,0.00254,1.0,
+2026-06-02T18:00:22.878887+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,74,503,90,0.0025,0.015,0.0026074999999999,0.0,
+2026-06-02T18:00:23.116735+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,70,507,89,0.0025,0.015,0.0026024999999999,1.0,
+2026-06-02T18:00:23.379477+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,79,505,82,0.0025,0.015,0.0024925,0.0,
+2026-06-02T18:00:23.428784+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,75,506,83,0.0025,0.015,0.00251,1.0,
+2026-06-02T18:00:23.633706+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,84,507,78,0.0025,0.015,0.0024375,1.0,
+2026-06-02T18:00:23.635681+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,80,502,92,0.0025,0.015,0.002635,1.0,
+2026-06-02T18:00:23.701877+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,82,505,103,0.0025,0.015,0.0028075,0.0,
+2026-06-02T18:00:23.895415+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,81,503,89,0.0025,0.015,0.0025924999999999,1.0,
+2026-06-02T18:00:23.898387+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,89,499,87,0.0025,0.015,0.0025525,1.0,
+2026-06-02T18:00:23.899528+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,83,507,87,0.0025,0.015,0.0025725,1.0,
+2026-06-02T18:00:23.998887+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,85,507,85,0.0025,0.015,0.0025425,1.0,
+2026-06-02T18:00:24.052479+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,86,506,76,0.0025,0.015,0.002405,1.0,
+2026-06-02T18:00:24.182184+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,95,507,75,0.0025,0.015,0.0023924999999999,1.0,
+2026-06-02T18:00:24.274085+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,88,501,82,0.0025,0.015,0.0024825,1.0,
+2026-06-02T18:00:24.317981+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,87,502,74,0.0025,0.015,0.002365,0.0,
+2026-06-02T18:00:24.455367+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,78,502,93,0.0025,0.015,0.00265,1.0,
+2026-06-02T18:00:24.485717+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,91,502,82,0.0025,0.015,0.002485,1.0,
+2026-06-02T18:00:24.548741+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,92,504,89,0.0025,0.015,0.002595,0.0,
+2026-06-02T18:00:24.639130+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,94,503,94,0.0025,0.015,0.0026674999999999,1.0,
+2026-06-02T18:00:24.742651+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,96,506,87,0.0025,0.015,0.00257,1.0,
+2026-06-02T18:00:24.754065+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,99,505,88,0.0025,0.015,0.0025824999999999,1.0,
+2026-06-02T18:00:24.798926+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,93,504,87,0.0025,0.015,0.002565,1.0,
+2026-06-02T18:00:25.327798+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,97,503,92,0.0025,0.015,0.0026375,1.0,
+2026-06-02T18:00:25.694490+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,98,506,81,0.0025,0.015,0.00248,1.0,
+2026-06-02T18:00:26.120805+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,46,504,83,0.0025,0.015,0.002505,1.0,
+2026-06-02T18:00:27.303616+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,72,501,85,0.0025,0.015,0.0025275,1.0,
+2026-06-02T18:00:27.380058+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,71,502,82,0.0025,0.015,0.002485,1.0,
+2026-06-02T18:00:28.608626+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,90,502,94,0.0025,0.015,0.002665,1.0,
+2026-06-02T18:00:37.189346+00:00,01c_Robustness.ipynb,GPT-5.4 | no_desc | new batch,no_desc,openai,gpt-5.4,63,499,88,0.0025,0.015,0.0025675,0.0373268873441294,
+2026-06-02T18:00:16.178312+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,0,555,70,0.0025,0.015,0.0024375,0.0,
+2026-06-02T18:00:18.404771+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,20,548,76,0.0025,0.015,0.00251,1.0,
+2026-06-02T18:00:18.742057+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,40,555,68,0.0025,0.015,0.0024075,0.0,
+2026-06-02T18:00:18.752926+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,30,556,73,0.0025,0.015,0.002485,1.0,
+2026-06-02T18:00:18.881174+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,10,527,85,0.0025,0.015,0.0025925,1.0,
+2026-06-02T18:00:18.913691+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,15,527,86,0.0025,0.015,0.0026075,1.0,
+2026-06-02T18:00:18.915264+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,35,563,80,0.0025,0.015,0.0026074999999999,1.0,
+2026-06-02T18:00:19.161300+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,4,533,83,0.0025,0.015,0.0025775,1.0,
+2026-06-02T18:00:19.164420+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,3,532,79,0.0025,0.015,0.002515,1.0,
+2026-06-02T18:00:19.302821+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,5,589,86,0.0025,0.015,0.0027624999999999,1.0,
+2026-06-02T18:00:19.307139+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,23,525,86,0.0025,0.015,0.0026024999999999,1.0,
+2026-06-02T18:00:19.311028+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,19,534,84,0.0025,0.015,0.002595,1.0,
+2026-06-02T18:00:19.361713+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,14,563,86,0.0025,0.015,0.0026975,1.0,
+2026-06-02T18:00:19.373882+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,33,542,82,0.0025,0.015,0.002585,1.0,
+2026-06-02T18:00:19.496712+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,29,556,94,0.0025,0.015,0.0028,1.0,
+2026-06-02T18:00:19.497594+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,24,530,87,0.0025,0.015,0.00263,1.0,
+2026-06-02T18:00:19.498579+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,6,552,85,0.0025,0.015,0.002655,1.0,
+2026-06-02T18:00:19.500029+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,37,542,83,0.0025,0.015,0.0026,1.0,
+2026-06-02T18:00:19.539933+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,11,543,87,0.0025,0.015,0.0026625,1.0,
+2026-06-02T18:00:19.548467+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,9,526,86,0.0025,0.015,0.0026049999999999,1.0,
+2026-06-02T18:00:19.591222+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,12,537,86,0.0025,0.015,0.0026325,1.0,
+2026-06-02T18:00:19.655521+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,8,581,86,0.0025,0.015,0.0027425,1.0,
+2026-06-02T18:00:19.656506+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,18,531,91,0.0025,0.015,0.0026925,1.0,
+2026-06-02T18:00:19.657918+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,36,538,94,0.0025,0.015,0.002755,1.0,
+2026-06-02T18:00:19.659455+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,34,539,85,0.0025,0.015,0.0026225,1.0,
+2026-06-02T18:00:19.660924+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,17,540,85,0.0025,0.015,0.002625,1.0,
+2026-06-02T18:00:19.714340+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,38,585,82,0.0025,0.015,0.0026925,1.0,
+2026-06-02T18:00:19.722289+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,28,537,91,0.0025,0.015,0.0027075,1.0,
+2026-06-02T18:00:19.723450+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,26,578,79,0.0025,0.015,0.00263,1.0,
+2026-06-02T18:00:19.724144+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,16,566,82,0.0025,0.015,0.0026449999999999,1.0,
+2026-06-02T18:00:19.808111+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,27,568,88,0.0025,0.015,0.0027399999999999,1.0,
+2026-06-02T18:00:19.809412+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,39,532,87,0.0025,0.015,0.002635,1.0,
+2026-06-02T18:00:19.919187+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,1,532,82,0.0025,0.015,0.0025599999999999,1.0,
+2026-06-02T18:00:19.987276+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,22,584,85,0.0025,0.015,0.002735,0.0,
+2026-06-02T18:00:20.165035+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,21,543,74,0.0025,0.015,0.0024675,1.0,
+2026-06-02T18:00:20.195038+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,25,611,77,0.0025,0.015,0.0026825,0.0,
+2026-06-02T18:00:20.239505+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,31,536,88,0.0025,0.015,0.00266,1.0,
+2026-06-02T18:00:20.439085+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,7,563,74,0.0025,0.015,0.0025174999999999,1.0,
+2026-06-02T18:00:20.627616+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,32,553,85,0.0025,0.015,0.0026575,1.0,
+2026-06-02T18:00:20.912487+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,44,591,82,0.0025,0.015,0.0027075,1.0,
+2026-06-02T18:00:20.936412+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,41,616,88,0.0025,0.015,0.0028599999999999,1.0,
+2026-06-02T18:00:21.284177+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,42,579,83,0.0025,0.015,0.0026925,1.0,
+2026-06-02T18:00:21.472179+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,43,586,86,0.0025,0.015,0.0027549999999999,1.0,
+2026-06-02T18:00:21.611772+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,47,557,88,0.0025,0.015,0.0027124999999999,1.0,
+2026-06-02T18:00:21.613640+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,52,561,74,0.0025,0.015,0.0025125,1.0,
+2026-06-02T18:00:21.636999+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,45,524,77,0.0025,0.015,0.002465,1.0,
+2026-06-02T18:00:21.734784+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,2,545,80,0.0025,0.015,0.0025625,1.0,
+2026-06-02T18:00:21.738047+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,13,613,81,0.0025,0.015,0.0027475,1.0,
+2026-06-02T18:00:21.755442+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,46,529,82,0.0025,0.015,0.0025525,1.0,
+2026-06-02T18:00:21.756879+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,53,523,73,0.0025,0.015,0.0024025,1.0,
+2026-06-02T18:00:21.825439+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,54,537,82,0.0025,0.015,0.0025725,1.0,
+2026-06-02T18:00:21.853009+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,62,574,75,0.0025,0.015,0.0025599999999999,1.0,
+2026-06-02T18:00:21.855959+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,61,580,77,0.0025,0.015,0.0026049999999999,1.0,
+2026-06-02T18:00:21.868069+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,48,620,86,0.0025,0.015,0.0028399999999999,1.0,
+2026-06-02T18:00:21.902155+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,60,560,77,0.0025,0.015,0.002555,1.0,
+2026-06-02T18:00:21.969762+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,56,542,71,0.0025,0.015,0.00242,0.0,
+2026-06-02T18:00:22.014765+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,55,597,87,0.0025,0.015,0.0027974999999999,1.0,
+2026-06-02T18:00:22.127803+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,59,550,84,0.0025,0.015,0.002635,1.0,
+2026-06-02T18:00:22.250202+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,50,531,88,0.0025,0.015,0.0026474999999999,1.0,
+2026-06-02T18:00:22.251139+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,51,548,89,0.0025,0.015,0.002705,1.0,
+2026-06-02T18:00:22.284388+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,57,530,93,0.0025,0.015,0.00272,1.0,
+2026-06-02T18:00:22.344740+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,64,560,86,0.0025,0.015,0.00269,1.0,
+2026-06-02T18:00:22.364732+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,69,536,77,0.0025,0.015,0.002495,0.0,
+2026-06-02T18:00:22.365368+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,71,590,83,0.0025,0.015,0.00272,1.0,
+2026-06-02T18:00:22.408172+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,65,526,97,0.0025,0.015,0.00277,1.0,
+2026-06-02T18:00:22.409097+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,72,587,82,0.0025,0.015,0.0026975,1.0,
+2026-06-02T18:00:22.580308+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,58,543,90,0.0025,0.015,0.0027075,1.0,
+2026-06-02T18:00:22.590680+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,67,541,90,0.0025,0.015,0.0027025,1.0,
+2026-06-02T18:00:22.617969+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,68,539,96,0.0025,0.015,0.0027875,1.0,
+2026-06-02T18:00:22.657821+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,49,528,76,0.0025,0.015,0.00246,0.0,
+2026-06-02T18:00:22.749437+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,76,551,80,0.0025,0.015,0.0025775,1.0,
+2026-06-02T18:00:22.787811+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,75,533,83,0.0025,0.015,0.0025775,1.0,
+2026-06-02T18:00:22.981413+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,66,526,84,0.0025,0.015,0.002575,0.0,
+2026-06-02T18:00:22.985135+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,77,543,88,0.0025,0.015,0.0026775,1.0,
+2026-06-02T18:00:23.014771+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,63,558,94,0.0025,0.015,0.002805,0.0,
+2026-06-02T18:00:23.116066+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,79,553,78,0.0025,0.015,0.0025525,0.0,
+2026-06-02T18:00:23.262391+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,78,534,93,0.0025,0.015,0.00273,1.0,
+2026-06-02T18:00:23.496033+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,80,527,83,0.0025,0.015,0.0025625,1.0,
+2026-06-02T18:00:23.983427+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,94,571,82,0.0025,0.015,0.0026575,1.0,
+2026-06-02T18:00:24.111704+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,85,566,83,0.0025,0.015,0.00266,1.0,
+2026-06-02T18:00:24.114657+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,82,578,81,0.0025,0.015,0.00266,0.0,
+2026-06-02T18:00:24.202011+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,86,529,75,0.0025,0.015,0.0024475,1.0,
+2026-06-02T18:00:24.355104+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,83,543,86,0.0025,0.015,0.0026475,1.0,
+2026-06-02T18:00:24.385431+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,91,527,80,0.0025,0.015,0.0025174999999999,1.0,
+2026-06-02T18:00:24.387342+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,92,556,88,0.0025,0.015,0.0027099999999999,0.0,
+2026-06-02T18:00:24.432091+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,88,525,85,0.0025,0.015,0.0025875,1.0,
+2026-06-02T18:00:24.481791+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,87,539,80,0.0025,0.015,0.0025475,0.0,
+2026-06-02T18:00:24.516507+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,89,538,77,0.0025,0.015,0.0025,1.0,
+2026-06-02T18:00:24.530604+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,90,550,89,0.0025,0.015,0.0027099999999999,1.0,
+2026-06-02T18:00:24.554946+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,84,530,78,0.0025,0.015,0.002495,1.0,
+2026-06-02T18:00:24.556944+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,96,532,89,0.0025,0.015,0.002665,1.0,
+2026-06-02T18:00:24.558632+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,99,606,80,0.0025,0.015,0.002715,1.0,
+2026-06-02T18:00:24.567443+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,95,559,86,0.0025,0.015,0.0026875,1.0,
+2026-06-02T18:00:24.634731+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,81,545,88,0.0025,0.015,0.0026825,1.0,
+2026-06-02T18:00:24.760253+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,93,540,90,0.0025,0.015,0.0027,1.0,
+2026-06-02T18:00:25.019706+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,98,542,87,0.0025,0.015,0.00266,1.0,
+2026-06-02T18:00:27.172485+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,73,575,76,0.0025,0.015,0.0025775,1.0,
+2026-06-02T18:00:27.870829+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,74,544,79,0.0025,0.015,0.002545,0.320821300824607,
+2026-06-02T18:00:28.733372+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,70,530,74,0.0025,0.015,0.0024349999999999,1.0,
+2026-06-02T18:00:39.851895+00:00,01c_Robustness.ipynb,GPT-5.4 | with_desc | new batch,with_desc,openai,gpt-5.4,97,532,82,0.0025,0.015,0.0025599999999999,1.0,
+2026-06-02T20:46:58.393946+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,0,502,300,0.0025,0.015,0.005755,,high
+2026-06-02T20:47:02.241393+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,31,500,172,0.0025,0.015,0.00383,,high
+2026-06-02T20:47:02.375788+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,19,507,158,0.0025,0.015,0.0036375,,high
+2026-06-02T20:47:02.482052+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,13,504,183,0.0025,0.015,0.004005,,high
+2026-06-02T20:47:02.640964+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,33,505,196,0.0025,0.015,0.0042025,,high
+2026-06-02T20:47:02.834267+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,3,506,222,0.0025,0.015,0.004595,,high
+2026-06-02T20:47:02.839253+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,2,503,218,0.0025,0.015,0.0045275,,high
+2026-06-02T20:47:02.920667+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,10,503,222,0.0025,0.015,0.0045874999999999,,high
+2026-06-02T20:47:02.922544+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,6,504,192,0.0025,0.015,0.00414,,high
+2026-06-02T20:47:03.026398+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,40,500,230,0.0025,0.015,0.0047,,high
+2026-06-02T20:47:03.291374+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,22,504,258,0.0025,0.015,0.00513,,high
+2026-06-02T20:47:03.416516+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,30,501,234,0.0025,0.015,0.0047625,,high
+2026-06-02T20:47:03.446575+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,36,504,236,0.0025,0.015,0.0048,,high
+2026-06-02T20:47:03.507898+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,14,505,252,0.0025,0.015,0.0050425,,high
+2026-06-02T20:47:03.555212+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,9,506,254,0.0025,0.015,0.005075,,high
+2026-06-02T20:47:03.581430+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,37,506,256,0.0025,0.015,0.005105,,high
+2026-06-02T20:47:03.597279+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,24,506,258,0.0025,0.015,0.005135,,high
+2026-06-02T20:47:03.668317+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,15,504,239,0.0025,0.015,0.0048449999999999,,high
+2026-06-02T20:47:03.938898+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,23,502,304,0.0025,0.015,0.005815,,high
+2026-06-02T20:47:04.110371+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,4,505,303,0.0025,0.015,0.0058074999999999,,high
+2026-06-02T20:47:04.206556+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,5,505,257,0.0025,0.015,0.0051175,,high
+2026-06-02T20:47:04.376604+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,21,506,284,0.0025,0.015,0.0055249999999999,,high
+2026-06-02T20:47:04.387245+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,11,504,287,0.0025,0.015,0.005565,,high
+2026-06-02T20:47:04.633733+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,35,501,322,0.0025,0.015,0.0060825,,high
+2026-06-02T20:47:05.015700+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,12,503,346,0.0025,0.015,0.0064474999999999,,high
+2026-06-02T20:47:05.158185+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,27,502,335,0.0025,0.015,0.00628,,high
+2026-06-02T20:47:05.180900+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,26,503,298,0.0025,0.015,0.0057275,,high
+2026-06-02T20:47:05.195366+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,34,503,350,0.0025,0.015,0.0065074999999999,,high
+2026-06-02T20:47:05.341546+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,20,500,341,0.0025,0.015,0.006365,,high
+2026-06-02T20:47:05.479500+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,38,504,335,0.0025,0.015,0.006285,,high
+2026-06-02T20:47:05.679495+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,16,505,370,0.0025,0.015,0.0068124999999999,,high
+2026-06-02T20:47:05.820566+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,1,501,398,0.0025,0.015,0.0072225,,high
+2026-06-02T20:47:06.088684+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,39,503,395,0.0025,0.015,0.0071825,,high
+2026-06-02T20:47:06.237417+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,29,502,364,0.0025,0.015,0.006715,,high
+2026-06-02T20:47:07.056538+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,46,505,196,0.0025,0.015,0.0042025,,high
+2026-06-02T20:47:07.315463+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,53,506,163,0.0025,0.015,0.00371,,high
+2026-06-02T20:47:07.350686+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,47,507,226,0.0025,0.015,0.0046575,,high
+2026-06-02T20:47:07.497322+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,7,506,433,0.0025,0.015,0.0077599999999999,,high
+2026-06-02T20:47:07.558281+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,28,504,457,0.0025,0.015,0.008115,,high
+2026-06-02T20:47:07.714342+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,43,501,265,0.0025,0.015,0.0052275,,high
+2026-06-02T20:47:07.774132+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,8,504,485,0.0025,0.015,0.008535,,high
+2026-06-02T20:47:07.795703+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,41,506,272,0.0025,0.015,0.005345,,high
+2026-06-02T20:47:07.978166+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,45,501,232,0.0025,0.015,0.0047325,,high
+2026-06-02T20:47:08.342525+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,44,506,255,0.0025,0.015,0.00509,,high
+2026-06-02T20:47:08.343014+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,42,502,257,0.0025,0.015,0.00511,,high
+2026-06-02T20:47:08.344232+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,49,507,255,0.0025,0.015,0.0050925,,high
+2026-06-02T20:47:08.817354+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,56,501,221,0.0025,0.015,0.0045674999999999,,high
+2026-06-02T20:47:09.215565+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,67,504,196,0.0025,0.015,0.0042,,high
+2026-06-02T20:47:09.360817+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,63,500,260,0.0025,0.015,0.00515,,high
+2026-06-02T20:47:09.477085+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,17,501,602,0.0025,0.015,0.0102825,,high
+2026-06-02T20:47:09.701857+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,60,502,298,0.0025,0.015,0.005725,,high
+2026-06-02T20:47:09.721740+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,64,507,293,0.0025,0.015,0.0056624999999999,,high
+2026-06-02T20:47:09.722572+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,48,506,321,0.0025,0.015,0.00608,,high
+2026-06-02T20:47:10.227410+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,70,504,237,0.0025,0.015,0.004815,,high
+2026-06-02T20:47:10.279463+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,61,505,298,0.0025,0.015,0.0057325,,high
+2026-06-02T20:47:10.681173+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,25,506,526,0.0025,0.015,0.009155,,high
+2026-06-02T20:47:10.708573+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,69,506,311,0.0025,0.015,0.0059299999999999,,high
+2026-06-02T20:47:10.827787+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,51,506,366,0.0025,0.015,0.006755,,high
+2026-06-02T20:47:10.983273+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,50,503,378,0.0025,0.015,0.0069275,,high
+2026-06-02T20:47:11.385428+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,57,505,373,0.0025,0.015,0.0068575,,high
+2026-06-02T20:47:11.462387+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,54,503,388,0.0025,0.015,0.0070775,,high
+2026-06-02T20:47:11.604255+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,18,506,608,0.0025,0.015,0.010385,,high
+2026-06-02T20:47:11.607209+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,75,502,254,0.0025,0.015,0.005065,,high
+2026-06-02T20:47:11.883507+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,78,503,224,0.0025,0.015,0.0046175,,high
+2026-06-02T20:47:11.899395+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,76,501,216,0.0025,0.015,0.0044925,,high
+2026-06-02T20:47:12.012755+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,82,505,223,0.0025,0.015,0.0046075,,high
+2026-06-02T20:47:12.180544+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,58,505,188,0.0025,0.015,0.0040825,,high
+2026-06-02T20:47:12.272091+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,62,506,379,0.0025,0.015,0.00695,,high
+2026-06-02T20:47:12.330106+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,74,505,311,0.0025,0.015,0.0059275,,high
+2026-06-02T20:47:13.220773+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,85,502,256,0.0025,0.015,0.005095,,high
+2026-06-02T20:47:13.233657+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,55,506,462,0.0025,0.015,0.008195,,high
+2026-06-02T20:47:13.393688+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,87,503,227,0.0025,0.015,0.0046625,,high
+2026-06-02T20:47:13.496901+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,96,506,136,0.0025,0.015,0.003305,,high
+2026-06-02T20:47:13.598215+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,66,499,390,0.0025,0.015,0.0070975,,high
+2026-06-02T20:47:13.730155+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,88,503,228,0.0025,0.015,0.0046774999999999,,high
+2026-06-02T20:47:13.854341+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,59,505,556,0.0025,0.015,0.0096025,,high
+2026-06-02T20:47:14.050195+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,97,504,158,0.0025,0.015,0.00363,,high
+2026-06-02T20:47:14.070619+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,94,504,199,0.0025,0.015,0.004245,,high
+2026-06-02T20:47:14.142823+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,83,506,318,0.0025,0.015,0.006035,,high
+2026-06-02T20:47:14.334957+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,91,504,257,0.0025,0.015,0.005115,,high
+2026-06-02T20:47:14.443337+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,89,502,231,0.0025,0.015,0.00472,,high
+2026-06-02T20:47:14.456343+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,86,505,279,0.0025,0.015,0.0054475,,high
+2026-06-02T20:47:14.628584+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,72,505,480,0.0025,0.015,0.0084625,,high
+2026-06-02T20:47:14.989797+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,65,506,509,0.0025,0.015,0.0089,,high
+2026-06-02T20:47:15.319598+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,84,504,405,0.0025,0.015,0.007335,,high
+2026-06-02T20:47:15.844109+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,79,505,416,0.0025,0.015,0.0075025,,high
+2026-06-02T20:47:16.033197+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,81,507,395,0.0025,0.015,0.0071924999999999,,high
+2026-06-02T20:47:16.288667+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,68,503,599,0.0025,0.015,0.0102425,,high
+2026-06-02T20:47:16.711716+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,92,503,342,0.0025,0.015,0.0063875,,high
+2026-06-02T20:47:16.794732+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,32,505,856,0.0025,0.015,0.0141024999999999,,high
+2026-06-02T20:47:17.056418+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,80,495,518,0.0025,0.015,0.0090075,,high
+2026-06-02T20:47:17.746073+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,52,502,692,0.0025,0.015,0.011635,,high
+2026-06-02T20:47:18.527188+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,73,507,699,0.0025,0.015,0.0117524999999999,,high
+2026-06-02T20:47:18.631554+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,71,503,693,0.0025,0.015,0.0116524999999999,,high
+2026-06-02T20:47:19.045249+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,99,500,324,0.0025,0.015,0.00611,,high
+2026-06-02T20:47:19.552836+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,90,503,543,0.0025,0.015,0.0094025,,high
+2026-06-02T20:47:19.754984+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,77,503,600,0.0025,0.015,0.0102575,,high
+2026-06-02T20:47:20.138466+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,98,505,475,0.0025,0.015,0.0083874999999999,,high
+2026-06-02T20:47:22.265153+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,93,503,605,0.0025,0.015,0.0103325,,high
+2026-06-02T20:47:22.608955+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run1,no_desc,openai,gpt-5.4,95,506,585,0.0025,0.015,0.01004,,high
+2026-06-02T20:46:57.384229+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,0,502,223,0.0025,0.015,0.0046,,high
+2026-06-02T20:47:01.094868+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,6,504,113,0.0025,0.015,0.002955,,high
+2026-06-02T20:47:01.577404+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,15,504,176,0.0025,0.015,0.0039,,high
+2026-06-02T20:47:01.651532+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,31,500,159,0.0025,0.015,0.003635,,high
+2026-06-02T20:47:01.712684+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,13,504,162,0.0025,0.015,0.0036899999999999,,high
+2026-06-02T20:47:02.042418+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,5,505,197,0.0025,0.015,0.0042175,,high
+2026-06-02T20:47:02.090184+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,40,500,222,0.0025,0.015,0.00458,,high
+2026-06-02T20:47:02.179587+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,19,507,169,0.0025,0.015,0.0038025,,high
+2026-06-02T20:47:02.446777+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,30,501,185,0.0025,0.015,0.0040275,,high
+2026-06-02T20:47:02.712368+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,14,505,202,0.0025,0.015,0.0042925,,high
+2026-06-02T20:47:02.730309+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,36,504,233,0.0025,0.015,0.004755,,high
+2026-06-02T20:47:02.874897+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,20,500,258,0.0025,0.015,0.00512,,high
+2026-06-02T20:47:02.878638+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,2,503,229,0.0025,0.015,0.0046925,,high
+2026-06-02T20:47:03.031042+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,33,505,203,0.0025,0.015,0.0043075,,high
+2026-06-02T20:47:03.151909+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,11,504,256,0.0025,0.015,0.0051,,high
+2026-06-02T20:47:03.480769+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,25,506,264,0.0025,0.015,0.005225,,high
+2026-06-02T20:47:03.553350+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,35,501,267,0.0025,0.015,0.0052575,,high
+2026-06-02T20:47:03.805487+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,37,506,260,0.0025,0.015,0.0051649999999999,,high
+2026-06-02T20:47:04.044778+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,4,505,271,0.0025,0.015,0.0053275,,high
+2026-06-02T20:47:04.073828+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,9,506,228,0.0025,0.015,0.004685,,high
+2026-06-02T20:47:04.374850+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,24,506,298,0.0025,0.015,0.005735,,high
+2026-06-02T20:47:04.449214+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,8,504,301,0.0025,0.015,0.005775,,high
+2026-06-02T20:47:04.499709+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,23,502,336,0.0025,0.015,0.006295,,high
+2026-06-02T20:47:04.565194+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,29,502,302,0.0025,0.015,0.0057849999999999,,high
+2026-06-02T20:47:04.591751+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,10,503,362,0.0025,0.015,0.0066875,,high
+2026-06-02T20:47:04.716091+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,28,504,341,0.0025,0.015,0.006375,,high
+2026-06-02T20:47:04.863914+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,22,504,313,0.0025,0.015,0.0059549999999999,,high
+2026-06-02T20:47:05.030127+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,7,506,356,0.0025,0.015,0.006605,,high
+2026-06-02T20:47:05.426440+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,26,503,337,0.0025,0.015,0.0063125,,high
+2026-06-02T20:47:05.570739+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,12,503,408,0.0025,0.015,0.0073774999999999,,high
+2026-06-02T20:47:05.600044+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,34,503,375,0.0025,0.015,0.0068825,,high
+2026-06-02T20:47:05.634464+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,1,501,376,0.0025,0.015,0.0068925,,high
+2026-06-02T20:47:05.645884+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,21,506,444,0.0025,0.015,0.007925,,high
+2026-06-02T20:47:05.707569+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,16,505,382,0.0025,0.015,0.0069925,,high
+2026-06-02T20:47:06.063584+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,46,505,157,0.0025,0.015,0.0036175,,high
+2026-06-02T20:47:07.067707+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,38,504,426,0.0025,0.015,0.00765,,high
+2026-06-02T20:47:07.605538+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,53,506,193,0.0025,0.015,0.00416,,high
+2026-06-02T20:47:07.646902+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,27,502,494,0.0025,0.015,0.0086649999999999,,high
+2026-06-02T20:47:07.865978+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,45,501,252,0.0025,0.015,0.0050325,,high
+2026-06-02T20:47:07.935232+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,51,506,227,0.0025,0.015,0.00467,,high
+2026-06-02T20:47:08.014733+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,41,506,302,0.0025,0.015,0.005795,,high
+2026-06-02T20:47:08.016447+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,39,503,506,0.0025,0.015,0.0088475,,high
+2026-06-02T20:47:08.198889+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,49,507,252,0.0025,0.015,0.0050475,,high
+2026-06-02T20:47:08.345147+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,44,506,268,0.0025,0.015,0.005285,,high
+2026-06-02T20:47:08.464878+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,18,506,491,0.0025,0.015,0.00863,,high
+2026-06-02T20:47:08.499629+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,42,502,316,0.0025,0.015,0.005995,,high
+2026-06-02T20:47:08.506391+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,47,507,258,0.0025,0.015,0.0051375,,high
+2026-06-02T20:47:08.757876+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,64,507,229,0.0025,0.015,0.0047025,,high
+2026-06-02T20:47:08.874554+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,3,506,192,0.0025,0.015,0.0041449999999999,,high
+2026-06-02T20:47:09.044341+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,67,504,222,0.0025,0.015,0.00459,,high
+2026-06-02T20:47:09.237670+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,62,506,230,0.0025,0.015,0.004715,,high
+2026-06-02T20:47:09.258556+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,55,506,297,0.0025,0.015,0.0057199999999999,,high
+2026-06-02T20:47:09.366280+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,48,506,325,0.0025,0.015,0.00614,,high
+2026-06-02T20:47:09.594035+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,63,500,304,0.0025,0.015,0.00581,,high
+2026-06-02T20:47:09.748664+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,56,501,295,0.0025,0.015,0.0056774999999999,,high
+2026-06-02T20:47:09.808096+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,57,505,325,0.0025,0.015,0.0061375,,high
+2026-06-02T20:47:09.830155+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,58,505,211,0.0025,0.015,0.0044275,,high
+2026-06-02T20:47:10.144022+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,70,504,237,0.0025,0.015,0.004815,,high
+2026-06-02T20:47:10.358353+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,54,503,347,0.0025,0.015,0.0064624999999999,,high
+2026-06-02T20:47:10.653673+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,61,505,326,0.0025,0.015,0.0061525,,high
+2026-06-02T20:47:10.702715+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,50,503,352,0.0025,0.015,0.0065374999999999,,high
+2026-06-02T20:47:11.286983+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,75,502,211,0.0025,0.015,0.00442,,high
+2026-06-02T20:47:11.640598+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,43,501,433,0.0025,0.015,0.0077475,,high
+2026-06-02T20:47:11.690974+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,82,505,155,0.0025,0.015,0.0035874999999999,,high
+2026-06-02T20:47:12.179364+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,66,499,377,0.0025,0.015,0.0069025,,high
+2026-06-02T20:47:12.515848+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,83,506,255,0.0025,0.015,0.00509,,high
+2026-06-02T20:47:12.622441+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,52,502,490,0.0025,0.015,0.008605,,high
+2026-06-02T20:47:12.631021+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,87,503,224,0.0025,0.015,0.0046175,,high
+2026-06-02T20:47:13.069158+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,76,501,297,0.0025,0.015,0.0057075,,high
+2026-06-02T20:47:13.122500+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,74,505,384,0.0025,0.015,0.0070224999999999,,high
+2026-06-02T20:47:13.128297+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,78,503,278,0.0025,0.015,0.0054275,,high
+2026-06-02T20:47:13.155827+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,96,506,170,0.0025,0.015,0.003815,,high
+2026-06-02T20:47:13.163452+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,85,502,238,0.0025,0.015,0.0048249999999999,,high
+2026-06-02T20:47:13.295311+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,86,505,245,0.0025,0.015,0.0049375,,high
+2026-06-02T20:47:13.461649+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,91,504,249,0.0025,0.015,0.004995,,high
+2026-06-02T20:47:13.647890+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,89,502,210,0.0025,0.015,0.0044049999999999,,high
+2026-06-02T20:47:13.834598+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,65,506,437,0.0025,0.015,0.00782,,high
+2026-06-02T20:47:13.941007+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,88,503,235,0.0025,0.015,0.0047824999999999,,high
+2026-06-02T20:47:13.956347+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,68,503,432,0.0025,0.015,0.0077375,,high
+2026-06-02T20:47:14.005566+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,72,505,466,0.0025,0.015,0.0082525,,high
+2026-06-02T20:47:14.020323+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,60,502,492,0.0025,0.015,0.008635,,high
+2026-06-02T20:47:14.045124+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,79,505,328,0.0025,0.015,0.0061825,,high
+2026-06-02T20:47:14.046533+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,94,504,212,0.0025,0.015,0.0044399999999999,,high
+2026-06-02T20:47:14.371547+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,97,504,230,0.0025,0.015,0.00471,,high
+2026-06-02T20:47:15.000194+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,77,503,382,0.0025,0.015,0.0069875,,high
+2026-06-02T20:47:15.055811+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,81,507,330,0.0025,0.015,0.0062175,,high
+2026-06-02T20:47:15.061031+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,69,506,478,0.0025,0.015,0.008435,,high
+2026-06-02T20:47:15.455429+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,92,503,322,0.0025,0.015,0.0060875,,high
+2026-06-02T20:47:15.617062+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,90,503,380,0.0025,0.015,0.0069575,,high
+2026-06-02T20:47:16.257027+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,99,500,252,0.0025,0.015,0.00503,,high
+2026-06-02T20:47:16.676539+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,80,495,467,0.0025,0.015,0.0082425,,high
+2026-06-02T20:47:16.797893+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,17,501,961,0.0025,0.015,0.0156674999999999,,high
+2026-06-02T20:47:16.895851+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,98,505,365,0.0025,0.015,0.0067374999999999,,high
+2026-06-02T20:47:17.158400+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,84,504,434,0.0025,0.015,0.0077699999999999,,high
+2026-06-02T20:47:17.601731+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,95,506,406,0.0025,0.015,0.007355,,high
+2026-06-02T20:47:19.454629+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,32,505,888,0.0025,0.015,0.0145825,,high
+2026-06-02T20:47:21.454087+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,71,503,820,0.0025,0.015,0.0135574999999999,,high
+2026-06-02T20:47:22.111468+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,59,505,821,0.0025,0.015,0.0135775,,high
+2026-06-02T20:47:27.452329+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,73,507,1320,0.0025,0.015,0.0210675,,high
+2026-06-02T20:47:30.814010+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,93,503,1105,0.0025,0.015,0.0178325,,high
+2026-06-02T20:46:58.972327+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,0,502,308,0.0025,0.015,0.005875,,high
+2026-06-02T20:47:01.533434+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,13,504,117,0.0025,0.015,0.0030150000000000003,,high
+2026-06-02T20:47:02.335561+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,31,500,150,0.0025,0.015,0.0034999999999999996,,high
+2026-06-02T20:47:02.702103+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,19,507,161,0.0025,0.015,0.0036825,,high
+2026-06-02T20:47:03.122506+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,30,501,209,0.0025,0.015,0.0043875,,high
+2026-06-02T20:47:03.342525+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,40,500,237,0.0025,0.015,0.004804999999999999,,high
+2026-06-02T20:47:03.477875+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,6,504,203,0.0025,0.015,0.004305,,high
+2026-06-02T20:47:03.582753+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,10,503,252,0.0025,0.015,0.0050375,,high
+2026-06-02T20:47:03.835339+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,4,505,242,0.0025,0.015,0.004892499999999999,,high
+2026-06-02T20:47:03.845791+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,33,505,211,0.0025,0.015,0.0044275,,high
+2026-06-02T20:47:04.179058+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,5,505,262,0.0025,0.015,0.0051925,,high
+2026-06-02T20:47:04.317005+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,12,503,274,0.0025,0.015,0.0053675,,high
+2026-06-02T20:47:04.369435+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,3,506,263,0.0025,0.015,0.005209999999999999,,high
+2026-06-02T20:47:04.454904+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,35,501,269,0.0025,0.015,0.0052875000000000005,,high
+2026-06-02T20:47:04.508265+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,36,504,278,0.0025,0.015,0.00543,,high
+2026-06-02T20:47:04.584026+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,14,505,279,0.0025,0.015,0.0054475,,high
+2026-06-02T20:47:04.609396+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,24,506,306,0.0025,0.015,0.005854999999999999,,high
+2026-06-02T20:47:04.883726+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,9,506,273,0.0025,0.015,0.00536,,high
+2026-06-02T20:47:04.919344+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,8,504,291,0.0025,0.015,0.005625,,high
+2026-06-02T20:47:04.964112+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,11,504,291,0.0025,0.015,0.005625,,high
+2026-06-02T20:47:05.049531+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,2,503,281,0.0025,0.015,0.0054725,,high
+2026-06-02T20:47:05.328785+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,22,504,322,0.0025,0.015,0.00609,,high
+2026-06-02T20:47:05.337804+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,34,503,384,0.0025,0.015,0.007017499999999999,,high
+2026-06-02T20:47:05.366478+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,20,500,323,0.0025,0.015,0.006095000000000001,,high
+2026-06-02T20:47:05.434743+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,37,506,349,0.0025,0.015,0.006499999999999999,,high
+2026-06-02T20:47:05.453162+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,21,506,291,0.0025,0.015,0.00563,,high
+2026-06-02T20:47:05.492971+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,38,504,382,0.0025,0.015,0.00699,,high
+2026-06-02T20:47:05.801028+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,18,506,347,0.0025,0.015,0.00647,,high
+2026-06-02T20:47:05.812635+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,23,502,356,0.0025,0.015,0.006594999999999999,,high
+2026-06-02T20:47:06.421918+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,26,503,344,0.0025,0.015,0.0064175,,high
+2026-06-02T20:47:06.833875+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,16,505,408,0.0025,0.015,0.007382499999999999,,high
+2026-06-02T20:47:06.874789+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,28,504,402,0.0025,0.015,0.00729,,high
+2026-06-02T20:47:07.002943+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,17,501,424,0.0025,0.015,0.0076124999999999995,,high
+2026-06-02T20:47:07.074301+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,1,501,366,0.0025,0.015,0.0067425,,high
+2026-06-02T20:47:07.100746+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,27,502,431,0.0025,0.015,0.007719999999999999,,high
+2026-06-02T20:47:07.426877+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,32,505,435,0.0025,0.015,0.007787499999999999,,high
+2026-06-02T20:47:07.580280+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,41,506,310,0.0025,0.015,0.005915,,high
+2026-06-02T20:47:07.971825+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,25,506,408,0.0025,0.015,0.007384999999999999,,high
+2026-06-02T20:47:08.128676+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,49,507,222,0.0025,0.015,0.0045975,,high
+2026-06-02T20:47:08.275062+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,15,504,219,0.0025,0.015,0.0045449999999999996,,high
+2026-06-02T20:47:08.498744+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,39,503,520,0.0025,0.015,0.0090575,,high
+2026-06-02T20:47:08.643852+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,29,502,443,0.0025,0.015,0.0079,,high
+2026-06-02T20:47:08.663045+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,42,502,279,0.0025,0.015,0.00544,,high
+2026-06-02T20:47:08.668870+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,44,506,253,0.0025,0.015,0.00506,,high
+2026-06-02T20:47:08.752761+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,47,507,247,0.0025,0.015,0.0049724999999999995,,high
+2026-06-02T20:47:08.781323+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,45,501,288,0.0025,0.015,0.005572499999999999,,high
+2026-06-02T20:47:08.878670+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,46,505,265,0.0025,0.015,0.0052375,,high
+2026-06-02T20:47:09.146896+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,58,505,191,0.0025,0.015,0.0041275,,high
+2026-06-02T20:47:09.463278+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,67,504,191,0.0025,0.015,0.004125,,high
+2026-06-02T20:47:09.579629+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,56,501,200,0.0025,0.015,0.0042525,,high
+2026-06-02T20:47:09.630572+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,53,506,271,0.0025,0.015,0.00533,,high
+2026-06-02T20:47:09.760330+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,64,507,197,0.0025,0.015,0.0042225000000000006,,high
+2026-06-02T20:47:10.046816+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,63,500,286,0.0025,0.015,0.00554,,high
+2026-06-02T20:47:10.209716+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,60,502,278,0.0025,0.015,0.005425,,high
+2026-06-02T20:47:10.288760+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,7,506,609,0.0025,0.015,0.0104,,high
+2026-06-02T20:47:10.415795+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,69,506,219,0.0025,0.015,0.00455,,high
+2026-06-02T20:47:10.705895+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,52,502,345,0.0025,0.015,0.006429999999999999,,high
+2026-06-02T20:47:10.882279+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,57,505,315,0.0025,0.015,0.0059875,,high
+2026-06-02T20:47:11.073642+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,48,506,305,0.0025,0.015,0.00584,,high
+2026-06-02T20:47:11.204675+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,55,506,340,0.0025,0.015,0.006365000000000001,,high
+2026-06-02T20:47:11.331822+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,50,503,424,0.0025,0.015,0.007617499999999999,,high
+2026-06-02T20:47:11.522493+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,61,505,307,0.0025,0.015,0.0058674999999999995,,high
+2026-06-02T20:47:11.574120+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,62,506,321,0.0025,0.015,0.00608,,high
+2026-06-02T20:47:11.641485+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,75,502,175,0.0025,0.015,0.0038799999999999998,,high
+2026-06-02T20:47:12.261207+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,70,504,298,0.0025,0.015,0.00573,,high
+2026-06-02T20:47:12.355856+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,78,503,216,0.0025,0.015,0.0044975,,high
+2026-06-02T20:47:12.405324+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,82,505,197,0.0025,0.015,0.0042175,,high
+2026-06-02T20:47:12.514649+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,66,499,394,0.0025,0.015,0.007157500000000001,,high
+2026-06-02T20:47:12.781857+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,43,501,471,0.0025,0.015,0.008317499999999999,,high
+2026-06-02T20:47:13.194815+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,54,503,440,0.0025,0.015,0.0078575,,high
+2026-06-02T20:47:13.340144+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,87,503,203,0.0025,0.015,0.0043025,,high
+2026-06-02T20:47:13.359890+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,88,503,199,0.0025,0.015,0.0042425,,high
+2026-06-02T20:47:13.470306+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,89,502,235,0.0025,0.015,0.0047799999999999995,,high
+2026-06-02T20:47:14.128280+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,65,506,469,0.0025,0.015,0.0083,,high
+2026-06-02T20:47:14.250043+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,81,507,289,0.0025,0.015,0.0056025,,high
+2026-06-02T20:47:14.282812+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,85,502,263,0.0025,0.015,0.0052,,high
+2026-06-02T20:47:14.296997+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,97,504,171,0.0025,0.015,0.0038250000000000003,,high
+2026-06-02T20:47:14.430759+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,96,506,181,0.0025,0.015,0.00398,,high
+2026-06-02T20:47:14.514142+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,72,505,414,0.0025,0.015,0.007472499999999999,,high
+2026-06-02T20:47:14.586614+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,91,504,216,0.0025,0.015,0.0045,,high
+2026-06-02T20:47:14.656184+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,76,501,332,0.0025,0.015,0.0062325,,high
+2026-06-02T20:47:14.662563+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,79,505,324,0.0025,0.015,0.0061224999999999995,,high
+2026-06-02T20:47:14.844384+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,51,506,534,0.0025,0.015,0.009275,,high
+2026-06-02T20:47:15.499079+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,94,504,217,0.0025,0.015,0.004515,,high
+2026-06-02T20:47:15.636423+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,73,507,470,0.0025,0.015,0.008317499999999999,,high
+2026-06-02T20:47:16.057268+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,84,504,382,0.0025,0.015,0.00699,,high
+2026-06-02T20:47:16.059745+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,83,506,390,0.0025,0.015,0.007115,,high
+2026-06-02T20:47:16.305033+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,86,505,381,0.0025,0.015,0.006977499999999999,,high
+2026-06-02T20:47:16.726092+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,68,503,604,0.0025,0.015,0.010317499999999999,,high
+2026-06-02T20:47:16.788706+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,77,503,445,0.0025,0.015,0.007932499999999999,,high
+2026-06-02T20:47:16.863607+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,80,495,441,0.0025,0.015,0.0078525,,high
+2026-06-02T20:47:17.591808+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,71,503,564,0.0025,0.015,0.009717499999999999,,high
+2026-06-02T20:47:18.528661+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,74,505,610,0.0025,0.015,0.0104125,,high
+2026-06-02T20:47:18.643870+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,59,505,673,0.0025,0.015,0.0113575,,high
+2026-06-02T20:47:20.349961+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,93,503,589,0.0025,0.015,0.010092499999999999,,high
+2026-06-02T20:47:20.358074+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,90,503,539,0.0025,0.015,0.0093425,,high
+2026-06-02T20:47:20.704852+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,92,503,488,0.0025,0.015,0.008577499999999998,,high
+2026-06-02T20:47:22.113082+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,99,500,500,0.0025,0.015,0.008749999999999999,,high
+2026-06-02T20:47:22.412273+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,98,505,589,0.0025,0.015,0.010097499999999999,,high
+2026-06-02T20:47:31.483040+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,95,506,1092,0.0025,0.015,0.017645,,high

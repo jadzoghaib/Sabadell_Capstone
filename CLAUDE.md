@@ -158,7 +158,7 @@ data/   # tracked for collab so teammates can pull results without re-running
                llama_02/ (archived older Llama-3.3-70b prompt-variance run),
                03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
                (hybrid — written when 03 runs),
-               04b_final_benchmark.csv + 04b_*.png (final benchmark — written
+               04_final_benchmark.csv + 04_*.png (final benchmark — written
                when 04b runs),
                llm_calls.csv (per-call cost log)                               (tracked)
 models/        xgb_model.joblib, lr_model.joblib, ann_model.keras,
@@ -208,15 +208,12 @@ notebooks/
                                     # sentence embeddings (Part 7, optional — needs sentence-transformers).
                                     # → 03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
     04_final_benchmark/      # PHASE 4 (the spine, run last): finalists × GPT-5.4, threshold + COST vs XGBoost
-      04a_Financial_Simulation.ipynb # EXECUTIVE FINALIST DASHBOARD (no API $): set
-                                    # FINALISTS at top; pulls each one's metrics + per-loan
-                                    # cost (llm_calls.csv) + qualitative fingerprint (01f/02c
-                                    # JSON) into one presentation-ready credit-vs-token table.
-      04b_Final_Benchmark.ipynb      # SCAFFOLD — fill in FINALISTS, then run (spends API $).
+      04_Final_Test_Analysis.ipynb   # FINAL BENCHMARK & DASHBOARD: fill in FINALISTS, then run.
                                     # Loads 03_locked_params.csv to apply hybrid ensembles post-hoc.
-                                    # → 04b_final_benchmark.csv + 04b_benchmark_f1_vs_cost.png
+                                    # → 04_final_benchmark.csv + 04_benchmark_f1_vs_cost.png
                                     # Threshold tuning lives ONLY here, on the actual finalists.
-    # NAMING: file prefix = phase (01a, 02, 03, 04a, 04b). Result CSVs share the same
+                                    # Pulls metrics + per-loan cost + qualitative fingerprint into one table.
+    # NAMING: file prefix = phase (01a, 02, 03, 04). Result CSVs share the same
     # prefix as the notebook that writes them.
 reports/       Progress report 1.pdf, output.png
 ```
@@ -244,8 +241,7 @@ python llm_models/sample_generation.py    [generates robustness_batch + test_bat
 02_prompt_variance/02b                   [writes 02b_predictions.csv + 02b_phase1_metrics.csv]
 02_prompt_variance/02c                   [analysis gate — AFTER 02b; GPT-5.4 judge → 02c_qualitative_financial.json]
 03_hybrid/03_Blended_LLM_ML              [standalone — uses Groq directly, does NOT read 02_predictions.csv]
-04_final_benchmark/04a_Financial_Simulation [dashboard — reads 01f + 02c JSONs + metrics; no API $]
-04_final_benchmark/04b_Final_Benchmark     [run LAST — loads 03_locked_params.csv if phase 3 was run]
+04_final_benchmark/04_Final_Test_Analysis   [run LAST — final benchmark and dashboard, loads 03_locked_params.csv]
 ```
 
 `02_Preprocessing.ipynb` does a 67/33 train/test split with `random_state=42`.
@@ -281,7 +277,7 @@ May 2026.
 - **Phase 3 (03_hybrid)** tunes hyperparameters on `tuning_sample` and
   selects the winning strategy on `robustness_batch` (validation). It saves
   `03_locked_params.csv` with the frozen parameters.
-- **Phase 4 (04b_Final_Benchmark.ipynb)** is the ONLY notebook that loads
+- **Phase 4 (04_Final_Test_Analysis.ipynb)** is the ONLY notebook that loads
   `test_batch.csv`. It runs the finalist LLM prompts and XGBoost on the
   test set, then applies the Phase 3 hybrid strategies **post-hoc** using
   the locked parameters — requiring zero additional API calls for the
