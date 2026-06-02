@@ -1,0 +1,10 @@
+,tuning,robustness
+Soft blend (binary),0.4,0.133
+Intersection (XGB AND LLM),0.357,0.105
+LLM (solo),0.387,0.095
+LLM + XGB high-conf prune,0.387,0.095
+5A risk blend (desc),0.4,0.087
+Confidence gate,0.4,0.057
+XGBoost (solo),0.311,0.049
+Union (XGB OR LLM),0.333,0.047
+XGB + LLM borderline boost,0.333,0.047

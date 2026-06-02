@@ -23,6 +23,13 @@ from sklearn.metrics import (
 
 from llm_pricing import get_price
 
+def _get_cache_path(notebook_id, label, desc_tag):
+    import re
+    safe_label = re.sub(r'[^a-zA-Z0-9_-]', '_', label)
+    filename = f"{notebook_id}_{safe_label}_{desc_tag}.json"
+    cache_dir = os.path.join(RESULTS_DIR, "cache")
+    return os.path.join(cache_dir, filename)
+
 # Anchor every project path to the repo root so notebooks can live at any depth
 # under notebooks/ without breaking I/O. `__file__` is llm_models/llm_utils.py;
 # parent.parent is notebooks/; parent.parent.parent is the repo root.
@@ -136,10 +143,17 @@ def _train_test_split_canonical(df):
 
 # ── XGBoost prediction on LLM sample rows ───────────────────────────────────
 
-def run_ml_on_sample(llm_sample):
+def encode_for_ml(llm_sample):
     """
-    Re-encode and scale the LLM sample, then run the XGBoost model.
-    Returns (xgb_probs, xgb_preds) as arrays.
+    Re-encode and scale an LLM sample exactly as 02_Preprocessing did, and load
+    the trained XGBoost artefacts. Single source of truth for the ML preprocessing
+    so run_ml_on_sample and SHAP/explainability share identical encoding.
+
+    Returns (X_scaled_df, model, threshold):
+      X_scaled_df : DataFrame of scaled features, columns = feature_cols (named,
+                    in training order) — ready for model.predict_proba or SHAP.
+      model       : the loaded XGBoost classifier.
+      threshold   : the tuned decision threshold (thresholds['xgb']).
     """
     import joblib
 
@@ -189,9 +203,18 @@ def run_ml_on_sample(llm_sample):
     X = X.reindex(columns=feature_cols, fill_value=0)
 
     X_scaled = scaler.transform(X).astype(np.float32)
-    probs = model.predict_proba(X_scaled)[:, 1]
-    preds = (probs >= threshold).astype(int)
+    X_scaled_df = pd.DataFrame(X_scaled, columns=feature_cols, index=llm_sample.index)
+    return X_scaled_df, model, threshold
 
+
+def run_ml_on_sample(llm_sample):
+    """
+    Re-encode and scale the LLM sample, then run the XGBoost model.
+    Returns (xgb_probs, xgb_preds) as arrays.
+    """
+    X_scaled_df, model, threshold = encode_for_ml(llm_sample)
+    probs = model.predict_proba(X_scaled_df.values)[:, 1]
+    preds = (probs >= threshold).astype(int)
     return probs, preds
 
 
@@ -336,6 +359,64 @@ def load_api_key(api_provider, model=None):
     }
     env_var = key_map.get(api_provider)
     return os.environ.get(env_var) if env_var else None
+
+
+def load_all_api_keys(api_provider):
+    """Discover ALL numbered API keys for a provider from .env.
+
+    Scans for the base key (e.g. OPENAI_API_KEY) plus every numbered variant
+    (OPENAI_API_KEY_2, OPENAI_API_KEY_3, …, up to _50) and returns a
+    deduplicated list preserving discovery order. Empty/missing keys are
+    silently skipped.
+
+    Example .env layout::
+
+        OPENAI_API_KEY=sk-abc
+        OPENAI_API_KEY_2=sk-def
+        OPENAI_API_KEY_3=sk-ghi
+
+    >>> load_all_api_keys("openai")
+    ['sk-abc', 'sk-def', 'sk-ghi']
+
+    Falls back to [load_api_key(provider)] if no numbered keys exist, so
+    callers always get a non-empty list (or a list with one None if nothing
+    is configured at all — same behaviour as before).
+    """
+    import os
+    _load_env()
+
+    _BASE_MAP = {
+        "openai":    "OPENAI_API_KEY",
+        "anthropic": "ANTHROPIC_API_KEY",
+        "nvidia":    "NVIDIA_API_KEY",
+        "groq":      "GROQ_API_KEY",
+        "gemini":    "GEMINI_API_KEY",
+    }
+    base_var = _BASE_MAP.get(api_provider)
+    if base_var is None:
+        return [load_api_key(api_provider)]
+
+    seen = set()
+    keys = []
+
+    def _add(val):
+        if val and val not in seen:
+            seen.add(val)
+            keys.append(val)
+
+    # Base key (no suffix)
+    _add(os.environ.get(base_var))
+
+    # Numbered variants: _2, _3, …, _50
+    for i in range(2, 51):
+        _add(os.environ.get(f"{base_var}_{i}"))
+
+    # Gemini has model-specific keys too — include those
+    if api_provider == "gemini":
+        _add(os.environ.get("GEMINI_API_KEY_PRO"))
+        _add(os.environ.get("GEMINI_API_KEY_FLASH"))
+
+    return keys or [load_api_key(api_provider)]
 
 
 _USAGE_ATTRS = {
@@ -1196,7 +1277,8 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                        system_prompt=None, user_prompt_fn=None,
                        batch_size=None, reasoning_effort=None,
                        notebook_id=None, temperature=None, seed=None,
-                       strict=False, max_fail_frac=0.5):
+                       strict=False, max_fail_frac=0.5,
+                       api_keys=None, max_workers=None, use_cache=False):
     """
     Run the full LLM prediction loop on a sample.
 
@@ -1229,6 +1311,19 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
                 predictions exceeds max_fail_frac — AFTER logging what succeeded —
                 so a half-broken run can't silently masquerade as complete.
         max_fail_frac: failure-fraction threshold for `strict` (default 0.5).
+        api_keys: optional list of API keys to rotate across when running the
+                  per-loan loop in parallel (round-robin by loan index). More
+                  keys = more aggregate throughput under per-key rate limits.
+                  Ignored in batch mode. Falls back to [api_key] if omitted.
+        max_workers: thread-pool size for the per-loan loop. None/1 = the
+                  original sequential loop (default, fully backward compatible);
+                  >1 fans calls out concurrently (results stay in loan order;
+                  cost logging is index-keyed and lock-guarded). For 1000-loan
+                  runs, len(api_keys) * ~4 is a good starting point.
+        use_cache: if True and notebook_id is provided, check the JSON cache in
+                   data/results/llm/cache/ for an identical prior run, and instantly
+                   return it to bypass all API calls. A successful new run will
+                   automatically save its result to this cache.
 
     Returns:
         dict with 'predictions', 'probabilities', 'reasonings', 'raw_responses',
@@ -1237,11 +1332,21 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         mode), and 'n_failed' / 'failed_indices'.
     """
     import time as _time
+    import threading
+    _log_lock = threading.Lock()
 
     label = label or model_name
     desc_tag = "with_desc" if include_desc else "no_desc"
     tag = f"[{label} | {desc_tag}]"
     nb_id = notebook_id or _get_notebook_name()
+
+    if use_cache and nb_id:
+        c_path = _get_cache_path(nb_id, label, desc_tag)
+        if os.path.exists(c_path):
+            print(f"{tag} Loading cached results from {os.path.basename(c_path)}...")
+            with open(c_path, 'r') as f:
+                import json
+                return json.load(f)
 
     # Resolve pricing once, fail-fast on unknown model before burning API calls.
     in_price_per_1k, out_price_per_1k = get_price(model_name)
@@ -1262,22 +1367,23 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         in_t = meta.get("input_tokens", 0)
         out_t = meta.get("output_tokens", 0)
         cost_usd = (in_t / 1000.0) * in_price_per_1k + (out_t / 1000.0) * out_price_per_1k
-        call_rows.append({
-            "timestamp":             datetime.now(timezone.utc).isoformat(),
-            "notebook_id":           nb_id,
-            "label":                 label,
-            "desc_tag":              desc_tag,
-            "provider":              api_provider,
-            "model":                 model_name,
-            "row_index":             row_index,
-            "input_tokens":          in_t,
-            "output_tokens":         out_t,
-            "input_price_per_1k_usd":  in_price_per_1k,
-            "output_price_per_1k_usd": out_price_per_1k,
-            "cost_usd":              cost_usd,
-            "prob_fully_paid":       meta.get("prob_fully_paid"),
-            "reasoning_effort":      reasoning_effort,
-        })
+        with _log_lock:
+            call_rows.append({
+                "timestamp":             datetime.now(timezone.utc).isoformat(),
+                "notebook_id":           nb_id,
+                "label":                 label,
+                "desc_tag":              desc_tag,
+                "provider":              api_provider,
+                "model":                 model_name,
+                "row_index":             row_index,
+                "input_tokens":          in_t,
+                "output_tokens":         out_t,
+                "input_price_per_1k_usd":  in_price_per_1k,
+                "output_price_per_1k_usd": out_price_per_1k,
+                "cost_usd":              cost_usd,
+                "prob_fully_paid":       meta.get("prob_fully_paid"),
+                "reasoning_effort":      reasoning_effort,
+            })
         if 0 <= row_index < n:
             tok_in_arr[row_index] = in_t
             tok_out_arr[row_index] = out_t
@@ -1288,10 +1394,10 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
             return user_prompt_fn(row)
         return build_user_prompt(row, include_desc=include_desc)
 
-    def _do_call(prompt):
+    def _do_call(prompt, key=None):
         return call_llm(
             system_prompt, prompt,
-            api_provider=api_provider, model=model_name, api_key=api_key,
+            api_provider=api_provider, model=model_name, api_key=(key or api_key),
             return_usage=True, with_logprobs=with_logprobs,
             reasoning_effort=reasoning_effort, temperature=temperature, seed=seed,
         )
@@ -1346,60 +1452,69 @@ def run_llm_experiment(llm_sample, api_provider, model_name, include_desc=False,
         print(f"{tag} COMPLETE — {n_calls} batch calls, "
               f"{n - n_errors}/{n} predictions parsed, {total_time:.0f}s total")
 
-    # ── Original per-loan loop ────────────────────────────────────────────────
+    # ── Per-loan loop (sequential, or parallel across keys) ───────────────────
     else:
-        first_row = llm_sample.iloc[0]
-        try:
-            test_raw, test_meta = _do_call(_build_user_prompt(first_row))
-            test_parsed = parse_llm_response(test_raw)
-            print(f"{tag} First call OK (pred={test_parsed['prediction']}, "
-                  f"prob={test_meta.get('prob_fully_paid')}). Starting full run...")
-        except Exception as e:
-            print(f"{tag} FAILED on first call: {e}")
-            raise RuntimeError(f"{tag} cannot reach API: {e}")
+        keys = [k for k in (api_keys or [api_key]) if k] or [None]
+        workers = max_workers or (len(keys) if len(keys) > 1 else 1)
 
-        _record(0, test_meta)
+        # Index-keyed result arrays so parallel completions stay in loan order.
+        predictions   = [None] * n
+        probabilities = [None] * n
+        reasonings    = ["MISSING"] * n
+        raw_responses = [None] * n
+        rows = [row for _, row in llm_sample.iterrows()]
 
-        predictions   = [test_parsed['prediction']]
-        probabilities = [test_meta.get('prob_fully_paid')]
-        reasonings    = [test_parsed['reasoning']]
-        raw_responses = [test_raw]
-
-        # First call already counts as a parse error if it didn't parse.
-        if predictions[0] is None:
-            failed_indices.append(0)
-
-        start = _time.time()
-        for i, (_, row) in enumerate(llm_sample.iterrows()):
-            if i == 0:
-                continue
-
+        def _process_one(i, row, key):
             # Resilient: a transient failure on one loan (after call_llm's own
             # retries) records a gap and continues, rather than discarding the
             # whole run's buffer. Failures are counted and surfaced loudly below.
             try:
-                raw, meta = _do_call(_build_user_prompt(row))
-                raw_responses.append(raw)
-                _record(i, meta)
+                raw, meta = _do_call(_build_user_prompt(row), key)
                 parsed = parse_llm_response(raw)
-                predictions.append(parsed['prediction'])
-                probabilities.append(meta.get('prob_fully_paid'))
-                reasonings.append(parsed['reasoning'])
-                if parsed['prediction'] is None:
-                    failed_indices.append(i)
+                _record(i, meta)
+                raw_responses[i]  = raw
+                predictions[i]    = parsed['prediction']
+                probabilities[i]  = meta.get('prob_fully_paid')
+                reasonings[i]     = parsed['reasoning']
             except Exception as e:
                 print(f"{tag}   loan {i} FAILED after retries: {e}")
-                raw_responses.append(None)
-                predictions.append(None)
-                probabilities.append(None)
-                reasonings.append(f"CALL_ERROR: {e}")
-                failed_indices.append(i)
+                reasonings[i] = f"CALL_ERROR: {e}"
 
-            if (i + 1) % 10 == 0:
-                elapsed = _time.time() - start
-                rate = (i + 1) / elapsed
-                eta = (len(llm_sample) - i - 1) / rate
-                print(f"{tag} {i+1}/100 done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
+        # Fail-fast: run loan 0 first so an auth/route error aborts before we
+        # fan out n calls (and before any worker pool spins up).
+        try:
+            _process_one(0, rows[0], keys[0])
+            if predictions[0] is None and str(reasonings[0]).startswith("CALL_ERROR"):
+                raise RuntimeError(reasonings[0])
+            print(f"{tag} First call OK (pred={predictions[0]}, prob={probabilities[0]}). "
+                  f"Running {n} loans on {len(keys)} key(s) × {workers} worker(s)...")
+        except Exception as e:
+            print(f"{tag} FAILED on first call: {e}")
+            raise RuntimeError(f"{tag} cannot reach API: {e}")
+
+        start = _time.time()
+        if workers <= 1:
+            for i in range(1, n):
+                _process_one(i, rows[i], keys[0])
+                if (i + 1) % 10 == 0:
+                    elapsed = _time.time() - start
+                    rate = (i + 1) / max(elapsed, 1e-9)
+                    eta = (n - i - 1) / max(rate, 1e-9)
+                    print(f"{tag} {i+1}/{n} done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
+        else:
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futs = {pool.submit(_process_one, i, rows[i], keys[i % len(keys)]): i
+                        for i in range(1, n)}
+                done = 0
+                for fut in as_completed(futs):
+                    fut.result()
+                    done += 1
+                    if done % 25 == 0 or done == len(futs):
+                        elapsed = _time.time() - start
+                        rate = done / max(elapsed, 1e-9)
+                        eta = (len(futs) - done) / max(rate, 1e-9)
+                        print(f"{tag} {done+1}/{n} done ({elapsed:.0f}s elapsed, ~{eta:.0f}s remaining)")
 
         n_errors = sum(1 for p in predictions if p is None)
         n_probs = sum(1 for p in probabilities if p is not None)

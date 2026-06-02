@@ -36,6 +36,7 @@ TEST_PATH       = Path(DATA_DIR) / "test_batch.csv"
 
 SEED_TUNING, SEED_ROBUSTNESS, SEED_TEST = 42, 99, 2024
 N_DEFAULT = 100
+N_TEST = 1000  # Phase-4 final test set (large, for stable held-out + real P&L)
 
 # Raw columns to pull (the full set — including the 9 features the old keep-list
 # was missing). emp_title is loaded only to mirror 02_Preprocessing, then dropped.
@@ -47,6 +48,18 @@ _RAW_COLS = [
     'application_type', 'mort_acc', 'pub_rec_bankruptcies', 'zip_code',
     'addr_state', 'desc', 'fico_range_low', 'fico_range_high', 'delinq_2yrs',
     'inq_last_6mths', 'mths_since_last_delinq', 'acc_open_past_24mths',
+    # Realized cashflow columns — NOT model features. Used only by the Phase 4
+    # financial analysis to compute ACTUAL portfolio P&L (money in/out) on the
+    # held-out test set, instead of made-up portfolio assumptions.
+    'total_pymnt', 'total_rec_prncp', 'total_rec_int', 'recoveries',
+    'collection_recovery_fee', 'funded_amnt',
+]
+
+# Realized-cashflow columns appended to the schema (test set only in practice;
+# tuning/robustness keep their committed 35-col files because they load-if-exists).
+_CASHFLOW_COLS = [
+    'total_pymnt', 'total_rec_prncp', 'total_rec_int', 'recoveries',
+    'collection_recovery_fee', 'funded_amnt',
 ]
 
 # Final 35-column schema (matches the committed tuning_sample exactly).
@@ -72,8 +85,19 @@ _frame_cache = None
 
 # ── Generation internals ─────────────────────────────────────────────────────
 def _build_frame():
-    """Load raw, filter to 2012–2014 binary-status loans, and derive the same
-    feature columns as ml_models/02_Preprocessing — yielding the 35-col schema.
+    """Load raw and reproduce ml_models/02_Preprocessing **exactly** up to (and
+    including) the dropna, so the train_test_split below partitions the SAME rows
+    XGBoost trained/tested on.
+
+    CRITICAL (fixed May 2026): the dropna MUST run before the split. An earlier
+    version split the un-dropna'd frame, which — because train_test_split's
+    shuffle depends on row count — produced a *different* partition than
+    02_Preprocessing's. The result was that ~64% of the held-out batches were
+    actually in XGBoost's training set (verified), silently inflating every
+    XGBoost-vs-LLM comparison run on robustness_batch / test_batch. Reproducing
+    the dropna here yields the exact 126,845-row test set, so the drawn batches
+    are a true subset of XGBoost's held-out test data.
+
     Cached for the process (the raw .csv.gz is ~1GB)."""
     global _frame_cache
     if _frame_cache is not None:
@@ -85,30 +109,56 @@ def _build_frame():
     df = df[(df['issue_d'].dt.year >= 2012) & (df['issue_d'].dt.year <= 2014)].copy()
     df['loan_status'] = df['loan_status'].map({'Fully Paid': 1, 'Charged Off': 0})
 
+    if df['int_rate'].dtype == object:
+        df['int_rate'] = df['int_rate'].str.replace('%', '').astype(float)
+    df.loc[df['home_ownership'].isin(['ANY', 'NONE']), 'home_ownership'] = 'OTHER'
+
     df['earliest_cr_line'] = pd.to_datetime(df['earliest_cr_line'], format='%b-%Y')
     df['credit_history_years'] = (df['issue_d'] - df['earliest_cr_line']).dt.days / 365.25
     df['has_past_delinq'] = df['mths_since_last_delinq'].notna().astype(int)
     df['mths_since_last_delinq'] = df['mths_since_last_delinq'].fillna(999)
     df['emp_length'] = df['emp_length'].map(_EMP_LENGTH_MAP)
 
-    _frame_cache = df.reindex(columns=_SCHEMA)
+    # Impute mort_acc by total_acc-group mean (mirrors 02_Preprocessing), so those
+    # rows are NOT dropped by the dropna below — matching the training pipeline.
+    ta_mean = df.groupby('total_acc')['mort_acc'].mean()
+    miss = df['mort_acc'].isna()
+    df.loc[miss, 'mort_acc'] = df.loc[miss, 'total_acc'].map(ta_mean).round()
+    df['mort_acc'] = df['mort_acc'].fillna(round(ta_mean.mean()))
+
+    # Drop rows with any NaN in the modelling columns (desc/cashflow excluded) —
+    # this is the step that defines the row universe the split partitions.
+    model_cols = [c for c in _SCHEMA if c != 'desc']
+    df = df.dropna(subset=model_cols)
+
+    _frame_cache = df.reindex(columns=_SCHEMA + _CASHFLOW_COLS)
     return _frame_cache
 
 
-def _test_pool_with_desc():
-    """The canonical test split (random_state=42, test_size=0.33), restricted to
-    rows with a borrower description — the universe every batch is drawn from."""
+def _test_pool(require_desc=True):
+    """XGBoost's exact held-out test set (dropna'd frame, random_state=42,
+    test_size=0.33) — the universe every batch is drawn from, guaranteeing drawn
+    batches are a true subset of XGBoost's test data (no train leakage).
+
+    require_desc=True (legacy) restricts to rows with a borrower description,
+    needed when a batch will be evaluated in the ``with_desc`` condition. The
+    Phase-4 final test runs ``no_desc`` only (apples-to-apples vs XGBoost), so it
+    passes require_desc=False to draw from the full split and avoid the selection
+    bias of "borrowers who wrote a blurb".
+    """
     from sklearn.model_selection import train_test_split
     _, test = train_test_split(_build_frame(), test_size=0.33, random_state=42)
-    return test[test['desc'].notna() & (test['desc'].astype(str).str.strip() != '')]
+    if require_desc:
+        return test[test['desc'].notna() & (test['desc'].astype(str).str.strip() != '')]
+    return test
 
 
 def _keys(df):
     return set(zip(df['loan_amnt'], df['int_rate'], df['annual_inc']))
 
 
-def _draw(n, seed, exclude):
-    pool = _test_pool_with_desc()
+def _draw(n, seed, exclude, require_desc=True):
+    pool = _test_pool(require_desc=require_desc)
     if exclude:
         mask = ~pool.apply(
             lambda r: (r['loan_amnt'], r['int_rate'], r['annual_inc']) in exclude, axis=1
@@ -145,11 +195,19 @@ def get_robustness_batch(force=False, n=N_DEFAULT):
                    lambda: _draw(n, SEED_ROBUSTNESS, exclude=_keys(get_tuning_sample())))
 
 
-def get_test_batch(force=False, n=N_DEFAULT):
-    """FINAL test batch — used once, in the benchmark (03). Excludes both the
-    tuning sample and the robustness batch, so it is genuinely unseen."""
+def get_test_batch(force=False, n=N_TEST, require_desc=False):
+    """FINAL test batch — touched once, in Phase 4. Excludes both the tuning
+    sample and the robustness batch, so it is genuinely unseen.
+
+    Defaults (changed May 2026): n=1000 and require_desc=False. The Phase-4
+    final benchmark runs the no_desc condition only, so the test set is drawn
+    from the FULL held-out split (representative of the real portfolio) rather
+    than the desc-having subsample. Carries realized-cashflow columns for the
+    actual-P&L financial analysis. Pass require_desc=True / n=100 to reproduce
+    the legacy 100-loan desc-restricted batch."""
     excl = _keys(get_tuning_sample()) | _keys(get_robustness_batch())
-    return _cached(TEST_PATH, force, lambda: _draw(n, SEED_TEST, exclude=excl))
+    return _cached(TEST_PATH, force,
+                   lambda: _draw(n, SEED_TEST, exclude=excl, require_desc=require_desc))
 
 
 if __name__ == "__main__":

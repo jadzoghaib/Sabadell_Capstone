@@ -1,13 +1,13 @@
 variant,description,with_desc,accuracy,precision_charged_off,recall_charged_off,f1_charged_off,n_valid
 conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,No,0.54,0.196,0.667,0.303,100
-conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,Yes,0.56,0.226,0.8,0.353,100
+conservative,Risk-averse underwriter; bias toward flagging defaults when uncertain,Yes,0.55,0.212,0.733,0.328,100
 chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,No,0.83,0.417,0.333,0.37,100
 chain_of_thought,Explicit step-by-step reasoning through risk factors before prediction,Yes,0.79,0.25,0.2,0.222,100
 few_shot,4 labeled training examples prepended before each prediction request,No,0.82,0.385,0.333,0.357,100
-few_shot,4 labeled training examples prepended before each prediction request,Yes,0.77,0.3,0.4,0.343,100
+few_shot,4 labeled training examples prepended before each prediction request,Yes,0.76,0.263,0.333,0.294,100
 top_features_only,Only the 8 most important features by XGBoost importance are passed in,No,0.68,0.226,0.467,0.304,100
 top_features_only,Only the 8 most important features by XGBoost importance are passed in,Yes,0.68,0.242,0.533,0.333,100
 structured_4factor,Explicit 4-factor evaluation framework in the system prompt,No,0.78,0.316,0.4,0.353,100
 structured_4factor,Explicit 4-factor evaluation framework in the system prompt,Yes,0.76,0.286,0.4,0.333,100
 risk_signal_guide,Expert prompt: 7 ranked risk signals with empirical thresholds (Jad's; false 'balanced ~50%' claim removed),No,0.75,0.273,0.4,0.324,100
-risk_signal_guide,Expert prompt: 7 ranked risk signals with empirical thresholds (Jad's; false 'balanced ~50%' claim removed),Yes,0.72,0.24,0.4,0.3,100
+risk_signal_guide,Expert prompt: 7 ranked risk signals with empirical thresholds (Jad's; false 'balanced ~50%' claim removed),Yes,0.73,0.25,0.4,0.308,100
