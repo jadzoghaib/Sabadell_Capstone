@@ -90,6 +90,7 @@ Two parallel pipelines:
    - `02_prompt_variance/` — prompt formatting, batching, and design:
      - `02a_Batching_Formatting_Tax.ipynb` — isolates and quantifies the "batching tax" and "formatting tax" on credit risk predictions using GPT-5.4.
      - `02b_Prompt_Variance.ipynb` — how much prompt *design* matters across 7 variants (currently GPT-5.4; older Llama-3.3-70b run archived under `data/results/llm/llama_02/`).
+       **⚠️ Do not conclude chain-of-thought wins from `02b_phase1_metrics.csv` alone.** That single comparison run gives CoT the top *accuracy* (0.83 vs base 0.81), which fools quick readers — but the base prompt already beats CoT on **Charged-Off F1** even there (0.387 vs 0.370), and CoT then *regresses* under the Phase-2 consistency check (3-run mean 0.312 CO-F1, below the base prompt's 0.327). **The base prompt is the winner; no engineered variant reliably beats it.** Always cross-check `02b_phase2_consistency.csv` before ranking prompts — same single-run-then-regress trap as high `reasoning_effort` in 01d (see `01d_high_consistency_metrics.csv`: best single run 0.80/0.375 but 3-run mean 0.753/0.300).
      - `02c_Qualitative_Financial_Analysis.ipynb` — phase-2 **analysis gate** (mirror of `01f`): GPT-5.4 judge fingerprints each prompt variant + cost ledger. Needs `02b`'s outputs first.
    - `03_hybrid/` — Jad's **blended XGBoost + LLM** exploration using
      Llama-3.3-70b via **Groq** — soft-probability blend, confidence-gated

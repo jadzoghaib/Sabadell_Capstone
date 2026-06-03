@@ -48,6 +48,8 @@ Given a fixed model (`gpt-5.4`), how much does the semantic framing of the promp
 * `data/results/llm/02b_reasonings.jsonl` — Full LLM reasoning text per loan per variant.
 * `data/results/llm/02b_variant_comparison.png` — Visual chart of variant metrics.
 
+> ⚠️ **Key finding — read the consistency phase, not just the comparison.** It is tempting to crown `chain_of_thought` from `02b_phase1_metrics.csv`, where it has the top single-run accuracy (0.83 vs the base prompt's 0.81). That is a single-run artefact. On Charged-Off F1 the base prompt already wins there (0.387 vs 0.370), and under the Phase-2 consistency check CoT regresses to a 3-run mean of **0.312**, below the base prompt's **0.327**. **The base prompt is the winner; no engineered variant reliably beats it.** Always cross-check `02b_phase2_consistency.csv` before declaring a prompt winner (same trap as high `reasoning_effort` in 01d).
+
 ---
 
 ## 02c — Qualitative & Financial Analysis Gate (`02c_Qualitative_Financial_Analysis.ipynb`)
