@@ -1,0 +1,105 @@
+# 05 — RAG (Retrieval-Augmented) Credit Scoring
+
+Two ways to give the LLM **precedent loans** as evidence before it decides Fully Paid (1)
+/ Charged Off (0), both evaluated on the project's 1000-row `test_batch.csv`.
+
+| Notebook | Approach | Inspiration |
+|----------|----------|-------------|
+| `00_Build_RAG_Dataset.ipynb` | Builds the retrieval corpus (the "RAG dataset") | — |
+| `05a_RAG_Generative_SemanticID.ipynb` | **A** — Semantic IDs + multi-stage retrieval | the two papers |
+| `05b_RAG_FullCorpus_Retrieval.ipynb`  | **B** — link everything except the test set | dense kNN RAG |
+| `05c_RAG_Hybrid.ipynb`                | **C** — fuse A + B with RRF | hybrid (sparse/ID + dense) retrieval |
+
+Run order: **`00` → then `05a` / `05b` / `05c`** (independent; run `05a` and `05b` before `05c`
+if you want their rows to appear in `05c`'s leaderboard).
+
+---
+
+## The retrieval corpus — `data/processed/rag_corpus.csv`
+
+The **full large dataset with every evaluation batch removed**, so no test loan can ever
+be retrieved (`rag_utils.assert_no_leakage` enforces this every run).
+
+`build_rag_corpus()` picks its source automatically:
+
+1. **Full corpus** — the full 2012–2014 LendingClub frame from
+   `data/raw/accepted_2007_to_2018Q4.csv.gz` (via `sample_generation._build_frame`),
+   minus the `test_batch` (1000 rows) **and** the `tuning`/`robustness` batches.
+2. **Dev fallback** — if the raw `.csv.gz` is absent, it uses the committed
+   `tuning_sample ∪ robustness_batch` (200 rows, same schema, disjoint from `test_batch`)
+   so the whole pipeline runs today.
+
+> **To get the real corpus:** drop `accepted_2007_to_2018Q4.csv.gz` into `data/raw/` and run
+> `00` with `force=True`. The 200-row dev corpus is only a stand-in for plumbing.
+
+The "1000 leakage cases" = the 1000 rows of `test_batch.csv`; they are always excluded.
+
+---
+
+## Approach A — Semantic IDs + multi-stage retrieval (`05a`)
+
+- **TIGER** (NeurIPS 2023): each loan's content embedding is **residual-quantised into a
+  hierarchical Semantic ID** (a tuple of codewords). Similar loans share codeword prefixes,
+  so retrieval = match the prefix, then rank. `ResidualKMeansQuantizer` is a light,
+  notebook-friendly stand-in for the paper's RQ-VAE.
+- **RAG-FLARKO** (2025): **multi-stage retrieval** over two feature *views* —
+  - *Stage 1 (behavioural, ≈ Personal KG):* borrower-view Semantic-ID retrieval → candidate pool.
+  - *Stage 2 (loan/market, ≈ Market KG):* loan-view cosine re-rank **within that pool**.
+  - Stage 2 is conditioned on Stage 1 (inter-stage context propagation); only a **compact
+    precedent sub-context** is injected, not the whole corpus.
+
+## Approach B — link everything except the test set (`05b`)
+
+One flat dense index over the **entire corpus**; per test loan, inject the top-`K` nearest
+precedents by cosine similarity. No Semantic IDs, no staging — the simple counterpart to A.
+
+## Approach C — hybrid: fuse A + B (`05c`)
+
+A retrieves *behaviourally* similar precedents, B retrieves *globally* similar ones. `05c` runs
+**both** and merges their rankings with **Reciprocal Rank Fusion** (`reciprocal_rank_fusion`,
+constant `RRF_K=60`, optional `RRF_WEIGHTS`) before injecting the top-`K`. Mirrors how production
+RAG combines an ID/structured retriever with a dense one.
+
+**Section 4 is a built-in decision aid:** it measures how much A and B overlap. Low overlap (mean
+Jaccard well under ~0.5) means they are complementary and the hybrid is the interesting bet; high
+overlap means fusion adds little. The leaderboard pulls in the A/B rows from their summaries so all
+five models (A, B, C, no-RAG, XGBoost) sit in one table.
+
+---
+
+## Config (top of each notebook)
+
+```python
+API_PROVIDER      = 'nvidia'                    # only key present in .env
+MODEL_NAME        = 'meta/llama-3.3-70b-instruct'
+EMBEDDING_BACKEND = 'auto'                      # sentence-transformers if installed, else TF-IDF
+K_PRECEDENTS      = 8        # precedents injected per loan
+N_STAGE1          = 50       # stage-1 pool (Approach A only)
+N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = all 1000
+```
+
+- **Embeddings:** `EMBEDDING_BACKEND='auto'` uses `sentence-transformers` (faithful to the
+  papers' content embeddings) when it's installed, and otherwise falls back to a TF-IDF + SVD
+  embedding that needs no extra packages — so the notebook never hard-crashes. Run the install
+  cell (`pip install sentence-transformers`, pulls torch) once to get the real backend; set
+  `EMBEDDING_BACKEND='sentence-transformers'` to *require* it.
+- **Model:** defaults to NVIDIA NIM Llama-3.3-70B because that's the only key in `.env`.
+  Change the three config lines to use `openai`/`gemini` once those keys are added.
+- **Cost:** each notebook issues ~`len(test)` API calls for RAG **plus** ~`len(test)` for
+  the no-RAG baseline. Start with a small `N_TEST`. `use_cache=True` makes reruns cheap.
+
+## Outputs (in `data/results/llm/`)
+
+| File | Contents |
+|------|----------|
+| `05{a,b,c}_summary.csv` | accuracy / precision / recall / F1 (Charged Off) / AUC for RAG vs no-RAG LLM vs XGBoost (05c also lists A & B) |
+| `05{a,b,c}_predictions.csv` | per-loan actual, RAG pred+prob, no-RAG pred, XGBoost pred+prob |
+| `05{a,b,c}_comparison.png` | bar chart of the models |
+| `05c_retriever_overlap.png` | histogram of A-vs-B precedent overlap (the hybrid decision aid) |
+| `llm_calls.csv` | per-call tokens/cost, appended automatically by `llm_utils` |
+
+## Files
+
+- `rag_utils.py` — corpus builder, serialisation, `Embedder`, `ResidualKMeansQuantizer`
+  (Semantic IDs), retrieval primitives (`cosine_topk`, `semantic_id_retrieve`,
+  `multistage_retrieve`, `reciprocal_rank_fusion`), precedent/prompt builders, and the leakage guard.
