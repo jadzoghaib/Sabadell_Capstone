@@ -63,8 +63,14 @@ import llm_utils  # noqa: E402
 from llm_utils import (  # noqa: E402
     LLM_FEATURES,
     FEATURE_DESCRIPTIONS,
+    RESULTS_DIR,
+    evaluate_predictions,
     format_loan_features,
 )
+
+# Shared no-RAG baseline: the same GPT-5.4 no-precedent run is the control for all
+# of 05a/05b/05c. Compute it once, persist here, recycle in the others (no re-calls).
+NORAG_BASELINE_PATH = Path(RESULTS_DIR) / "05_norag_baseline_predictions.csv"
 
 # Same content key the project uses to keep its batches mutually exclusive.
 # The retrieval corpus itself is built by sample_generation.get_rag_corpus().
@@ -379,3 +385,51 @@ def make_rag_prompt_fn(test_df: pd.DataFrame, precedent_blocks: list[str]):
         return row["_rag_prompt"]
 
     return df, user_prompt_fn
+
+
+# ── Shared no-RAG baseline (recycle across 05a/05b/05c) ─────────────────────
+def get_norag_baseline(eval_df, run_fn, force=False, path=NORAG_BASELINE_PATH,
+                       label="LLM no-RAG"):
+    """No-RAG LLM control, computed once and recycled by all three RAG notebooks.
+
+    The no-precedent GPT-5.4 run is identical across 05a/05b/05c (same model, prompt
+    and eval set), so re-calling it in each notebook just burns tokens. Mirroring the
+    Phase-3 recycle convention: if `path` already holds a baseline for THIS eval set
+    (row count + actual labels match) and not `force`, load it — **no API calls** —
+    otherwise call `run_fn()` (which runs run_llm_experiment), persist the per-loan
+    predictions/probabilities, and return.
+
+    Returns a dict shaped like run_llm_experiment's result:
+    {'predictions', 'probabilities', 'metrics', 'source'} where source is
+    'recycled' (loaded from disk) or 'fresh' (just computed).
+    """
+    path = Path(path)
+    y_true = eval_df["loan_status"].values
+
+    if path.exists() and not force:
+        cached = pd.read_csv(path)
+        if len(cached) == len(eval_df) and np.array_equal(cached["actual"].values, y_true):
+            preds = cached["norag_pred"].tolist()
+            probs = (cached["norag_prob"].tolist()
+                     if "norag_prob" in cached.columns else None)
+            metrics = evaluate_predictions(y_true, preds, label=label,
+                                           probabilities=probs)
+            print(f"Recycled no-RAG baseline from {path.name} — no API calls.")
+            return {"predictions": preds, "probabilities": probs,
+                    "metrics": metrics, "source": "recycled"}
+        print(f"{path.name} exists but does not match this eval set "
+              f"({len(cached)} rows) — recomputing the baseline.")
+
+    result = run_fn()
+    out = pd.DataFrame({
+        "loan_index": range(len(eval_df)),
+        "actual":     y_true,
+        "norag_pred": result["predictions"],
+        "norag_prob": result["probabilities"],
+    })
+    path.parent.mkdir(parents=True, exist_ok=True)
+    out.to_csv(path, index=False)
+    print(f"Computed no-RAG baseline -> {path.name} "
+          f"(the other 05_rag notebooks will recycle it).")
+    result["source"] = "fresh"
+    return result

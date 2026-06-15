@@ -95,15 +95,19 @@ N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = a
 - **Model:** defaults to OpenAI GPT-5.4 (the project's chosen model), fanned out across every
   `OPENAI_API_KEY*` in `.env` via the `api_keys` + `max_workers` parallelism. Change the three
   config lines to use `nvidia`/`gemini` if you want a different provider.
-- **Cost:** each notebook issues ~`len(test)` API calls for RAG **plus** ~`len(test)` for
-  the no-RAG baseline. Start with a small `N_TEST`. `use_cache=True` makes reruns cheap.
+- **Cost:** each notebook issues ~`len(test)` API calls for its RAG variant. The **no-RAG
+  baseline is identical across 05a/05b/05c**, so it is computed **once** and recycled:
+  `rag_utils.get_norag_baseline()` writes `05_norag_baseline_predictions.csv` on the first run
+  and the other two notebooks load it with **no further API calls** (set `FORCE_RERUN=True` to
+  recompute). Start with a small `N_TEST`; `use_cache=True` also makes per-notebook reruns cheap.
 
 ## Outputs (in `data/results/llm/`)
 
 | File | Contents |
 |------|----------|
 | `05{a,b,c}_summary.csv` | accuracy / precision / recall / F1 (Charged Off) / AUC for RAG vs no-RAG LLM vs XGBoost (05c also lists A & B) |
-| `05{a,b,c}_predictions.csv` | per-loan actual, RAG pred+prob, no-RAG pred, XGBoost pred+prob |
+| `05{a,b,c}_predictions.csv` | per-loan actual, RAG pred+prob, no-RAG pred+prob, XGBoost pred+prob |
+| `05_norag_baseline_predictions.csv` | the shared no-RAG GPT-5.4 control, computed once and recycled by all three notebooks |
 | `05{a,b,c}_comparison.png` | bar chart of the models |
 | `05c_retriever_overlap.png` | histogram of A-vs-B precedent overlap (the hybrid decision aid) |
 | `llm_calls.csv` | per-call tokens/cost, appended automatically by `llm_utils` |
@@ -112,4 +116,5 @@ N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = a
 
 - `rag_utils.py` — serialisation, `Embedder`, `ResidualKMeansQuantizer`
   (Semantic IDs), retrieval primitives (`cosine_topk`, `semantic_id_retrieve`,
-  `multistage_retrieve`, `reciprocal_rank_fusion`), precedent/prompt builders, and the leakage guard.
+  `multistage_retrieve`, `reciprocal_rank_fusion`), precedent/prompt builders, the leakage guard,
+  and `get_norag_baseline()` (the shared no-RAG control — compute once, recycle).

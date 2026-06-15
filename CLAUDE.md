@@ -120,7 +120,10 @@ Two parallel pipelines:
      enforces corpus ∩ eval = ∅ every run.
      The committed corpus is the ~100-row dev fallback (`tuning_sample`, no raw
      `.gz`); drop the raw file in and rerun `00` with `force=True` for the real
-     large corpus.
+     large corpus. The **no-RAG GPT-5.4 control is identical across 05a/b/c**, so
+     `rag_utils.get_norag_baseline()` computes it once
+     (`05_norag_baseline_predictions.csv`) and the other two notebooks recycle it
+     with no extra API calls (`FORCE_RERUN=True` recomputes).
 
 ## Where things stand (Apr 2026, from `reports/Progress report 1.pdf`)
 
