@@ -36,6 +36,15 @@ feature contract (`LLM_FEATURES`) and serialisation as the rest of the project.
 
 from __future__ import annotations
 
+import os
+
+# torch (sentence-transformers) and XGBoost each ship their own OpenMP runtime; on
+# macOS loading both in one process segfaults. Pin to a single shared OpenMP thread
+# before numpy/torch/xgboost initialise it. The notebooks set this too, but doing it
+# here protects scripts that import rag_utils before llm_utils. setdefault = caller wins.
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
+
 import sys
 import warnings
 from pathlib import Path
