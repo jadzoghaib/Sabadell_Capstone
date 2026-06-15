@@ -8,6 +8,10 @@ Three role-based samples, one schema, mutually exclusive:
     robustness_batch.csv  robustness sanity-check (01c)
     test_batch.csv        FINAL test — touched once, in the benchmark (03)
 
+Plus the Phase-5 RAG retrieval corpus (get_rag_corpus): the full frame minus every
+evaluation batch — the pool of labelled precedent loans the 05_rag notebooks retrieve
+from. Same content-key exclusion, so no eval/test loan can ever be retrieved.
+
 Design:
 - **Load-if-exists** by default: calling get_*() never clobbers a committed
   sample, so re-running any notebook is safe. Pass force=True to regenerate.
@@ -33,6 +37,7 @@ from llm_utils import DATA_DIR, RAW_DATA_PATH
 TUNING_PATH     = Path(DATA_DIR) / "tuning_sample.csv"
 ROBUSTNESS_PATH = Path(DATA_DIR) / "robustness_batch.csv"
 TEST_PATH       = Path(DATA_DIR) / "test_batch.csv"
+RAG_CORPUS_PATH = Path(DATA_DIR) / "rag_corpus.csv"  # Phase-5 RAG retrieval corpus
 
 SEED_TUNING, SEED_ROBUSTNESS, SEED_TEST = 42, 99, 2024
 N_DEFAULT = 100
@@ -210,10 +215,55 @@ def get_test_batch(force=False, n=N_TEST, require_desc=False):
                    lambda: _draw(n, SEED_TEST, exclude=excl, require_desc=require_desc))
 
 
+def _rag_corpus_pool():
+    """(pool_df, source) for the RAG corpus: the full 2012-2014 frame when the raw
+    .csv.gz is present, else a DEV FALLBACK built from the committed tuning_sample
+    (disjoint from the robustness eval set), so Phase 5 runs before the raw file."""
+    try:
+        return _build_frame().reset_index(drop=True), "full_frame"
+    except Exception:
+        if TUNING_PATH.exists():
+            return pd.read_csv(TUNING_PATH), "dev_fallback"
+        raise
+
+
+def get_rag_corpus(force=False, exclude_all_eval=True):
+    """Phase-5 RAG retrieval corpus — labelled *precedent* loans = the full
+    2012-2014 frame with every evaluation batch removed, so no eval/test loan can
+    ever be retrieved as a precedent.
+
+    The robustness_batch (the Phase-5 eval set) and the held-out test_batch are
+    ALWAYS excluded; with exclude_all_eval=True the tuning_sample is dropped too
+    when the source is the full frame. Dev fallback (raw .csv.gz absent) = the
+    committed tuning_sample (~100 rows, disjoint from robustness). Load-if-exists;
+    force=True rebuilds (and, where the raw file is present, swaps the dev fallback
+    for the full large corpus). Leakage vs the eval set is asserted on every build."""
+    def _generate():
+        exclude = set()
+        if ROBUSTNESS_PATH.exists():
+            exclude |= _keys(pd.read_csv(ROBUSTNESS_PATH))   # the eval set — never a precedent
+        if TEST_PATH.exists():
+            exclude |= _keys(pd.read_csv(TEST_PATH))          # held-out; kept out for safety
+        pool, source = _rag_corpus_pool()
+        if source == "full_frame" and exclude_all_eval and TUNING_PATH.exists():
+            exclude |= _keys(pd.read_csv(TUNING_PATH))
+        mask = ~pool.apply(
+            lambda r: (r['loan_amnt'], r['int_rate'], r['annual_inc']) in exclude, axis=1
+        )
+        corpus = (pool[mask]
+                  .drop_duplicates(subset=['loan_amnt', 'int_rate', 'annual_inc'])
+                  .reset_index(drop=True))
+        if ROBUSTNESS_PATH.exists() and (_keys(corpus) & _keys(pd.read_csv(ROBUSTNESS_PATH))):
+            raise AssertionError("RAG corpus overlaps the robustness eval set — leakage.")
+        return corpus
+    return _cached(RAG_CORPUS_PATH, force, _generate)
+
+
 if __name__ == "__main__":
     for name, fn in [("tuning", get_tuning_sample),
                      ("robustness", get_robustness_batch),
-                     ("test", get_test_batch)]:
+                     ("test", get_test_batch),
+                     ("rag_corpus", get_rag_corpus)]:
         df = fn()
         co = int((df["loan_status"] == 0).sum())
         print(f"{name:11s} n={len(df)} cols={len(df.columns)} "

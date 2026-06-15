@@ -24,7 +24,8 @@ be retrieved (`rag_utils.assert_no_leakage` enforces this every run). The `robus
 the set we evaluate on — is always excluded; the held-out `test_batch` is excluded too (read only
 to keep it out of the corpus, never evaluated here).
 
-`build_rag_corpus()` picks its source automatically:
+`sample_generation.get_rag_corpus()` (centralized with the other batches — not in
+`rag_utils`) picks its source automatically:
 
 1. **Full corpus** — the full 2012–2014 LendingClub frame from
    `data/raw/accepted_2007_to_2018Q4.csv.gz` (via `sample_generation._build_frame`),
@@ -74,21 +75,26 @@ five models (A, B, C, no-RAG, XGBoost) sit in one table.
 ## Config (top of each notebook)
 
 ```python
-API_PROVIDER      = 'nvidia'                    # only key present in .env
-MODEL_NAME        = 'meta/llama-3.3-70b-instruct'
+API_PROVIDER      = 'openai'                    # GPT-5.4 — the project's chosen model
+MODEL_NAME        = 'gpt-5.4'
 EMBEDDING_BACKEND = 'auto'                      # sentence-transformers if installed, else TF-IDF
 K_PRECEDENTS      = 8        # precedents injected per loan
 N_STAGE1          = 50       # stage-1 pool (Approach A only)
 N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = all 100
 ```
 
+> The first cell also sets `OMP_NUM_THREADS=1` / `KMP_DUPLICATE_LIB_OK=TRUE` before importing
+> anything — torch (sentence-transformers) and XGBoost otherwise collide on macOS and segfault
+> the kernel. Keep those lines at the very top.
+
 - **Embeddings:** `EMBEDDING_BACKEND='auto'` uses `sentence-transformers` (faithful to the
   papers' content embeddings) when it's installed, and otherwise falls back to a TF-IDF + SVD
   embedding that needs no extra packages — so the notebook never hard-crashes. Run the install
   cell (`pip install sentence-transformers`, pulls torch) once to get the real backend; set
   `EMBEDDING_BACKEND='sentence-transformers'` to *require* it.
-- **Model:** defaults to NVIDIA NIM Llama-3.3-70B because that's the only key in `.env`.
-  Change the three config lines to use `openai`/`gemini` once those keys are added.
+- **Model:** defaults to OpenAI GPT-5.4 (the project's chosen model), fanned out across every
+  `OPENAI_API_KEY*` in `.env` via the `api_keys` + `max_workers` parallelism. Change the three
+  config lines to use `nvidia`/`gemini` if you want a different provider.
 - **Cost:** each notebook issues ~`len(test)` API calls for RAG **plus** ~`len(test)` for
   the no-RAG baseline. Start with a small `N_TEST`. `use_cache=True` makes reruns cheap.
 
@@ -104,6 +110,6 @@ N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = a
 
 ## Files
 
-- `rag_utils.py` — corpus builder, serialisation, `Embedder`, `ResidualKMeansQuantizer`
+- `rag_utils.py` — serialisation, `Embedder`, `ResidualKMeansQuantizer`
   (Semantic IDs), retrieval primitives (`cosine_topk`, `semantic_id_retrieve`,
   `multistage_retrieve`, `reciprocal_rank_fusion`), precedent/prompt builders, and the leakage guard.

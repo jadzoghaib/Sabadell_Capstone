@@ -111,12 +111,13 @@ Two parallel pipelines:
      leakage-safe corpus and inject them as evidence. Three retrievers — `05a`
      TIGER Semantic IDs + multi-stage (RAG-FLARKO), `05b` full-corpus dense
      kNN, `05c` RRF hybrid of A+B — each vs a no-RAG LLM and the XGBoost
-     baseline. Defaults to NVIDIA Llama-3.3-70B + sentence-transformers
-     (TF-IDF fallback). **Evaluated on `robustness_batch` (validation), NOT the
+     baseline. Uses OpenAI GPT-5.4 + sentence-transformers (TF-IDF fallback).
+     **Evaluated on `robustness_batch` (validation), NOT the
      test set** — the held-out `test_batch` stays a Phase-4-only holdout. The
-     retrieval corpus (`data/processed/rag_corpus.csv`, built by
-     `rag_utils.build_rag_corpus`) is the full 2012-2014 frame minus every eval
-     batch; `rag_utils.assert_no_leakage` enforces corpus ∩ eval = ∅ every run.
+     retrieval corpus (`data/processed/rag_corpus.csv`) is built by
+     `sample_generation.get_rag_corpus()` (centralized with the other batches) —
+     the full 2012-2014 frame minus every eval batch; `rag_utils.assert_no_leakage`
+     enforces corpus ∩ eval = ∅ every run.
      The committed corpus is the ~100-row dev fallback (`tuning_sample`, no raw
      `.gz`); drop the raw file in and rerun `00` with `force=True` for the real
      large corpus.
@@ -193,6 +194,7 @@ notebooks/
     llm_utils.py             # shared: data loading, ML re-encoding, prompts, API calls, eval, cost logging
     llm_pricing.py           # per-model USD/1k token prices used by the cost logger
     sample_generation.py     # the 3 samples: get_tuning_sample/get_robustness_batch/get_test_batch
+                             # + get_rag_corpus (Phase-5 RAG corpus: full frame − eval batches)
                              # (load-if-exists + force; deterministic; mutually exclusive)
     01_model_selection/      # PHASE 1: pick the model AND its config → GPT-5.4
       01a_Model_Comparison.ipynb    # GPT-5.4 / Gemini 2.5 Pro / Gemini 3.5 Flash / Claude Sonnet 4.6 / Claude Opus 4.8
@@ -233,15 +235,17 @@ notebooks/
                                     # Threshold tuning lives ONLY here, on the actual finalists.
                                     # Pulls metrics + per-loan cost + qualitative fingerprint into one table.
     05_rag/                  # PHASE 5: retrieval-augmented credit scoring (Jad). Precedent loans as evidence.
-      rag_utils.py                  # corpus builder (build_rag_corpus), Embedder, ResidualKMeansQuantizer
-                                    # (Semantic IDs), retrieval primitives, RRF, assert_no_leakage.
-      00_Build_RAG_Dataset.ipynb    # Builds data/processed/rag_corpus.csv (full frame − eval batches;
+      rag_utils.py                  # Embedder, ResidualKMeansQuantizer (Semantic IDs), retrieval
+                                    # primitives, RRF, prompt builders, assert_no_leakage.
+                                    # (Corpus build lives in sample_generation.get_rag_corpus.)
+      00_Build_RAG_Dataset.ipynb    # Thin wrapper: calls sample_generation.get_rag_corpus(force=True).
+                                    # Builds data/processed/rag_corpus.csv (full frame − eval batches;
                                     # ~100-row tuning_sample dev fallback when no raw .gz).
       05a_RAG_Generative_SemanticID.ipynb  # TIGER Semantic IDs + multi-stage (RAG-FLARKO)
       05b_RAG_FullCorpus_Retrieval.ipynb   # full-corpus dense kNN
       05c_RAG_Hybrid.ipynb                 # RRF fusion of A+B + A/B retriever-overlap diagnostic
                                     # All eval on robustness_batch (validation) — TEST SET NEVER LOADED.
-                                    # NVIDIA Llama-3.3-70B + sentence-transformers (TF-IDF fallback).
+                                    # OpenAI GPT-5.4 + sentence-transformers (TF-IDF fallback).
                                     # → 05{a,b,c}_summary.csv + 05{a,b,c}_predictions.csv + 05*_*.png
     # NAMING: file prefix = phase (01a, 02, 03, 04, 05). Result CSVs share the same
     # prefix as the notebook that writes them.
@@ -263,7 +267,7 @@ Only re-run the ML pipeline if you change preprocessing/features:
 
 ```
 01_EDA → 02_Preprocessing → 03_Modeling   [regenerates data/processed/ and models/]
-python llm_models/sample_generation.py    [generates robustness_batch + test_batch; only before 01c / benchmark]
+python llm_models/sample_generation.py    [generates robustness_batch + test_batch + rag_corpus; only before 01c / benchmark / Phase 5]
 01_model_selection/01a,01b,01c,01d        [independent, any order]
 01_model_selection/01e                    [reads 01a/01b/01d's logprobs from llm_calls.csv]
 01_model_selection/01f                    [analysis gate — after 01a+01d; GPT-5.4 judge → 01f_qualitative_financial.json]
@@ -271,7 +275,7 @@ python llm_models/sample_generation.py    [generates robustness_batch + test_bat
 02_prompt_variance/02b                   [writes 02b_predictions.csv + 02b_phase1_metrics.csv]
 02_prompt_variance/02c                   [analysis gate — AFTER 02b; GPT-5.4 judge → 02c_qualitative_financial.json]
 03_hybrid/03_Blended_LLM_ML              [standalone — uses Groq directly, does NOT read 02_predictions.csv]
-05_rag/00_Build_RAG_Dataset              [builds rag_corpus.csv; run before 05a/b/c]
+05_rag/00_Build_RAG_Dataset              [optional thin wrapper for get_rag_corpus; 05a/b/c build it lazily]
 05_rag/05a,05b,05c                       [standalone — eval on robustness_batch; run 05a+05b before 05c for its leaderboard]
 04_final_benchmark/04_Final_Test_Analysis   [run LAST — final benchmark and dashboard, loads 03_locked_params.csv]
 ```

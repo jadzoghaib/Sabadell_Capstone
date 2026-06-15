@@ -27,8 +27,9 @@ Two retrieval paradigms, inspired by the two papers:
 Leakage safety
 --------------
 The retrieval corpus is the "RAG dataset" (`data/processed/rag_corpus.csv`), built
-by `build_rag_corpus()` from the full 2012-2014 frame with every evaluation batch
-removed. No eval (or test) loan can ever be retrieved. `assert_no_leakage()` enforces this.
+by `sample_generation.get_rag_corpus()` from the full 2012-2014 frame with every
+evaluation batch removed. No eval (or test) loan can ever be retrieved.
+`assert_no_leakage()` enforces this.
 
 Paths/features are taken from `llm_utils` so the RAG notebooks see exactly the same
 feature contract (`LLM_FEATURES`) and serialisation as the rest of the project.
@@ -62,18 +63,11 @@ import llm_utils  # noqa: E402
 from llm_utils import (  # noqa: E402
     LLM_FEATURES,
     FEATURE_DESCRIPTIONS,
-    DATA_DIR,
     format_loan_features,
 )
 
-# ── Paths & the content key used everywhere for de-duplication / leakage ────
-DATA_DIR = Path(DATA_DIR)
-RAG_CORPUS_PATH = DATA_DIR / "rag_corpus.csv"
-TEST_BATCH_PATH = DATA_DIR / "test_batch.csv"
-TUNING_PATH = DATA_DIR / "tuning_sample.csv"
-ROBUSTNESS_PATH = DATA_DIR / "robustness_batch.csv"
-
 # Same content key the project uses to keep its batches mutually exclusive.
+# The retrieval corpus itself is built by sample_generation.get_rag_corpus().
 KEY_COLS = ["loan_amnt", "int_rate", "annual_inc"]
 
 # Two "views" for the multi-stage (RAG-FLARKO) retrieval. Borrower view ≈ the
@@ -107,98 +101,9 @@ def assert_no_leakage(corpus: pd.DataFrame, test: pd.DataFrame) -> None:
     overlap = content_keys(corpus) & content_keys(test)
     if overlap:
         raise AssertionError(
-            f"LEAKAGE: {len(overlap)} test loan(s) found in the RAG corpus. "
-            "Rebuild the corpus with build_rag_corpus(force=True)."
+            f"LEAKAGE: {len(overlap)} eval loan(s) found in the RAG corpus. "
+            "Rebuild the corpus with sample_generation.get_rag_corpus(force=True)."
         )
-
-
-# ── Build the RAG dataset (the retrieval corpus) ────────────────────────────
-def build_rag_corpus(force: bool = False, exclude_all_eval: bool = True,
-                     verbose: bool = True) -> pd.DataFrame:
-    """
-    Build / load `data/processed/rag_corpus.csv` — the corpus of labelled precedent
-    loans, i.e. the full large dataset with the evaluation batches removed.
-
-    Source pool, in priority order:
-      1. Full 2012-2014 frame from the raw LendingClub `.csv.gz`
-         (via sample_generation._build_frame). This is the real, "large" corpus.
-      2. DEV FALLBACK — if the raw file is absent, the committed `tuning_sample`
-         (~100 rows, same 35-col schema, drawn from the same universe and
-         guaranteed disjoint from the `robustness_batch` we evaluate on). Lets
-         the whole pipeline run end-to-end before the raw file is added.
-
-    The `robustness_batch` (the evaluation set under the strict-holdout protocol)
-    is ALWAYS removed so it can never be retrieved as a precedent; the held-out
-    `test_batch` is removed too (read only to exclude it — never evaluated here).
-    With exclude_all_eval=True the `tuning_sample` is also dropped when the source
-    is the full frame. Zero-overlap with the eval batch is asserted before
-    returning.
-    """
-    if RAG_CORPUS_PATH.exists() and not force:
-        corpus = pd.read_csv(RAG_CORPUS_PATH)
-        if verbose:
-            print(f"Loaded existing RAG dataset: {len(corpus)} rows -> {RAG_CORPUS_PATH}")
-        return corpus
-
-    # The evaluation batch (robustness) is never a valid precedent. The held-out
-    # test_batch is also kept out of the corpus (read for exclusion only — it is
-    # never evaluated outside Phase 4).
-    eval_batch = pd.read_csv(ROBUSTNESS_PATH)
-    exclude = content_keys(eval_batch)
-    if TEST_BATCH_PATH.exists():
-        exclude |= content_keys(pd.read_csv(TEST_BATCH_PATH))
-
-    pool, source = _load_corpus_pool()
-
-    if source == "full_frame" and exclude_all_eval and TUNING_PATH.exists():
-        exclude |= content_keys(pd.read_csv(TUNING_PATH))
-
-    before = len(pool)
-    mask = ~pool.apply(
-        lambda r: (r["loan_amnt"], r["int_rate"], r["annual_inc"]) in exclude, axis=1
-    )
-    corpus = (pool[mask]
-              .drop_duplicates(subset=KEY_COLS)
-              .reset_index(drop=True))
-
-    assert_no_leakage(corpus, eval_batch)
-
-    RAG_CORPUS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    corpus.to_csv(RAG_CORPUS_PATH, index=False)
-
-    if verbose:
-        co = int((corpus["loan_status"] == 0).sum())
-        print(f"Built RAG dataset from {source}: kept {len(corpus)}/{before} rows "
-              f"({before - len(corpus)} removed as eval/leakage/dupes).")
-        print(f"  Class balance — Charged Off: {co}  Fully Paid: {len(corpus) - co}")
-        print(f"  Saved -> {RAG_CORPUS_PATH}")
-    return corpus
-
-
-def _load_corpus_pool() -> tuple[pd.DataFrame, str]:
-    """Return (pool_df, source_tag). Tries the raw frame, falls back to dev batches."""
-    try:
-        if str(_LLM_MODELS_DIR) not in sys.path:
-            sys.path.insert(0, str(_LLM_MODELS_DIR))
-        import sample_generation as sg  # noqa: E402
-        frame = sg._build_frame()  # needs data/raw/accepted_2007_to_2018Q4.csv.gz
-        return frame.reset_index(drop=True), "full_frame"
-    except Exception as e:  # raw file missing, or any load issue
-        parts = [pd.read_csv(p) for p in (TUNING_PATH, ROBUSTNESS_PATH) if p.exists()]
-        if not parts:
-            raise FileNotFoundError(
-                "No raw .csv.gz and no committed tuning/robustness batches to "
-                "build a corpus from."
-            ) from e
-        warnings.warn(
-            "Raw LendingClub file not found — building a DEV-SCALE RAG corpus. The "
-            "robustness_batch (the eval set) is excluded downstream, leaving ~100 "
-            "tuning_sample rows as precedents. Drop "
-            "data/raw/accepted_2007_to_2018Q4.csv.gz in and rerun with force=True "
-            "for the full corpus.",
-            stacklevel=2,
-        )
-        return pd.concat(parts, ignore_index=True), "dev_fallback"
 
 
 # ── Serialisation: loan -> text (reuses the project's feature formatting) ───
