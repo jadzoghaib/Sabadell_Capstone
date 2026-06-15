@@ -1,13 +1,15 @@
 # 05 — RAG (Retrieval-Augmented) Credit Scoring
 
-Two ways to give the LLM **precedent loans** as evidence before it decides Fully Paid (1)
-/ Charged Off (0), both evaluated on the project's 1000-row `test_batch.csv`.
+Ways to give the LLM **precedent loans** as evidence before it decides Fully Paid (1)
+/ Charged Off (0), evaluated on the project's `robustness_batch` (the ~100-row validation
+set). Per the **strict-holdout protocol**, the 1000-row `test_batch.csv` is reserved for
+Phase 4 (`04_Final_Test_Analysis`) and is never loaded or evaluated here.
 
 | Notebook | Approach | Inspiration |
 |----------|----------|-------------|
 | `00_Build_RAG_Dataset.ipynb` | Builds the retrieval corpus (the "RAG dataset") | — |
 | `05a_RAG_Generative_SemanticID.ipynb` | **A** — Semantic IDs + multi-stage retrieval | the two papers |
-| `05b_RAG_FullCorpus_Retrieval.ipynb`  | **B** — link everything except the test set | dense kNN RAG |
+| `05b_RAG_FullCorpus_Retrieval.ipynb`  | **B** — link everything except the eval batches | dense kNN RAG |
 | `05c_RAG_Hybrid.ipynb`                | **C** — fuse A + B with RRF | hybrid (sparse/ID + dense) retrieval |
 
 Run order: **`00` → then `05a` / `05b` / `05c`** (independent; run `05a` and `05b` before `05c`
@@ -17,8 +19,10 @@ if you want their rows to appear in `05c`'s leaderboard).
 
 ## The retrieval corpus — `data/processed/rag_corpus.csv`
 
-The **full large dataset with every evaluation batch removed**, so no test loan can ever
-be retrieved (`rag_utils.assert_no_leakage` enforces this every run).
+The **full large dataset with every evaluation batch removed**, so no eval (or test) loan can ever
+be retrieved (`rag_utils.assert_no_leakage` enforces this every run). The `robustness_batch` —
+the set we evaluate on — is always excluded; the held-out `test_batch` is excluded too (read only
+to keep it out of the corpus, never evaluated here).
 
 `build_rag_corpus()` picks its source automatically:
 
@@ -26,13 +30,13 @@ be retrieved (`rag_utils.assert_no_leakage` enforces this every run).
    `data/raw/accepted_2007_to_2018Q4.csv.gz` (via `sample_generation._build_frame`),
    minus the `test_batch` (1000 rows) **and** the `tuning`/`robustness` batches.
 2. **Dev fallback** — if the raw `.csv.gz` is absent, it uses the committed
-   `tuning_sample ∪ robustness_batch` (200 rows, same schema, disjoint from `test_batch`)
+   `tuning_sample` (~100 rows, same schema, disjoint from the `robustness_batch` we evaluate on)
    so the whole pipeline runs today.
 
 > **To get the real corpus:** drop `accepted_2007_to_2018Q4.csv.gz` into `data/raw/` and run
-> `00` with `force=True`. The 200-row dev corpus is only a stand-in for plumbing.
+> `00` with `force=True`. The ~100-row dev corpus is only a stand-in for plumbing.
 
-The "1000 leakage cases" = the 1000 rows of `test_batch.csv`; they are always excluded.
+The `robustness_batch` rows (the eval set) and the `test_batch` rows are always excluded from the corpus.
 
 ---
 
@@ -48,9 +52,9 @@ The "1000 leakage cases" = the 1000 rows of `test_batch.csv`; they are always ex
   - Stage 2 is conditioned on Stage 1 (inter-stage context propagation); only a **compact
     precedent sub-context** is injected, not the whole corpus.
 
-## Approach B — link everything except the test set (`05b`)
+## Approach B — link everything except the eval batches (`05b`)
 
-One flat dense index over the **entire corpus**; per test loan, inject the top-`K` nearest
+One flat dense index over the **entire corpus**; per evaluation loan, inject the top-`K` nearest
 precedents by cosine similarity. No Semantic IDs, no staging — the simple counterpart to A.
 
 ## Approach C — hybrid: fuse A + B (`05c`)
@@ -75,7 +79,7 @@ MODEL_NAME        = 'meta/llama-3.3-70b-instruct'
 EMBEDDING_BACKEND = 'auto'                      # sentence-transformers if installed, else TF-IDF
 K_PRECEDENTS      = 8        # precedents injected per loan
 N_STAGE1          = 50       # stage-1 pool (Approach A only)
-N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = all 1000
+N_TEST            = None     # set e.g. 50 for a quick/cheap smoke run; None = all 100
 ```
 
 - **Embeddings:** `EMBEDDING_BACKEND='auto'` uses `sentence-transformers` (faithful to the

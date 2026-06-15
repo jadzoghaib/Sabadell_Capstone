@@ -1,9 +1,11 @@
 """
 Shared utilities for the two RAG (retrieval-augmented) credit-scoring notebooks.
 
-Both notebooks predict Fully Paid (1) / Charged Off (0) on the project's FINAL
-`test_batch.csv`, but instead of judging each applicant in isolation they retrieve
-*precedent loans* (labelled past loans) and inject them as evidence into the LLM.
+Both notebooks predict Fully Paid (1) / Charged Off (0) on the project's
+`robustness_batch` (the validation set), but instead of judging each applicant in
+isolation they retrieve *precedent loans* (labelled past loans) and inject them as
+evidence into the LLM. The held-out `test_batch` is reserved for Phase 4 only and is
+never evaluated here (the strict-holdout protocol).
 
 Two retrieval paradigms, inspired by the two papers:
 
@@ -26,7 +28,7 @@ Leakage safety
 --------------
 The retrieval corpus is the "RAG dataset" (`data/processed/rag_corpus.csv`), built
 by `build_rag_corpus()` from the full 2012-2014 frame with every evaluation batch
-removed. No test loan can ever be retrieved. `assert_no_leakage()` enforces this.
+removed. No eval (or test) loan can ever be retrieved. `assert_no_leakage()` enforces this.
 
 Paths/features are taken from `llm_utils` so the RAG notebooks see exactly the same
 feature contract (`LLM_FEATURES`) and serialisation as the rest of the project.
@@ -111,14 +113,17 @@ def build_rag_corpus(force: bool = False, exclude_all_eval: bool = True,
     Source pool, in priority order:
       1. Full 2012-2014 frame from the raw LendingClub `.csv.gz`
          (via sample_generation._build_frame). This is the real, "large" corpus.
-      2. DEV FALLBACK — if the raw file is absent, the committed
-         `tuning_sample ∪ robustness_batch` (200 rows, same 35-col schema, drawn
-         from the same universe and guaranteed disjoint from `test_batch`). Lets
+      2. DEV FALLBACK — if the raw file is absent, the committed `tuning_sample`
+         (~100 rows, same 35-col schema, drawn from the same universe and
+         guaranteed disjoint from the `robustness_batch` we evaluate on). Lets
          the whole pipeline run end-to-end before the raw file is added.
 
-    Either way the FINAL `test_batch.csv` is always removed (and, with
-    exclude_all_eval=True, the tuning/robustness batches too when the source is the
-    full frame), and zero-overlap with the test set is asserted before returning.
+    The `robustness_batch` (the evaluation set under the strict-holdout protocol)
+    is ALWAYS removed so it can never be retrieved as a precedent; the held-out
+    `test_batch` is removed too (read only to exclude it — never evaluated here).
+    With exclude_all_eval=True the `tuning_sample` is also dropped when the source
+    is the full frame. Zero-overlap with the eval batch is asserted before
+    returning.
     """
     if RAG_CORPUS_PATH.exists() and not force:
         corpus = pd.read_csv(RAG_CORPUS_PATH)
@@ -126,15 +131,18 @@ def build_rag_corpus(force: bool = False, exclude_all_eval: bool = True,
             print(f"Loaded existing RAG dataset: {len(corpus)} rows -> {RAG_CORPUS_PATH}")
         return corpus
 
-    test = pd.read_csv(TEST_BATCH_PATH)
-    exclude = content_keys(test)
+    # The evaluation batch (robustness) is never a valid precedent. The held-out
+    # test_batch is also kept out of the corpus (read for exclusion only — it is
+    # never evaluated outside Phase 4).
+    eval_batch = pd.read_csv(ROBUSTNESS_PATH)
+    exclude = content_keys(eval_batch)
+    if TEST_BATCH_PATH.exists():
+        exclude |= content_keys(pd.read_csv(TEST_BATCH_PATH))
 
     pool, source = _load_corpus_pool()
 
-    if source == "full_frame" and exclude_all_eval:
-        for p in (TUNING_PATH, ROBUSTNESS_PATH):
-            if p.exists():
-                exclude |= content_keys(pd.read_csv(p))
+    if source == "full_frame" and exclude_all_eval and TUNING_PATH.exists():
+        exclude |= content_keys(pd.read_csv(TUNING_PATH))
 
     before = len(pool)
     mask = ~pool.apply(
@@ -144,7 +152,7 @@ def build_rag_corpus(force: bool = False, exclude_all_eval: bool = True,
               .drop_duplicates(subset=KEY_COLS)
               .reset_index(drop=True))
 
-    assert_no_leakage(corpus, test)
+    assert_no_leakage(corpus, eval_batch)
 
     RAG_CORPUS_PATH.parent.mkdir(parents=True, exist_ok=True)
     corpus.to_csv(RAG_CORPUS_PATH, index=False)
@@ -174,8 +182,9 @@ def _load_corpus_pool() -> tuple[pd.DataFrame, str]:
                 "build a corpus from."
             ) from e
         warnings.warn(
-            "Raw LendingClub file not found — building a DEV-SCALE RAG corpus from "
-            "tuning_sample ∪ robustness_batch (200 rows). Drop "
+            "Raw LendingClub file not found — building a DEV-SCALE RAG corpus. The "
+            "robustness_batch (the eval set) is excluded downstream, leaving ~100 "
+            "tuning_sample rows as precedents. Drop "
             "data/raw/accepted_2007_to_2018Q4.csv.gz in and rerun with force=True "
             "for the full corpus.",
             stacklevel=2,
