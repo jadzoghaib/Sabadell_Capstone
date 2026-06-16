@@ -4206,102 +4206,502 @@ timestamp,notebook_id,label,desc_tag,provider,model,row_index,input_tokens,outpu
 2026-06-02T20:47:27.452329+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,73,507,1320,0.0025,0.015,0.0210675,,high
 2026-06-02T20:47:30.814010+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run3,no_desc,openai,gpt-5.4,93,503,1105,0.0025,0.015,0.0178325,,high
 2026-06-02T20:46:58.972327+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,0,502,308,0.0025,0.015,0.005875,,high
-2026-06-02T20:47:01.533434+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,13,504,117,0.0025,0.015,0.0030150000000000003,,high
-2026-06-02T20:47:02.335561+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,31,500,150,0.0025,0.015,0.0034999999999999996,,high
+2026-06-02T20:47:01.533434+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,13,504,117,0.0025,0.015,0.003015,,high
+2026-06-02T20:47:02.335561+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,31,500,150,0.0025,0.015,0.0034999999999999,,high
 2026-06-02T20:47:02.702103+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,19,507,161,0.0025,0.015,0.0036825,,high
 2026-06-02T20:47:03.122506+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,30,501,209,0.0025,0.015,0.0043875,,high
-2026-06-02T20:47:03.342525+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,40,500,237,0.0025,0.015,0.004804999999999999,,high
+2026-06-02T20:47:03.342525+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,40,500,237,0.0025,0.015,0.0048049999999999,,high
 2026-06-02T20:47:03.477875+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,6,504,203,0.0025,0.015,0.004305,,high
 2026-06-02T20:47:03.582753+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,10,503,252,0.0025,0.015,0.0050375,,high
-2026-06-02T20:47:03.835339+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,4,505,242,0.0025,0.015,0.004892499999999999,,high
+2026-06-02T20:47:03.835339+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,4,505,242,0.0025,0.015,0.0048924999999999,,high
 2026-06-02T20:47:03.845791+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,33,505,211,0.0025,0.015,0.0044275,,high
 2026-06-02T20:47:04.179058+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,5,505,262,0.0025,0.015,0.0051925,,high
 2026-06-02T20:47:04.317005+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,12,503,274,0.0025,0.015,0.0053675,,high
-2026-06-02T20:47:04.369435+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,3,506,263,0.0025,0.015,0.005209999999999999,,high
-2026-06-02T20:47:04.454904+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,35,501,269,0.0025,0.015,0.0052875000000000005,,high
+2026-06-02T20:47:04.369435+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,3,506,263,0.0025,0.015,0.0052099999999999,,high
+2026-06-02T20:47:04.454904+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,35,501,269,0.0025,0.015,0.0052875,,high
 2026-06-02T20:47:04.508265+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,36,504,278,0.0025,0.015,0.00543,,high
 2026-06-02T20:47:04.584026+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,14,505,279,0.0025,0.015,0.0054475,,high
-2026-06-02T20:47:04.609396+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,24,506,306,0.0025,0.015,0.005854999999999999,,high
+2026-06-02T20:47:04.609396+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,24,506,306,0.0025,0.015,0.0058549999999999,,high
 2026-06-02T20:47:04.883726+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,9,506,273,0.0025,0.015,0.00536,,high
 2026-06-02T20:47:04.919344+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,8,504,291,0.0025,0.015,0.005625,,high
 2026-06-02T20:47:04.964112+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,11,504,291,0.0025,0.015,0.005625,,high
 2026-06-02T20:47:05.049531+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,2,503,281,0.0025,0.015,0.0054725,,high
 2026-06-02T20:47:05.328785+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,22,504,322,0.0025,0.015,0.00609,,high
-2026-06-02T20:47:05.337804+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,34,503,384,0.0025,0.015,0.007017499999999999,,high
-2026-06-02T20:47:05.366478+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,20,500,323,0.0025,0.015,0.006095000000000001,,high
-2026-06-02T20:47:05.434743+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,37,506,349,0.0025,0.015,0.006499999999999999,,high
+2026-06-02T20:47:05.337804+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,34,503,384,0.0025,0.015,0.0070174999999999,,high
+2026-06-02T20:47:05.366478+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,20,500,323,0.0025,0.015,0.006095,,high
+2026-06-02T20:47:05.434743+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,37,506,349,0.0025,0.015,0.0064999999999999,,high
 2026-06-02T20:47:05.453162+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,21,506,291,0.0025,0.015,0.00563,,high
 2026-06-02T20:47:05.492971+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,38,504,382,0.0025,0.015,0.00699,,high
 2026-06-02T20:47:05.801028+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,18,506,347,0.0025,0.015,0.00647,,high
-2026-06-02T20:47:05.812635+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,23,502,356,0.0025,0.015,0.006594999999999999,,high
+2026-06-02T20:47:05.812635+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,23,502,356,0.0025,0.015,0.0065949999999999,,high
 2026-06-02T20:47:06.421918+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,26,503,344,0.0025,0.015,0.0064175,,high
-2026-06-02T20:47:06.833875+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,16,505,408,0.0025,0.015,0.007382499999999999,,high
+2026-06-02T20:47:06.833875+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,16,505,408,0.0025,0.015,0.0073824999999999,,high
 2026-06-02T20:47:06.874789+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,28,504,402,0.0025,0.015,0.00729,,high
-2026-06-02T20:47:07.002943+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,17,501,424,0.0025,0.015,0.0076124999999999995,,high
+2026-06-02T20:47:07.002943+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,17,501,424,0.0025,0.015,0.0076124999999999,,high
 2026-06-02T20:47:07.074301+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,1,501,366,0.0025,0.015,0.0067425,,high
-2026-06-02T20:47:07.100746+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,27,502,431,0.0025,0.015,0.007719999999999999,,high
-2026-06-02T20:47:07.426877+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,32,505,435,0.0025,0.015,0.007787499999999999,,high
+2026-06-02T20:47:07.100746+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,27,502,431,0.0025,0.015,0.0077199999999999,,high
+2026-06-02T20:47:07.426877+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,32,505,435,0.0025,0.015,0.0077874999999999,,high
 2026-06-02T20:47:07.580280+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,41,506,310,0.0025,0.015,0.005915,,high
-2026-06-02T20:47:07.971825+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,25,506,408,0.0025,0.015,0.007384999999999999,,high
+2026-06-02T20:47:07.971825+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,25,506,408,0.0025,0.015,0.0073849999999999,,high
 2026-06-02T20:47:08.128676+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,49,507,222,0.0025,0.015,0.0045975,,high
-2026-06-02T20:47:08.275062+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,15,504,219,0.0025,0.015,0.0045449999999999996,,high
+2026-06-02T20:47:08.275062+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,15,504,219,0.0025,0.015,0.0045449999999999,,high
 2026-06-02T20:47:08.498744+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,39,503,520,0.0025,0.015,0.0090575,,high
 2026-06-02T20:47:08.643852+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,29,502,443,0.0025,0.015,0.0079,,high
 2026-06-02T20:47:08.663045+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,42,502,279,0.0025,0.015,0.00544,,high
 2026-06-02T20:47:08.668870+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,44,506,253,0.0025,0.015,0.00506,,high
-2026-06-02T20:47:08.752761+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,47,507,247,0.0025,0.015,0.0049724999999999995,,high
-2026-06-02T20:47:08.781323+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,45,501,288,0.0025,0.015,0.005572499999999999,,high
+2026-06-02T20:47:08.752761+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,47,507,247,0.0025,0.015,0.0049724999999999,,high
+2026-06-02T20:47:08.781323+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,45,501,288,0.0025,0.015,0.0055724999999999,,high
 2026-06-02T20:47:08.878670+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,46,505,265,0.0025,0.015,0.0052375,,high
 2026-06-02T20:47:09.146896+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,58,505,191,0.0025,0.015,0.0041275,,high
 2026-06-02T20:47:09.463278+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,67,504,191,0.0025,0.015,0.004125,,high
 2026-06-02T20:47:09.579629+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,56,501,200,0.0025,0.015,0.0042525,,high
 2026-06-02T20:47:09.630572+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,53,506,271,0.0025,0.015,0.00533,,high
-2026-06-02T20:47:09.760330+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,64,507,197,0.0025,0.015,0.0042225000000000006,,high
+2026-06-02T20:47:09.760330+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,64,507,197,0.0025,0.015,0.0042225,,high
 2026-06-02T20:47:10.046816+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,63,500,286,0.0025,0.015,0.00554,,high
 2026-06-02T20:47:10.209716+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,60,502,278,0.0025,0.015,0.005425,,high
 2026-06-02T20:47:10.288760+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,7,506,609,0.0025,0.015,0.0104,,high
 2026-06-02T20:47:10.415795+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,69,506,219,0.0025,0.015,0.00455,,high
-2026-06-02T20:47:10.705895+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,52,502,345,0.0025,0.015,0.006429999999999999,,high
+2026-06-02T20:47:10.705895+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,52,502,345,0.0025,0.015,0.0064299999999999,,high
 2026-06-02T20:47:10.882279+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,57,505,315,0.0025,0.015,0.0059875,,high
 2026-06-02T20:47:11.073642+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,48,506,305,0.0025,0.015,0.00584,,high
-2026-06-02T20:47:11.204675+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,55,506,340,0.0025,0.015,0.006365000000000001,,high
-2026-06-02T20:47:11.331822+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,50,503,424,0.0025,0.015,0.007617499999999999,,high
-2026-06-02T20:47:11.522493+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,61,505,307,0.0025,0.015,0.0058674999999999995,,high
+2026-06-02T20:47:11.204675+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,55,506,340,0.0025,0.015,0.006365,,high
+2026-06-02T20:47:11.331822+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,50,503,424,0.0025,0.015,0.0076174999999999,,high
+2026-06-02T20:47:11.522493+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,61,505,307,0.0025,0.015,0.0058674999999999,,high
 2026-06-02T20:47:11.574120+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,62,506,321,0.0025,0.015,0.00608,,high
-2026-06-02T20:47:11.641485+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,75,502,175,0.0025,0.015,0.0038799999999999998,,high
+2026-06-02T20:47:11.641485+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,75,502,175,0.0025,0.015,0.0038799999999999,,high
 2026-06-02T20:47:12.261207+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,70,504,298,0.0025,0.015,0.00573,,high
 2026-06-02T20:47:12.355856+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,78,503,216,0.0025,0.015,0.0044975,,high
 2026-06-02T20:47:12.405324+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,82,505,197,0.0025,0.015,0.0042175,,high
-2026-06-02T20:47:12.514649+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,66,499,394,0.0025,0.015,0.007157500000000001,,high
-2026-06-02T20:47:12.781857+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,43,501,471,0.0025,0.015,0.008317499999999999,,high
+2026-06-02T20:47:12.514649+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,66,499,394,0.0025,0.015,0.0071575,,high
+2026-06-02T20:47:12.781857+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,43,501,471,0.0025,0.015,0.0083174999999999,,high
 2026-06-02T20:47:13.194815+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,54,503,440,0.0025,0.015,0.0078575,,high
 2026-06-02T20:47:13.340144+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,87,503,203,0.0025,0.015,0.0043025,,high
 2026-06-02T20:47:13.359890+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,88,503,199,0.0025,0.015,0.0042425,,high
-2026-06-02T20:47:13.470306+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,89,502,235,0.0025,0.015,0.0047799999999999995,,high
+2026-06-02T20:47:13.470306+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,89,502,235,0.0025,0.015,0.0047799999999999,,high
 2026-06-02T20:47:14.128280+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,65,506,469,0.0025,0.015,0.0083,,high
 2026-06-02T20:47:14.250043+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,81,507,289,0.0025,0.015,0.0056025,,high
 2026-06-02T20:47:14.282812+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,85,502,263,0.0025,0.015,0.0052,,high
-2026-06-02T20:47:14.296997+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,97,504,171,0.0025,0.015,0.0038250000000000003,,high
+2026-06-02T20:47:14.296997+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,97,504,171,0.0025,0.015,0.003825,,high
 2026-06-02T20:47:14.430759+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,96,506,181,0.0025,0.015,0.00398,,high
-2026-06-02T20:47:14.514142+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,72,505,414,0.0025,0.015,0.007472499999999999,,high
+2026-06-02T20:47:14.514142+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,72,505,414,0.0025,0.015,0.0074724999999999,,high
 2026-06-02T20:47:14.586614+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,91,504,216,0.0025,0.015,0.0045,,high
 2026-06-02T20:47:14.656184+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,76,501,332,0.0025,0.015,0.0062325,,high
-2026-06-02T20:47:14.662563+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,79,505,324,0.0025,0.015,0.0061224999999999995,,high
+2026-06-02T20:47:14.662563+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,79,505,324,0.0025,0.015,0.0061224999999999,,high
 2026-06-02T20:47:14.844384+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,51,506,534,0.0025,0.015,0.009275,,high
 2026-06-02T20:47:15.499079+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,94,504,217,0.0025,0.015,0.004515,,high
-2026-06-02T20:47:15.636423+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,73,507,470,0.0025,0.015,0.008317499999999999,,high
+2026-06-02T20:47:15.636423+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,73,507,470,0.0025,0.015,0.0083174999999999,,high
 2026-06-02T20:47:16.057268+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,84,504,382,0.0025,0.015,0.00699,,high
 2026-06-02T20:47:16.059745+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,83,506,390,0.0025,0.015,0.007115,,high
-2026-06-02T20:47:16.305033+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,86,505,381,0.0025,0.015,0.006977499999999999,,high
-2026-06-02T20:47:16.726092+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,68,503,604,0.0025,0.015,0.010317499999999999,,high
-2026-06-02T20:47:16.788706+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,77,503,445,0.0025,0.015,0.007932499999999999,,high
+2026-06-02T20:47:16.305033+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,86,505,381,0.0025,0.015,0.0069774999999999,,high
+2026-06-02T20:47:16.726092+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,68,503,604,0.0025,0.015,0.0103174999999999,,high
+2026-06-02T20:47:16.788706+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,77,503,445,0.0025,0.015,0.0079324999999999,,high
 2026-06-02T20:47:16.863607+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,80,495,441,0.0025,0.015,0.0078525,,high
-2026-06-02T20:47:17.591808+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,71,503,564,0.0025,0.015,0.009717499999999999,,high
+2026-06-02T20:47:17.591808+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,71,503,564,0.0025,0.015,0.0097174999999999,,high
 2026-06-02T20:47:18.528661+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,74,505,610,0.0025,0.015,0.0104125,,high
 2026-06-02T20:47:18.643870+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,59,505,673,0.0025,0.015,0.0113575,,high
-2026-06-02T20:47:20.349961+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,93,503,589,0.0025,0.015,0.010092499999999999,,high
+2026-06-02T20:47:20.349961+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,93,503,589,0.0025,0.015,0.0100924999999999,,high
 2026-06-02T20:47:20.358074+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,90,503,539,0.0025,0.015,0.0093425,,high
-2026-06-02T20:47:20.704852+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,92,503,488,0.0025,0.015,0.008577499999999998,,high
-2026-06-02T20:47:22.113082+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,99,500,500,0.0025,0.015,0.008749999999999999,,high
-2026-06-02T20:47:22.412273+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,98,505,589,0.0025,0.015,0.010097499999999999,,high
+2026-06-02T20:47:20.704852+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,92,503,488,0.0025,0.015,0.0085774999999999,,high
+2026-06-02T20:47:22.113082+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,99,500,500,0.0025,0.015,0.0087499999999999,,high
+2026-06-02T20:47:22.412273+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,98,505,589,0.0025,0.015,0.0100974999999999,,high
 2026-06-02T20:47:31.483040+00:00,01d_reasoning_effort_runs.ipynb,GPT-5.4 reasoning=high | consistency run2,no_desc,openai,gpt-5.4,95,506,1092,0.0025,0.015,0.017645,,high
+2026-06-15T16:17:58.175583+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,0,3970,82,0.0025,0.015,0.011155,0.0,
+2026-06-15T16:18:00.315329+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,30,3981,82,0.0025,0.015,0.0111825,1.0,
+2026-06-15T16:18:00.539990+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,10,3984,86,0.0025,0.015,0.01125,1.0,
+2026-06-15T16:18:00.600055+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,20,3980,94,0.0025,0.015,0.01136,1.0,
+2026-06-15T16:18:00.887988+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,8,3994,102,0.0025,0.015,0.011515,1.0,
+2026-06-15T16:18:00.923069+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,12,3986,95,0.0025,0.015,0.01139,1.0,
+2026-06-15T16:18:00.940657+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,34,3981,101,0.0025,0.015,0.0114675,1.0,
+2026-06-15T16:18:00.989418+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,16,3985,96,0.0025,0.015,0.0114025,1.0,
+2026-06-15T16:18:01.005693+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,28,3960,98,0.0025,0.015,0.01137,1.0,
+2026-06-15T16:18:01.092179+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,24,3948,106,0.0025,0.015,0.01146,1.0,
+2026-06-15T16:18:01.094389+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,26,3960,100,0.0025,0.015,0.0114,1.0,
+2026-06-15T16:18:01.109041+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,6,3963,99,0.0025,0.015,0.0113925,1.0,
+2026-06-15T16:18:01.139327+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,11,3997,95,0.0025,0.015,0.0114175,1.0,
+2026-06-15T16:18:01.159683+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,2,3987,101,0.0025,0.015,0.0114825,1.0,
+2026-06-15T16:18:01.219947+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,7,3985,91,0.0025,0.015,0.0113274999999999,1.0,
+2026-06-15T16:18:01.241707+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,9,3964,98,0.0025,0.015,0.01138,1.0,
+2026-06-15T16:18:01.284141+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,3,3997,99,0.0025,0.015,0.0114775,1.0,
+2026-06-15T16:18:01.303898+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,32,3970,102,0.0025,0.015,0.011455,1.0,
+2026-06-15T16:18:01.340978+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,17,3993,90,0.0025,0.015,0.0113325,1.0,
+2026-06-15T16:18:01.345676+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,25,3973,81,0.0025,0.015,0.0111475,1.0,
+2026-06-15T16:18:01.386422+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,13,3962,89,0.0025,0.015,0.01124,1.0,
+2026-06-15T16:18:01.405144+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,4,3999,108,0.0025,0.015,0.0116175,1.0,
+2026-06-15T16:18:01.406446+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,39,3997,105,0.0025,0.015,0.0115675,1.0,
+2026-06-15T16:18:01.492422+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,33,3961,95,0.0025,0.015,0.0113275,1.0,
+2026-06-15T16:18:01.494327+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,14,3996,87,0.0025,0.015,0.011295,1.0,
+2026-06-15T16:18:01.514282+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,31,3969,90,0.0025,0.015,0.0112725,1.0,
+2026-06-15T16:18:01.546341+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,1,3981,89,0.0025,0.015,0.0112874999999999,1.0,
+2026-06-15T16:18:01.556113+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,38,3979,90,0.0025,0.015,0.0112975,1.0,
+2026-06-15T16:18:01.562568+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,36,3971,89,0.0025,0.015,0.0112625,1.0,
+2026-06-15T16:18:01.643875+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,18,3988,102,0.0025,0.015,0.0115,1.0,
+2026-06-15T16:18:01.679206+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,15,3977,97,0.0025,0.015,0.0113975,1.0,
+2026-06-15T16:18:02.013913+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,35,3970,94,0.0025,0.015,0.011335,1.0,
+2026-06-15T16:18:02.167398+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,37,3995,85,0.0025,0.015,0.0112625,1.0,
+2026-06-15T16:18:02.182242+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,22,3997,81,0.0025,0.015,0.0112074999999999,0.0,
+2026-06-15T16:18:02.219935+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,23,3956,91,0.0025,0.015,0.011255,1.0,
+2026-06-15T16:18:02.297528+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,19,3997,99,0.0025,0.015,0.0114775,1.0,
+2026-06-15T16:18:02.320705+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,41,3980,92,0.0025,0.015,0.01133,1.0,
+2026-06-15T16:18:02.537879+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,21,3990,97,0.0025,0.015,0.01143,1.0,
+2026-06-15T16:18:02.619299+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,29,3978,100,0.0025,0.015,0.011445,0.9525741268224333,
+2026-06-15T16:18:02.847007+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,48,3976,84,0.0025,0.015,0.0112,1.0,
+2026-06-15T16:18:02.910680+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,45,3957,80,0.0025,0.015,0.0110925,1.0,
+2026-06-15T16:18:02.925678+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,46,3972,92,0.0025,0.015,0.0113099999999999,1.0,
+2026-06-15T16:18:02.978284+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,44,3972,86,0.0025,0.015,0.0112199999999999,1.0,
+2026-06-15T16:18:03.167369+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,47,3981,88,0.0025,0.015,0.0112725,1.0,
+2026-06-15T16:18:03.254364+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,51,3974,92,0.0025,0.015,0.011315,0.0,
+2026-06-15T16:18:03.297311+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,49,3994,97,0.0025,0.015,0.01144,0.0,
+2026-06-15T16:18:03.343017+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,50,3980,102,0.0025,0.015,0.01148,1.0,
+2026-06-15T16:18:03.345379+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,63,3950,93,0.0025,0.015,0.01127,1.0,
+2026-06-15T16:18:03.381944+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,52,3998,98,0.0025,0.015,0.011465,1.0,
+2026-06-15T16:18:03.589120+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,58,3994,90,0.0025,0.015,0.011335,1.0,
+2026-06-15T16:18:03.648252+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,56,3990,100,0.0025,0.015,0.011475,0.0,
+2026-06-15T16:18:03.664470+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,60,3955,96,0.0025,0.015,0.0113275,1.0,
+2026-06-15T16:18:03.671097+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,53,3972,96,0.0025,0.015,0.01137,1.0,
+2026-06-15T16:18:03.732156+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,69,3977,82,0.0025,0.015,0.0111725,0.0,
+2026-06-15T16:18:03.787396+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,68,3971,90,0.0025,0.015,0.0112775,1.0,
+2026-06-15T16:18:03.842553+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,55,3967,94,0.0025,0.015,0.0113275,1.0,
+2026-06-15T16:18:03.883475+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,66,3968,93,0.0025,0.015,0.011315,0.0,
+2026-06-15T16:18:04.034438+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,57,3998,98,0.0025,0.015,0.011465,1.0,
+2026-06-15T16:18:04.049397+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,71,3958,92,0.0025,0.015,0.011275,1.0,
+2026-06-15T16:18:04.227385+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,70,3995,106,0.0025,0.015,0.0115775,1.0,
+2026-06-15T16:18:04.230137+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,67,3990,91,0.0025,0.015,0.01134,1.0,
+2026-06-15T16:18:04.261721+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,59,3956,102,0.0025,0.015,0.01142,1.0,
+2026-06-15T16:18:04.264553+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,62,3969,93,0.0025,0.015,0.0113175,1.0,
+2026-06-15T16:18:04.304487+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,27,3982,84,0.0025,0.015,0.011215,1.0,
+2026-06-15T16:18:04.316932+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,72,3957,102,0.0025,0.015,0.0114225,0.0,
+2026-06-15T16:18:04.319199+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,73,3984,94,0.0025,0.015,0.01137,1.0,
+2026-06-15T16:18:04.321042+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,64,3966,108,0.0025,0.015,0.011535,1.0,
+2026-06-15T16:18:04.450752+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,65,3969,98,0.0025,0.015,0.0113925,1.0,
+2026-06-15T16:18:04.508552+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,75,3998,87,0.0025,0.015,0.0113,1.0,
+2026-06-15T16:18:04.544084+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,74,3971,82,0.0025,0.015,0.0111575,1.0,
+2026-06-15T16:18:04.616989+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,77,3998,101,0.0025,0.015,0.01151,1.0,
+2026-06-15T16:18:04.639611+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,76,3997,87,0.0025,0.015,0.0112975,1.0,
+2026-06-15T16:18:04.793846+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,78,3979,87,0.0025,0.015,0.0112525,1.0,
+2026-06-15T16:18:05.117983+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,81,3975,93,0.0025,0.015,0.0113325,1.0,
+2026-06-15T16:18:05.120269+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,5,3975,93,0.0025,0.015,0.0113325,1.0,
+2026-06-15T16:18:05.209451+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,83,3998,85,0.0025,0.015,0.01127,1.0,
+2026-06-15T16:18:05.296669+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,87,3974,83,0.0025,0.015,0.01118,1.0,
+2026-06-15T16:18:05.385582+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,84,3999,94,0.0025,0.015,0.0114075,1.0,
+2026-06-15T16:18:05.590480+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,42,3961,102,0.0025,0.015,0.0114325,1.0,
+2026-06-15T16:18:05.618237+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,86,3999,103,0.0025,0.015,0.0115425,1.0,
+2026-06-15T16:18:05.620581+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,89,3977,95,0.0025,0.015,0.0113675,1.0,
+2026-06-15T16:18:05.641358+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,82,3996,106,0.0025,0.015,0.01158,0.0,
+2026-06-15T16:18:05.643796+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,88,3981,93,0.0025,0.015,0.0113475,1.0,
+2026-06-15T16:18:05.684633+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,79,3995,94,0.0025,0.015,0.0113975,0.0,
+2026-06-15T16:18:05.816851+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,80,3960,99,0.0025,0.015,0.011385,1.0,
+2026-06-15T16:18:05.833287+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,93,3985,85,0.0025,0.015,0.0112375,1.0,
+2026-06-15T16:18:06.075414+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,92,3970,113,0.0025,0.015,0.01162,0.0,
+2026-06-15T16:18:06.107792+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,91,3960,90,0.0025,0.015,0.01125,1.0,
+2026-06-15T16:18:06.112030+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,98,3994,89,0.0025,0.015,0.01132,1.0,
+2026-06-15T16:18:06.223488+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,90,3975,98,0.0025,0.015,0.0114075,1.0,
+2026-06-15T16:18:06.228715+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,95,3997,95,0.0025,0.015,0.0114175,1.0,
+2026-06-15T16:18:06.360942+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,97,3977,105,0.0025,0.015,0.0115175,1.0,
+2026-06-15T16:18:06.372317+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,85,3999,110,0.0025,0.015,0.0116475,0.0,
+2026-06-15T16:18:06.414711+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,94,3985,91,0.0025,0.015,0.0113274999999999,1.0,
+2026-06-15T16:18:06.449408+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,61,3969,83,0.0025,0.015,0.0111674999999999,1.0,
+2026-06-15T16:18:06.650453+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,99,3989,88,0.0025,0.015,0.0112925,1.0,
+2026-06-15T16:18:07.081628+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,96,3996,90,0.0025,0.015,0.01134,1.0,
+2026-06-15T16:18:08.957388+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,40,3972,91,0.0025,0.015,0.011295,1.0,
+2026-06-15T16:18:11.292982+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,43,3999,92,0.0025,0.015,0.0113775,1.0,
+2026-06-15T16:18:17.919280+00:00,05a_RAG_Generative_SemanticID.ipynb,GPT-5.4 | RAG-A SemanticID,no_desc,openai,gpt-5.4,54,3982,98,0.0025,0.015,0.011425,1.0,
+2026-06-15T16:18:19.945714+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,0,502,69,0.0025,0.015,0.00229,0.0,
+2026-06-15T16:18:21.603977+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,3,507,72,0.0025,0.015,0.0023474999999999,1.0,
+2026-06-15T16:18:21.730837+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,12,504,76,0.0025,0.015,0.0024,1.0,
+2026-06-15T16:18:21.750254+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,8,505,85,0.0025,0.015,0.0025375,1.0,
+2026-06-15T16:18:21.771212+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,14,507,79,0.0025,0.015,0.0024525,1.0,
+2026-06-15T16:18:21.855158+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,6,498,80,0.0025,0.015,0.002445,1.0,
+2026-06-15T16:18:21.866835+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,40,503,77,0.0025,0.015,0.0024124999999999,0.0,
+2026-06-15T16:18:21.910290+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,2,502,89,0.0025,0.015,0.00259,1.0,
+2026-06-15T16:18:22.011711+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,26,502,79,0.0025,0.015,0.00244,1.0,
+2026-06-15T16:18:22.016274+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,1,504,73,0.0025,0.015,0.002355,1.0,
+2026-06-15T16:18:22.018786+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,34,504,88,0.0025,0.015,0.00258,1.0,
+2026-06-15T16:18:22.020220+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,39,506,80,0.0025,0.015,0.002465,1.0,
+2026-06-15T16:18:22.021609+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,27,503,83,0.0025,0.015,0.0025025,1.0,
+2026-06-15T16:18:22.024199+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,36,502,88,0.0025,0.015,0.002575,1.0,
+2026-06-15T16:18:22.028128+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,32,503,83,0.0025,0.015,0.0025025,1.0,
+2026-06-15T16:18:22.060723+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,19,507,79,0.0025,0.015,0.0024525,1.0,
+2026-06-15T16:18:22.238598+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,17,506,87,0.0025,0.015,0.00257,1.0,
+2026-06-15T16:18:22.240133+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,21,505,88,0.0025,0.015,0.0025824999999999,1.0,
+2026-06-15T16:18:22.243774+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,16,505,80,0.0025,0.015,0.0024625,1.0,
+2026-06-15T16:18:22.245044+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,37,506,85,0.0025,0.015,0.00254,1.0,
+2026-06-15T16:18:22.246076+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,10,504,78,0.0025,0.015,0.00243,1.0,
+2026-06-15T16:18:22.247013+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,18,504,83,0.0025,0.015,0.002505,1.0,
+2026-06-15T16:18:22.271857+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,29,502,89,0.0025,0.015,0.00259,1.0,
+2026-06-15T16:18:22.331697+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,31,503,88,0.0025,0.015,0.0025775,1.0,
+2026-06-15T16:18:22.421406+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,28,500,77,0.0025,0.015,0.002405,1.0,
+2026-06-15T16:18:22.424007+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,35,503,75,0.0025,0.015,0.0023825,0.7772998611746912,
+2026-06-15T16:18:22.440445+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,30,504,91,0.0025,0.015,0.0026249999999999,1.0,
+2026-06-15T16:18:22.483295+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,13,500,76,0.0025,0.015,0.0023899999999999,1.0,
+2026-06-15T16:18:22.485095+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,11,507,80,0.0025,0.015,0.0024675,1.0,
+2026-06-15T16:18:22.581546+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,23,502,81,0.0025,0.015,0.00247,1.0,
+2026-06-15T16:18:22.585489+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,24,501,93,0.0025,0.015,0.0026474999999999,1.0,
+2026-06-15T16:18:22.606091+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,5,503,83,0.0025,0.015,0.0025025,1.0,
+2026-06-15T16:18:22.843370+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,15,503,94,0.0025,0.015,0.0026674999999999,1.0,
+2026-06-15T16:18:22.895216+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,7,506,80,0.0025,0.015,0.002465,1.0,
+2026-06-15T16:18:23.058283+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,9,502,83,0.0025,0.015,0.0025,1.0,
+2026-06-15T16:18:23.727169+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,22,505,87,0.0025,0.015,0.0025675,0.0,
+2026-06-15T16:18:23.752083+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,25,503,79,0.0025,0.015,0.0024425,0.0,
+2026-06-15T16:18:23.772058+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,46,504,80,0.0025,0.015,0.00246,1.0,
+2026-06-15T16:18:23.842352+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,49,506,82,0.0025,0.015,0.002495,0.0,
+2026-06-15T16:18:23.863057+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,45,501,83,0.0025,0.015,0.0024974999999999,1.0,
+2026-06-15T16:18:23.962026+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,47,503,85,0.0025,0.015,0.0025325,1.0,
+2026-06-15T16:18:23.963703+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,42,502,87,0.0025,0.015,0.0025599999999999,1.0,
+2026-06-15T16:18:23.973712+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,41,503,80,0.0025,0.015,0.0024574999999999,1.0,
+2026-06-15T16:18:24.060273+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,55,502,87,0.0025,0.015,0.0025599999999999,1.0,
+2026-06-15T16:18:24.222883+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,60,500,89,0.0025,0.015,0.0025849999999999,1.0,
+2026-06-15T16:18:24.226624+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,48,504,77,0.0025,0.015,0.002415,1.0,
+2026-06-15T16:18:24.229724+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,59,501,84,0.0025,0.015,0.0025125,1.0,
+2026-06-15T16:18:24.231286+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,65,503,89,0.0025,0.015,0.0025924999999999,1.0,
+2026-06-15T16:18:24.270009+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,68,503,87,0.0025,0.015,0.0025624999999999,1.0,
+2026-06-15T16:18:24.296329+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,61,503,77,0.0025,0.015,0.0024124999999999,1.0,
+2026-06-15T16:18:24.300352+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,54,504,75,0.0025,0.015,0.002385,1.0,
+2026-06-15T16:18:24.311416+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,53,499,83,0.0025,0.015,0.0024925,1.0,
+2026-06-15T16:18:24.375715+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,57,505,90,0.0025,0.015,0.0026125,1.0,
+2026-06-15T16:18:24.410492+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,51,503,80,0.0025,0.015,0.0024574999999999,1.0,
+2026-06-15T16:18:24.457820+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,69,503,78,0.0025,0.015,0.0024275,0.0,
+2026-06-15T16:18:24.459509+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,56,505,83,0.0025,0.015,0.0025075,0.0,
+2026-06-15T16:18:24.502325+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,73,505,72,0.0025,0.015,0.0023425,1.0,
+2026-06-15T16:18:24.527138+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,64,503,77,0.0025,0.015,0.0024124999999999,1.0,
+2026-06-15T16:18:24.559924+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,62,504,83,0.0025,0.015,0.002505,0.8519528019683106,
+2026-06-15T16:18:24.570483+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,66,502,78,0.0025,0.015,0.002425,0.0373268873441294,
+2026-06-15T16:18:24.702846+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,4,506,89,0.0025,0.015,0.0026,1.0,
+2026-06-15T16:18:24.776801+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,63,499,88,0.0025,0.015,0.0025675,1.0,
+2026-06-15T16:18:24.783340+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,67,506,87,0.0025,0.015,0.00257,1.0,
+2026-06-15T16:18:24.879285+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,71,502,102,0.0025,0.015,0.002785,1.0,
+2026-06-15T16:18:24.980909+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,70,507,72,0.0025,0.015,0.0023474999999999,1.0,
+2026-06-15T16:18:25.033189+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,72,501,79,0.0025,0.015,0.0024375,1.0,
+2026-06-15T16:18:25.083915+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,58,503,74,0.0025,0.015,0.0023675,1.0,
+2026-06-15T16:18:25.177465+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,74,503,76,0.0025,0.015,0.0023975,0.0,
+2026-06-15T16:18:25.444206+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,76,508,77,0.0025,0.015,0.002425,1.0,
+2026-06-15T16:18:25.466024+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,52,507,79,0.0025,0.015,0.0024525,1.0,
+2026-06-15T16:18:25.471031+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,20,503,81,0.0025,0.015,0.0024725,1.0,
+2026-06-15T16:18:25.519433+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,50,504,89,0.0025,0.015,0.002595,1.0,
+2026-06-15T16:18:25.597228+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,78,502,82,0.0025,0.015,0.002485,1.0,
+2026-06-15T16:18:25.844711+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,79,505,74,0.0025,0.015,0.0023724999999999,0.0,
+2026-06-15T16:18:25.849586+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,83,507,68,0.0025,0.015,0.0022875,1.0,
+2026-06-15T16:18:25.856934+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,90,502,94,0.0025,0.015,0.002665,1.0,
+2026-06-15T16:18:25.961766+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,87,502,85,0.0025,0.015,0.00253,0.0,
+2026-06-15T16:18:25.969200+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,84,507,79,0.0025,0.015,0.0024525,1.0,
+2026-06-15T16:18:26.048871+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,82,505,84,0.0025,0.015,0.0025225,0.0,
+2026-06-15T16:18:26.086423+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,77,507,77,0.0025,0.015,0.0024225,1.0,
+2026-06-15T16:18:26.089500+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,81,503,83,0.0025,0.015,0.0025025,1.0,
+2026-06-15T16:18:26.312614+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,92,504,85,0.0025,0.015,0.002535,0.0,
+2026-06-15T16:18:26.314041+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,94,503,79,0.0025,0.015,0.0024425,1.0,
+2026-06-15T16:18:26.407357+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,85,507,95,0.0025,0.015,0.0026925,0.8175744761936437,
+2026-06-15T16:18:26.428213+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,86,506,81,0.0025,0.015,0.00248,1.0,
+2026-06-15T16:18:26.463353+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,91,502,78,0.0025,0.015,0.002425,1.0,
+2026-06-15T16:18:26.517804+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,95,507,83,0.0025,0.015,0.0025125,1.0,
+2026-06-15T16:18:26.521354+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,80,502,78,0.0025,0.015,0.002425,1.0,
+2026-06-15T16:18:26.550138+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,89,499,96,0.0025,0.015,0.0026875,1.0,
+2026-06-15T16:18:26.559522+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,88,501,86,0.0025,0.015,0.0025424999999999,1.0,
+2026-06-15T16:18:26.561577+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,97,503,81,0.0025,0.015,0.0024725,1.0,
+2026-06-15T16:18:26.722971+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,96,506,97,0.0025,0.015,0.00272,1.0,
+2026-06-15T16:18:26.730153+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,98,506,89,0.0025,0.015,0.0026,1.0,
+2026-06-15T16:18:26.783536+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,93,504,95,0.0025,0.015,0.002685,1.0,
+2026-06-15T16:18:26.869353+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,99,505,77,0.0025,0.015,0.0024175,1.0,
+2026-06-15T16:18:27.849592+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,75,506,81,0.0025,0.015,0.00248,1.0,
+2026-06-15T16:18:30.621271+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,44,503,78,0.0025,0.015,0.0024275,1.0,
+2026-06-15T16:18:32.609964+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,33,502,83,0.0025,0.015,0.0025,1.0,
+2026-06-15T16:18:35.536996+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,38,503,77,0.0025,0.015,0.0024124999999999,1.0,
+2026-06-15T16:18:37.481795+00:00,05_norag_baseline,GPT-5.4 | no-RAG,no_desc,openai,gpt-5.4,43,506,83,0.0025,0.015,0.00251,1.0,
+2026-06-15T16:20:18.108615+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,0,3971,79,0.0025,0.015,0.0111125,0.0,
+2026-06-15T16:20:20.050860+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,16,3969,80,0.0025,0.015,0.0111224999999999,1.0,
+2026-06-15T16:20:20.083096+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,1,3978,88,0.0025,0.015,0.011265,1.0,
+2026-06-15T16:20:20.226149+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,18,3986,87,0.0025,0.015,0.01127,1.0,
+2026-06-15T16:20:20.285838+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,20,3960,98,0.0025,0.015,0.01137,1.0,
+2026-06-15T16:20:20.296354+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,13,3967,89,0.0025,0.015,0.0112525,1.0,
+2026-06-15T16:20:20.313856+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,4,3984,93,0.0025,0.015,0.011355,1.0,
+2026-06-15T16:20:20.318218+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,2,3972,99,0.0025,0.015,0.011415,1.0,
+2026-06-15T16:20:20.356075+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,30,3977,85,0.0025,0.015,0.0112175,1.0,
+2026-06-15T16:20:20.376412+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,29,3990,105,0.0025,0.015,0.01155,1.0,
+2026-06-15T16:20:20.384010+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,15,3990,95,0.0025,0.015,0.0114,1.0,
+2026-06-15T16:20:20.384985+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,38,3984,87,0.0025,0.015,0.011265,1.0,
+2026-06-15T16:20:20.386651+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,11,3985,93,0.0025,0.015,0.0113575,1.0,
+2026-06-15T16:20:20.395200+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,21,3984,97,0.0025,0.015,0.011415,1.0,
+2026-06-15T16:20:20.405657+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,31,3977,105,0.0025,0.015,0.0115175,1.0,
+2026-06-15T16:20:20.413025+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,35,3980,92,0.0025,0.015,0.01133,1.0,
+2026-06-15T16:20:20.435615+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,12,3971,89,0.0025,0.015,0.0112625,1.0,
+2026-06-15T16:20:20.445018+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,8,3983,87,0.0025,0.015,0.0112625,1.0,
+2026-06-15T16:20:20.460288+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,27,3989,105,0.0025,0.015,0.0115475,1.0,
+2026-06-15T16:20:20.477318+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,5,3977,98,0.0025,0.015,0.0114124999999999,1.0,
+2026-06-15T16:20:20.583798+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,25,3977,111,0.0025,0.015,0.0116075,1.0,
+2026-06-15T16:20:20.586904+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,6,3962,92,0.0025,0.015,0.011285,1.0,
+2026-06-15T16:20:20.589833+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,9,3974,102,0.0025,0.015,0.011465,1.0,
+2026-06-15T16:20:20.613343+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,26,3962,100,0.0025,0.015,0.011405,1.0,
+2026-06-15T16:20:20.706448+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,23,3973,110,0.0025,0.015,0.0115825,0.0,
+2026-06-15T16:20:20.718404+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,7,3982,106,0.0025,0.015,0.011545,1.0,
+2026-06-15T16:20:20.732544+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,22,3991,99,0.0025,0.015,0.0114625,0.0,
+2026-06-15T16:20:20.770700+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,24,3954,111,0.0025,0.015,0.01155,1.0,
+2026-06-15T16:20:20.784121+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,3,3983,91,0.0025,0.015,0.0113225,1.0,
+2026-06-15T16:20:20.834809+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,39,3982,91,0.0025,0.015,0.01132,1.0,
+2026-06-15T16:20:20.863809+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,33,3961,97,0.0025,0.015,0.0113575,1.0,
+2026-06-15T16:20:20.871829+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,34,3986,107,0.0025,0.015,0.01157,1.0,
+2026-06-15T16:20:20.936253+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,40,3975,96,0.0025,0.015,0.0113775,0.0,
+2026-06-15T16:20:20.985562+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,19,3988,92,0.0025,0.015,0.0113499999999999,1.0,
+2026-06-15T16:20:21.028115+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,17,3985,91,0.0025,0.015,0.0113274999999999,1.0,
+2026-06-15T16:20:21.143076+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,14,3982,98,0.0025,0.015,0.011425,1.0,
+2026-06-15T16:20:22.043094+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,37,3998,94,0.0025,0.015,0.011405,1.0,
+2026-06-15T16:20:22.210235+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,44,3973,89,0.0025,0.015,0.0112675,1.0,
+2026-06-15T16:20:22.376209+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,56,3986,96,0.0025,0.015,0.011405,0.0,
+2026-06-15T16:20:22.443139+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,41,3982,86,0.0025,0.015,0.011245,1.0,
+2026-06-15T16:20:22.453027+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,71,3964,84,0.0025,0.015,0.01117,1.0,
+2026-06-15T16:20:22.462569+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,52,3989,97,0.0025,0.015,0.0114275,1.0,
+2026-06-15T16:20:22.523625+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,58,3967,87,0.0025,0.015,0.0112225,1.0,
+2026-06-15T16:20:22.548105+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,48,3981,86,0.0025,0.015,0.0112424999999999,1.0,
+2026-06-15T16:20:22.582493+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,42,3969,99,0.0025,0.015,0.0114075,1.0,
+2026-06-15T16:20:22.600774+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,45,3960,88,0.0025,0.015,0.01122,1.0,
+2026-06-15T16:20:22.646023+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,70,3991,89,0.0025,0.015,0.0113125,1.0,
+2026-06-15T16:20:22.699224+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,51,3989,103,0.0025,0.015,0.0115175,0.3775406687981454,
+2026-06-15T16:20:22.718402+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,57,3989,96,0.0025,0.015,0.0114125,1.0,
+2026-06-15T16:20:22.740322+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,62,3979,101,0.0025,0.015,0.0114625,1.0,
+2026-06-15T16:20:22.797313+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,61,3973,95,0.0025,0.015,0.0113575,1.0,
+2026-06-15T16:20:22.967075+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,53,3977,98,0.0025,0.015,0.0114124999999999,1.0,
+2026-06-15T16:20:22.995449+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,60,3949,98,0.0025,0.015,0.0113424999999999,1.0,
+2026-06-15T16:20:23.046310+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,50,3973,112,0.0025,0.015,0.0116125,1.0,
+2026-06-15T16:20:23.164151+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,69,3967,91,0.0025,0.015,0.0112825,0.0,
+2026-06-15T16:20:23.194386+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,49,3978,99,0.0025,0.015,0.01143,0.0,
+2026-06-15T16:20:23.256003+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,73,3974,87,0.0025,0.015,0.01124,1.0,
+2026-06-15T16:20:23.269566+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,55,3978,105,0.0025,0.015,0.01152,1.0,
+2026-06-15T16:20:23.293486+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,67,3982,98,0.0025,0.015,0.011425,1.0,
+2026-06-15T16:20:23.668400+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,74,3977,107,0.0025,0.015,0.0115475,1.0,
+2026-06-15T16:20:23.927734+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,54,3968,86,0.0025,0.015,0.01121,1.0,
+2026-06-15T16:20:23.970911+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,66,3966,84,0.0025,0.015,0.011175,0.0,
+2026-06-15T16:20:24.117117+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,46,3973,108,0.0025,0.015,0.0115525,1.0,
+2026-06-15T16:20:24.335034+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,63,3952,87,0.0025,0.015,0.011185,1.0,
+2026-06-15T16:20:24.359995+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,65,3984,99,0.0025,0.015,0.011445,1.0,
+2026-06-15T16:20:24.371594+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,43,3992,87,0.0025,0.015,0.011285,1.0,
+2026-06-15T16:20:24.435592+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,68,3977,89,0.0025,0.015,0.0112775,1.0,
+2026-06-15T16:20:24.547944+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,59,3963,91,0.0025,0.015,0.0112725,1.0,
+2026-06-15T16:20:24.599034+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,84,3986,93,0.0025,0.015,0.01136,1.0,
+2026-06-15T16:20:24.714015+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,72,3975,100,0.0025,0.015,0.0114375,0.0,
+2026-06-15T16:20:24.754684+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,86,3990,89,0.0025,0.015,0.01131,1.0,
+2026-06-15T16:20:24.801945+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,64,3979,105,0.0025,0.015,0.0115225,1.0,
+2026-06-15T16:20:24.981089+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,75,3996,88,0.0025,0.015,0.01131,1.0,
+2026-06-15T16:20:25.010932+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,85,4000,95,0.0025,0.015,0.011425,0.8175744761936438,
+2026-06-15T16:20:25.015227+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,87,3977,93,0.0025,0.015,0.0113375,0.0,
+2026-06-15T16:20:25.048136+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,47,3977,98,0.0025,0.015,0.0114124999999999,1.0,
+2026-06-15T16:20:25.054732+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,76,3998,91,0.0025,0.015,0.01136,1.0,
+2026-06-15T16:20:25.114600+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,88,3969,83,0.0025,0.015,0.0111674999999999,1.0,
+2026-06-15T16:20:25.146995+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,83,3982,95,0.0025,0.015,0.01138,1.0,
+2026-06-15T16:20:25.153297+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,82,3984,106,0.0025,0.015,0.01155,1.0,
+2026-06-15T16:20:25.389161+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,79,3983,96,0.0025,0.015,0.0113975,0.0,
+2026-06-15T16:20:25.393795+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,77,3986,96,0.0025,0.015,0.011405,1.0,
+2026-06-15T16:20:25.476278+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,78,3979,93,0.0025,0.015,0.0113425,1.0,
+2026-06-15T16:20:25.478293+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,90,3966,111,0.0025,0.015,0.01158,1.0,
+2026-06-15T16:20:25.501977+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,80,3960,98,0.0025,0.015,0.01137,1.0,
+2026-06-15T16:20:25.506474+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,81,3979,89,0.0025,0.015,0.0112824999999999,1.0,
+2026-06-15T16:20:25.514344+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,96,3985,100,0.0025,0.015,0.0114624999999999,1.0,
+2026-06-15T16:20:25.679970+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,93,3981,94,0.0025,0.015,0.0113625,1.0,
+2026-06-15T16:20:25.715925+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,91,3972,97,0.0025,0.015,0.011385,0.5621765008857981,
+2026-06-15T16:20:25.760233+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,92,3983,83,0.0025,0.015,0.0112025,0.0,
+2026-06-15T16:20:25.824336+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,99,3981,86,0.0025,0.015,0.0112424999999999,1.0,
+2026-06-15T16:20:25.929348+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,97,3975,127,0.0025,0.015,0.0118425,1.0,
+2026-06-15T16:20:25.980811+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,98,3978,100,0.0025,0.015,0.011445,1.0,
+2026-06-15T16:20:26.011349+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,94,3980,93,0.0025,0.015,0.011345,1.0,
+2026-06-15T16:20:26.475261+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,95,3989,97,0.0025,0.015,0.0114275,1.0,
+2026-06-15T16:20:27.768910+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,32,3975,105,0.0025,0.015,0.0115125,1.0,
+2026-06-15T16:20:28.198797+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,28,3963,93,0.0025,0.015,0.0113025,1.0,
+2026-06-15T16:20:28.272214+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,89,3959,99,0.0025,0.015,0.0113825,1.0,
+2026-06-15T16:20:31.633772+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,10,3994,87,0.0025,0.015,0.01129,0.0,
+2026-06-15T16:20:35.452616+00:00,05b_RAG_FullCorpus_Retrieval.ipynb,GPT-5.4 | RAG-B full-corpus kNN,no_desc,openai,gpt-5.4,36,3976,102,0.0025,0.015,0.01147,1.0,
+2026-06-15T16:22:45.116810+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,0,3970,86,0.0025,0.015,0.011215,0.0,
+2026-06-15T16:22:47.155950+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,16,3989,86,0.0025,0.015,0.0112625,1.0,
+2026-06-15T16:22:47.323907+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,27,3980,104,0.0025,0.015,0.01151,0.0,
+2026-06-15T16:22:47.374316+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,20,3975,91,0.0025,0.015,0.0113025,1.0,
+2026-06-15T16:22:47.441444+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,11,3993,91,0.0025,0.015,0.0113475,1.0,
+2026-06-15T16:22:47.442747+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,7,3989,86,0.0025,0.015,0.0112625,1.0,
+2026-06-15T16:22:47.444318+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,36,3967,98,0.0025,0.015,0.0113875,1.0,
+2026-06-15T16:22:47.472279+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,5,3972,88,0.0025,0.015,0.01125,1.0,
+2026-06-15T16:22:47.510585+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,38,3974,94,0.0025,0.015,0.011345,1.0,
+2026-06-15T16:22:47.525510+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,40,3971,87,0.0025,0.015,0.0112325,1.0,
+2026-06-15T16:22:47.611092+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,13,3956,85,0.0025,0.015,0.011165,1.0,
+2026-06-15T16:22:47.620733+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,8,3997,86,0.0025,0.015,0.0112824999999999,1.0,
+2026-06-15T16:22:47.681514+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,10,3989,92,0.0025,0.015,0.0113525,0.0,
+2026-06-15T16:22:47.724917+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,31,3970,94,0.0025,0.015,0.011335,1.0,
+2026-06-15T16:22:47.728294+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,22,3998,110,0.0025,0.015,0.011645,0.0,
+2026-06-15T16:22:47.742382+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,19,3993,91,0.0025,0.015,0.0113475,1.0,
+2026-06-15T16:22:47.775216+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,30,3979,90,0.0025,0.015,0.0112975,1.0,
+2026-06-15T16:22:47.790629+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,28,3963,96,0.0025,0.015,0.0113475,1.0,
+2026-06-15T16:22:47.816105+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,39,3994,101,0.0025,0.015,0.0115,0.0,
+2026-06-15T16:22:47.875208+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,29,3978,103,0.0025,0.015,0.01149,0.0,
+2026-06-15T16:22:47.882872+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,15,3977,95,0.0025,0.015,0.0113675,1.0,
+2026-06-15T16:22:47.905618+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,18,3989,102,0.0025,0.015,0.0115025,1.0,
+2026-06-15T16:22:47.912438+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,12,3986,91,0.0025,0.015,0.01133,1.0,
+2026-06-15T16:22:47.943435+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,6,3956,92,0.0025,0.015,0.0112699999999999,1.0,
+2026-06-15T16:22:48.078250+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,34,3982,112,0.0025,0.015,0.011635,1.0,
+2026-06-15T16:22:48.090615+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,4,3992,102,0.0025,0.015,0.01151,1.0,
+2026-06-15T16:22:48.163650+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,33,3957,102,0.0025,0.015,0.0114225,1.0,
+2026-06-15T16:22:48.187685+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,23,3959,92,0.0025,0.015,0.0112775,0.0,
+2026-06-15T16:22:48.289357+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,1,3981,105,0.0025,0.015,0.0115275,1.0,
+2026-06-15T16:22:48.628121+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,3,3996,101,0.0025,0.015,0.011505,1.0,
+2026-06-15T16:22:48.638612+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,35,3966,89,0.0025,0.015,0.01125,1.0,
+2026-06-15T16:22:48.695816+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,32,3966,92,0.0025,0.015,0.011295,1.0,
+2026-06-15T16:22:49.015143+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,2,3983,89,0.0025,0.015,0.0112925,1.0,
+2026-06-15T16:22:49.022251+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,37,3999,108,0.0025,0.015,0.0116175,1.0,
+2026-06-15T16:22:49.042304+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,17,3993,102,0.0025,0.015,0.0115125,1.0,
+2026-06-15T16:22:49.140084+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,9,3965,101,0.0025,0.015,0.0114275,1.0,
+2026-06-15T16:22:49.237493+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,47,3980,95,0.0025,0.015,0.011375,1.0,
+2026-06-15T16:22:49.307522+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,45,3956,87,0.0025,0.015,0.011195,1.0,
+2026-06-15T16:22:49.453011+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,42,3955,92,0.0025,0.015,0.0112675,1.0,
+2026-06-15T16:22:49.462464+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,44,3972,85,0.0025,0.015,0.011205,1.0,
+2026-06-15T16:22:49.642003+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,43,3998,117,0.0025,0.015,0.01175,1.0,
+2026-06-15T16:22:49.644345+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,25,3970,94,0.0025,0.015,0.011335,1.0,
+2026-06-15T16:22:49.671875+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,59,3955,98,0.0025,0.015,0.0113575,1.0,
+2026-06-15T16:22:49.796389+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,50,3983,99,0.0025,0.015,0.0114425,1.0,
+2026-06-15T16:22:49.831986+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,54,3981,87,0.0025,0.015,0.0112575,1.0,
+2026-06-15T16:22:49.907355+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,56,3992,95,0.0025,0.015,0.011405,0.0,
+2026-06-15T16:22:49.974850+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,57,3994,98,0.0025,0.015,0.011455,1.0,
+2026-06-15T16:22:50.024052+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,52,3998,97,0.0025,0.015,0.01145,1.0,
+2026-06-15T16:22:50.063273+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,51,3983,107,0.0025,0.015,0.0115625,0.0,
+2026-06-15T16:22:50.094748+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,48,3974,88,0.0025,0.015,0.011255,1.0,
+2026-06-15T16:22:50.107994+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,61,3970,90,0.0025,0.015,0.011275,1.0,
+2026-06-15T16:22:50.111213+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,58,3990,98,0.0025,0.015,0.011445,1.0,
+2026-06-15T16:22:50.119856+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,53,3973,81,0.0025,0.015,0.0111475,1.0,
+2026-06-15T16:22:50.198261+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,55,3970,97,0.0025,0.015,0.01138,1.0,
+2026-06-15T16:22:50.693705+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,68,3973,92,0.0025,0.015,0.0113125,1.0,
+2026-06-15T16:22:50.720583+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,67,3986,100,0.0025,0.015,0.011465,1.0,
+2026-06-15T16:22:50.805961+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,66,3968,92,0.0025,0.015,0.0113,0.0,
+2026-06-15T16:22:50.831348+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,24,3947,103,0.0025,0.015,0.0114124999999999,1.0,
+2026-06-15T16:22:50.858763+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,60,3947,87,0.0025,0.015,0.0111725,1.0,
+2026-06-15T16:22:50.895639+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,49,3994,100,0.0025,0.015,0.011485,0.0,
+2026-06-15T16:22:50.925588+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,65,3971,104,0.0025,0.015,0.0114875,1.0,
+2026-06-15T16:22:51.004350+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,70,3995,102,0.0025,0.015,0.0115175,1.0,
+2026-06-15T16:22:51.016453+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,73,3984,94,0.0025,0.015,0.01137,1.0,
+2026-06-15T16:22:51.063064+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,64,3967,92,0.0025,0.015,0.0112975,1.0,
+2026-06-15T16:22:51.271574+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,72,3958,116,0.0025,0.015,0.011635,0.0,
+2026-06-15T16:22:51.515222+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,74,3972,99,0.0025,0.015,0.011415,1.0,
+2026-06-15T16:22:51.517100+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,82,3996,79,0.0025,0.015,0.011175,0.0,
+2026-06-15T16:22:51.531357+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,78,3980,99,0.0025,0.015,0.011435,1.0,
+2026-06-15T16:22:51.582137+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,75,3998,96,0.0025,0.015,0.011435,1.0,
+2026-06-15T16:22:51.645275+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,77,3998,106,0.0025,0.015,0.011585,1.0,
+2026-06-15T16:22:51.665058+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,62,3967,89,0.0025,0.015,0.0112525,1.0,
+2026-06-15T16:22:51.668502+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,83,3990,84,0.0025,0.015,0.011235,1.0,
+2026-06-15T16:22:51.746042+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,81,3973,93,0.0025,0.015,0.0113275,1.0,
+2026-06-15T16:22:51.751834+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,69,3977,97,0.0025,0.015,0.0113975,0.0,
+2026-06-15T16:22:51.754904+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,79,3997,91,0.0025,0.015,0.0113575,0.0,
+2026-06-15T16:22:51.869317+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,76,3997,84,0.0025,0.015,0.0112525,1.0,
+2026-06-15T16:22:51.898928+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,93,3985,89,0.0025,0.015,0.0112974999999999,1.0,
+2026-06-15T16:22:51.971113+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,91,3958,100,0.0025,0.015,0.011395,0.0293122307513563,
+2026-06-15T16:22:52.043518+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,86,3999,89,0.0025,0.015,0.0113325,1.0,
+2026-06-15T16:22:52.083919+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,84,3999,89,0.0025,0.015,0.0113325,1.0,
+2026-06-15T16:22:52.272639+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,90,3970,96,0.0025,0.015,0.011365,1.0,
+2026-06-15T16:22:52.454328+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,85,4000,105,0.0025,0.015,0.011575,1.0,
+2026-06-15T16:22:52.548124+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,92,3975,99,0.0025,0.015,0.0114225,0.0,
+2026-06-15T16:22:52.653769+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,87,3975,93,0.0025,0.015,0.0113325,1.0,
+2026-06-15T16:22:52.669558+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,88,3985,94,0.0025,0.015,0.0113724999999999,1.0,
+2026-06-15T16:22:52.888613+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,94,3976,97,0.0025,0.015,0.011395,1.0,
+2026-06-15T16:22:52.937209+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,14,3990,91,0.0025,0.015,0.01134,1.0,
+2026-06-15T16:22:53.089275+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,21,3989,99,0.0025,0.015,0.0114575,1.0,
+2026-06-15T16:22:53.101450+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,95,3997,90,0.0025,0.015,0.0113425,1.0,
+2026-06-15T16:22:53.119189+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,96,3993,89,0.0025,0.015,0.0113175,1.0,
+2026-06-15T16:22:53.148184+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,97,3985,107,0.0025,0.015,0.0115675,1.0,
+2026-06-15T16:22:53.228902+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,99,3986,94,0.0025,0.015,0.011375,1.0,
+2026-06-15T16:22:53.688611+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,41,3981,101,0.0025,0.015,0.0114675,1.0,
+2026-06-15T16:22:53.785546+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,98,3991,90,0.0025,0.015,0.0113275,1.0,
+2026-06-15T16:22:54.018388+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,80,3958,93,0.0025,0.015,0.01129,1.0,
+2026-06-15T16:22:54.712432+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,63,3948,94,0.0025,0.015,0.01128,1.0,
+2026-06-15T16:22:55.539299+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,46,3970,98,0.0025,0.015,0.011395,1.0,
+2026-06-15T16:22:56.656583+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,89,3962,90,0.0025,0.015,0.011255,1.0,
+2026-06-15T16:22:57.473021+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,26,3959,99,0.0025,0.015,0.0113825,1.0,
+2026-06-15T16:23:04.488922+00:00,05c_RAG_Hybrid.ipynb,GPT-5.4 | RAG-C hybrid RRF,no_desc,openai,gpt-5.4,71,3957,100,0.0025,0.015,0.0113925,1.0,
