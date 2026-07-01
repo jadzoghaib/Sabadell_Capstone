@@ -8,7 +8,7 @@ This directory houses the phased LLM experimentation, evaluation frameworks, and
 
 To ensure absolute experimental reproducibility, all LLM notebooks draw from central helper modules:
 
-* **`llm_utils.py`:** The core operational engine. Handles data loading, ML feature re-encoding, pricing metrics calculation, token count validation, API calls (wrapping OpenAI, Gemini, and Groq), prediction probability extraction via token logprobs, and automatic append-only logging to `data/results/llm/llm_calls.csv`.
+* **`llm_utils.py`:** The core operational engine. Handles data loading, ML feature re-encoding, pricing metrics calculation, token count validation, API calls (wrapping OpenAI, Gemini, Anthropic, and NVIDIA), prediction probability extraction via token logprobs, and automatic append-only logging to `data/results/llm/llm_calls.csv`.
 * **`llm_pricing.py`:** The pricing catalog. Contains the official price list (USD per 1,000 input/output tokens) for all evaluated model families.
 * **`sample_generation.py`:** Generates reproducible, mutually-exclusive datasets from LendingClub splits (`tuning_sample`, `robustness_batch`, `test_batch`), preserving target class ratios.
 
@@ -41,7 +41,7 @@ graph TD
 
 ### [Phase 3: Hybrid Blended LLM/ML Approach](file:///Users/alemz/Projects/Github/Sabadell_Capstone/notebooks/llm_models/03_hybrid)
 * **Goal:** Pipeline applications through a combination of classical ML (XGBoost) and high-reasoning LLMs.
-* **Focus:** Soft-probability ensembling, confidence-gated routing, and Llama-3.3-70b/Groq execution. The test set remains strictly untouched here.
+* **Focus:** Soft-probability ensembling, confidence-gated routing, and GPT-5.4 execution. The test set remains strictly untouched here.
 
 ### [Phase 5: Retrieval-Augmented (RAG) Scoring](file:///Users/alemz/Projects/Github/Sabadell_Capstone/notebooks/llm_models/05_rag)
 * **Goal:** Test whether injecting *precedent loans* as evidence beats judging each applicant in isolation.

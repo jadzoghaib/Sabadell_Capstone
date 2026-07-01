@@ -15,7 +15,7 @@ Phase 3 tests whether a **collaborative hybrid system** can beat either model in
 ## Notebook Details
 
 ### Blended LLM & ML Modeling (`03_Blended_LLM_ML.ipynb`)
-* **Model Configuration:** Evaluates `llama-3.3-70b-instruct` powered by **Groq** for high-throughput, low-latency execution.
+* **Model Configuration:** Uses **GPT-5.4** (OpenAI) as the LLM signal — the project's chosen model — with batched, cached calls (`03_openai_signals_{sample}.csv`) to keep cost and latency down. Signals are fanned out across the available `OPENAI_API_KEY*` keys.
 * **Techniques Evaluated:**
   1. **Soft-Probability Ensembling:** Linearly blending XGBoost's numerical probabilities with the LLM's normalized logprobs (`prob_fully_paid`).
   2. **Confidence-Gated Routing:** Setting uncertainty boundaries. Clear, high-confidence credit applications are instantly routed to XGBoost (saving substantial API costs), while ambiguous boundary cases are routed to the LLM for deep rationalization.

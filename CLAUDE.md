@@ -93,11 +93,11 @@ Two parallel pipelines:
        **⚠️ Do not conclude chain-of-thought wins from `02b_phase1_metrics.csv` alone.** That single comparison run gives CoT the top *accuracy* (0.83 vs base 0.81), which fools quick readers — but the base prompt already beats CoT on **Charged-Off F1** even there (0.387 vs 0.370), and CoT then *regresses* under the Phase-2 consistency check (3-run mean 0.312 CO-F1, below the base prompt's 0.327). **The base prompt is the winner; no engineered variant reliably beats it.** Always cross-check `02b_phase2_consistency.csv` before ranking prompts — same single-run-then-regress trap as high `reasoning_effort` in 01d (see `01d_high_consistency_metrics.csv`: best single run 0.80/0.375 but 3-run mean 0.753/0.300).
      - `02c_Qualitative_Financial_Analysis.ipynb` — phase-2 **analysis gate** (mirror of `01f`): GPT-5.4 judge fingerprints each prompt variant + cost ledger. Needs `02b`'s outputs first.
    - `03_hybrid/` — Jad's **blended XGBoost + LLM** exploration using
-     Llama-3.3-70b via **Groq** — soft-probability blend, confidence-gated
-     routing, and 5A/5B risk scorers — testing whether the two models'
-     complementary strengths beat either solo on Charged-Off F1. Tuned on
-     `tuning_sample`, strategy-selected on `robustness_batch`. **The test
-     set is strictly held out** — never loaded or evaluated here.
+     **GPT-5.4** (OpenAI) as the LLM signal — soft-probability blend,
+     confidence-gated routing, and 5A/5B risk scorers — testing whether the
+     two models' complementary strengths beat either solo on Charged-Off F1.
+     Tuned on `tuning_sample`, strategy-selected on `robustness_batch`. **The
+     test set is strictly held out** — never loaded or evaluated here.
    - `04_final_benchmark/` — **the spine, run last** — finalist prompts ×
      GPT-5.4 at the chosen effort on the untouched test batch, tunes the
      decision threshold, reports metrics **alongside cost** vs the XGBoost
@@ -226,7 +226,7 @@ notebooks/
                                          # Part 2 = GPT-5.4 reasoning fingerprint per variant.
                                          # Needs 02b's outputs first. → 02c_qualitative_financial.json
     03_hybrid/               # PHASE 3: blended XGBoost + LLM (Jad). Beat both solo on Charged-Off F1?
-      03_Blended_LLM_ML.ipynb       # Uses Groq (Llama-3.3-70b-versatile). Batched + cached signals.
+      03_Blended_LLM_ML.ipynb       # Uses GPT-5.4 (OpenAI). Batched + cached signals.
                                     # Tuned on tuning_sample, strategy-selected on robustness_batch.
                                     # TEST SET IS NEVER LOADED — strict holdout.
                                     # Strategies: soft blend, confidence gate, 5A/5B risk scorers,
@@ -279,7 +279,7 @@ python llm_models/sample_generation.py    [generates robustness_batch + test_bat
 02_prompt_variance/02a                   [writes 02a_tax_metrics.csv]
 02_prompt_variance/02b                   [writes 02b_predictions.csv + 02b_phase1_metrics.csv]
 02_prompt_variance/02c                   [analysis gate — AFTER 02b; GPT-5.4 judge → 02c_qualitative_financial.json]
-03_hybrid/03_Blended_LLM_ML              [standalone — uses Groq directly, does NOT read 02_predictions.csv]
+03_hybrid/03_Blended_LLM_ML              [standalone — uses GPT-5.4 directly, does NOT read 02_predictions.csv]
 05_rag/00_Build_RAG_Dataset              [optional thin wrapper for get_rag_corpus; 05a/b/c build it lazily]
 05_rag/05a,05b,05c                       [standalone — eval on robustness_batch; run 05a+05b before 05c for its leaderboard]
 04_final_benchmark/04_Final_Test_Analysis   [run LAST — final benchmark and dashboard, loads 03_locked_params.csv]
@@ -341,7 +341,6 @@ ANTHROPIC_API_KEY=...
 ANTHROPIC_API_KEY_2=...       # spare
 NVIDIA_API_KEY=...            # phase 02 NVIDIA NIM (Llama)
 NVIDIA_API_KEY_2=...          # spare
-GROQ_API_KEY=...              # phase 03 Groq (Llama) — add this before running 03_hybrid
 GCP_PROJECT_ID=capstonesabadell   # Vertex AI project for Gemini logprobs
 GCP_LOCATION=europe-west4        # Netherlands — reliable for newest Gemini models in EU
 ```
@@ -353,11 +352,10 @@ provider in `call_llm` to route through Vertex AI when a project is configured.
 **Supported providers** (each with retry logic in `call_llm`):
 | Provider | `api_provider` value | Key env var | Used in |
 |----------|---------------------|-------------|---------|
-| OpenAI   | `"openai"` | `OPENAI_API_KEY` | 01a–01e, 04 |
+| OpenAI   | `"openai"` | `OPENAI_API_KEY` | 01a–01e, 03, 04, 05 |
 | Google Gemini | `"gemini"` | `GEMINI_API_KEY_PRO` / `_FLASH` | 01a |
 | Anthropic | `"anthropic"` | `ANTHROPIC_API_KEY` | 01a |
 | NVIDIA NIM | `"nvidia"` | `NVIDIA_API_KEY` | 02 |
-| Groq | `"groq"` | `GROQ_API_KEY` | 03 |
 
 ## Environment
 
@@ -405,20 +403,15 @@ provider in `call_llm` to route through Vertex AI when a project is configured.
   update `LLM_FEATURES` and `FEATURE_DESCRIPTIONS` in `llm_utils.py` to match,
   otherwise `run_ml_on_sample` will misalign columns.
 - **Retry logic** for LLM calls: `llm_utils.call_llm` retries 8× with
-  exponential backoff on 503/429/502/504/connection errors. Groq has
-  custom retry-after header parsing and day-scale quota detection (fails
-  fast if RPD/TPD is exhausted rather than sleeping for hours). If a run
+  exponential backoff on 503/429/502/504/connection errors. If a run
   hangs, that's the loop — kill the cell rather than waiting it out.
 - **GPT-5.4 model name**: the notebooks pass the literal string `gpt-5.4` to
   the OpenAI SDK (resolved to `gpt-5.4-2026-03-05`). The final benchmark uses
   `MODEL = 'gpt-5.4'`. If that route 404s, check the model registry and
   update the string in the notebook (not in `llm_utils.py`).
-- **Groq rate limits**: Groq's free tier is tight (30 RPM / 1000 RPD / 12000
-  TPM). The `03_hybrid` notebook uses batched requests (50 loans/call for
-  binary, 20 loans/call for 5B) and a 2-second throttle between calls to
-  stay under these limits. Signal results are cached per-sample as
-  `03_groq_{signal}_{sample}.csv` so a quota interruption resumes without
-  re-burning tokens.
+- **Phase 3 signal caching**: the `03_hybrid` notebook uses batched requests
+  and caches signal results per-sample as `03_openai_signals_{sample}.csv` so
+  an interruption resumes without re-burning tokens.
 - **`llm_calls.csv` column schema** (14 columns): `timestamp, notebook_id,
   label, desc_tag, provider, model, row_index, input_tokens, output_tokens,
   input_price_per_1k_usd, output_price_per_1k_usd, cost_usd,
@@ -456,7 +449,7 @@ provider in `call_llm` to route through Vertex AI when a project is configured.
   prompt variant in Phase 2 (`02b_Prompt_Variance`) derives its features
   LIVE from XGBoost importances via `llm_utils.top_xgb_features(n=8)` — never
   hard-coded. If you retrain XGBoost, the feature list updates automatically.
-  Exception: Phase 3's batched Groq calls use a static `TOP_FEATURES` list
+  Exception: Phase 3's batched GPT-5.4 calls use a static `TOP_FEATURES` list
   for the binary signal (matching the Phase 1 winner prompt structure).
 - **Branch**: development happens on `main`. Don't create feature branches
   unless working on experimental changes that may need reverting.
@@ -469,13 +462,12 @@ provider in `call_llm` to route through Vertex AI when a project is configured.
 
 | Model | Provider | `api_provider` | Phase | Logprobs |
 |-------|----------|---------------|-------|----------|
-| GPT-5.4 | OpenAI | `"openai"` | 01, 04 | ✅ |
+| GPT-5.4 | OpenAI | `"openai"` | 01, 03, 04, 05 | ✅ |
 | Gemini 2.5 Pro | Google (Vertex AI) | `"gemini"` | 01 | ✅ |
 | Gemini 3.5 Flash | Google (AI Studio) | `"gemini"` | 01 | ❌ |
 | Claude Sonnet 4.6 | Anthropic | `"anthropic"` | 01 | ❌ |
 | Claude Opus 4.8 | Anthropic | `"anthropic"` | 01 | ❌ |
 | Llama-3.3-70b-instruct | NVIDIA NIM | `"nvidia"` | 02 | ❌ |
-| Llama-3.3-70b-versatile | Groq | `"groq"` | 03 | ❌ |
 
 Pricing for all models lives in `llm_pricing.py` (`PRICES` dict). Legacy
 entries are kept so historical `llm_calls.csv` rows stay accurate.

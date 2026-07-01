@@ -231,4 +231,4 @@ The test set has never been loaded or evaluated outside this phase, so it remain
 - **The LLM is a poor probability estimator.** It is over-confident and loses to XGBoost on AUC, so any deployment story must separate "good classifier" from "good calibrated risk score."
 - **Some sweeps are single-run.** The low and medium reasoning settings are one run each; high effort and the prompt variants were repeated.
 - **Public, de-identified data.** We use the public LendingClub dataset as an offline testbed. This is prototyping only, with no production or real-customer-data path.
-- **Phase 3 configuration** to be confirmed before presenting (the committed hybrid results were produced with GPT-5.4 signals rather than the Llama/Groq setup the phase was originally designed around).
+- **Phase 3 uses GPT-5.4 signals.** The hybrid explores blending and confidence-gated routing on top of GPT-5.4 (the project's chosen model), keeping the ensemble consistent with the rest of the pipeline.

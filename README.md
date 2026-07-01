@@ -15,7 +15,7 @@ The core objective is to compare a **traditional Machine Learning baseline (Grad
 1. **Predictive Rigour:** Evaluating standard metrics (AUC, F1, Recall, Precision) on the minority class (`Charged Off`).
 2. **Operational Economics:** Quantifying and integrating OpenAI automatic prompt caching economics (piecewise 50% discount on static prefixes exceeding 1,024 tokens), formatting/batching taxes, and API cost-benefit thresholds.
 3. **Explainability & Trust:** Contrasting classical model explainability (SHAP feature importances) with LLM natural language rationales and qualitative reasoning "fingerprints" judged by `gpt-5.4`.
-4. **Hybrid Architectures:** Evaluating a blended, confidence-gated routing system that pipelines low-uncertainty applications through XGBoost and routes high-uncertainty boundary cases to Llama-3.3-70b (via Groq).
+4. **Hybrid Architectures:** Evaluating a blended, confidence-gated routing system that pipelines low-uncertainty applications through XGBoost and routes high-uncertainty boundary cases to GPT-5.4.
 5. **Retrieval-Augmented Scoring (RAG):** Injecting *precedent loans* retrieved from a leakage-safe corpus as evidence, comparing Semantic-ID, dense-kNN, and hybrid (RRF) retrievers against a no-RAG control.
 
 ---
@@ -75,7 +75,6 @@ GEMINI_API_KEY_PRO=...        # Phase 1 (Gemini 2.5 Pro, via Vertex AI)
 GEMINI_API_KEY_FLASH=...      # Phase 1 (Gemini 3.5 Flash)
 ANTHROPIC_API_KEY=...         # Phase 1 (Claude Sonnet 4.6 / Opus 4.8)
 NVIDIA_API_KEY=...            # Phase 2 (Llama-3.3-70b via NVIDIA NIM)
-GROQ_API_KEY=...              # Phase 3 (Llama-3.3-70b via Groq)
 GCP_PROJECT_ID=capstonesabadell   # Vertex AI project for Gemini logprobs
 GCP_LOCATION=europe-west4         # Vertex AI region
 ```
@@ -89,7 +88,7 @@ See [`CLAUDE.md`](CLAUDE.md) for the full key/provider matrix and spare-key conv
 2. **LLM Evaluation:** Run numbered folders inside `notebooks/llm_models/`. Because `models/` and the data samples are tracked, the LLM notebooks can run without re-running the ML pipeline:
    - **Phase 1:** Model selection, reasoning-effort sweep, calibration curves, and first financial ledger (`01_model_selection/`).
    - **Phase 2:** System optimizations (batching and compact representations) and prompt-framing variants (`02_prompt_variance/`).
-   - **Phase 3:** Groq-powered blending and gated routing strategies (`03_hybrid/`).
+   - **Phase 3:** GPT-5.4-powered blending and gated routing strategies (`03_hybrid/`).
    - **Phase 5:** Retrieval-augmented scoring with precedent loans, evaluated on the validation batch (`05_rag/`).
    - **Phase 4 (run last):** Conclusive benchmark on the locked test set, SHAP-vs-LLM-rationale explainability, and case-by-case decision P&L (`04_final_benchmark/`).
 
