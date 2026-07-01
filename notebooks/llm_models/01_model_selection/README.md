@@ -7,7 +7,7 @@ This folder contains the experiments conducted during **Phase 1** to identify th
 ## Notebooks & Modules
 
 ### 1. Model Comparison (`01a_Model_Comparison.ipynb`)
-* **Objective:** Run a head-to-head comparison across foundation models (`gpt-5.4`, `gemini-2.5-pro`, `gemini-3.5-flash`, `claude-3.5-sonnet`, `claude-3.5-opus`) on a 100-loan credit risk sample under two distinct conditions:
+* **Objective:** Run a head-to-head comparison across foundation models (`gpt-5.4`, `gemini-2.5-pro`, `gemini-3.5-flash`, `claude-sonnet-4.6`, `claude-opus-4.8`) on a 100-loan credit risk sample under two distinct conditions:
   * **Structured Features Only (`no_desc`):** Apples-to-apples comparison with the traditional XGBoost model using only numeric/categorical credit scores.
   * **Structured Features + Narrative (`with_desc`):** Appending unstructured qualitative borrower descriptions (`desc` column).
 * **Outputs:** `01a_predictions.csv` and `01a_metrics.csv`.
@@ -21,7 +21,8 @@ This folder contains the experiments conducted during **Phase 1** to identify th
 * **Outputs:** `01c_predictions.csv` and `01c_metrics.csv`.
 
 ### 4. Reasoning Effort Analysis (`01d_reasoning_effort_runs.ipynb` / `01d_Reasoning_Effort_Analysis.md`)
-* **Objective:** Sweep reasoning-effort parameters for advanced reasoning models (e.g., Gemini Thinking, o1) to map the cost/accuracy curve, identifying the sweet spot that maximizes AUC while remaining financially viable.
+* **Objective:** Sweep GPT-5.4's `reasoning_effort` parameter (low → high) to map the cost/accuracy curve and pick the effort that maximizes AUC while remaining financially viable. The chosen effort is carried into the Phase-4 benchmark.
+* **Watch-out:** higher effort's best *single* run (0.80 acc / 0.375 CO-F1) does **not** survive the consistency check — its 3-run mean regresses to 0.753 / 0.300. Judge by the multi-run mean, not a lucky single run.
 * **Outputs:** `01d_predictions.csv` and `01d_metrics.csv`.
 
 ### 5. Confidence Calibration (`01e_Confidence_Calibration.ipynb`)

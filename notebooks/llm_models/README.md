@@ -21,8 +21,13 @@ graph TD
     A[ML Data Splits] --> B[Phase 1: Model Selection <br> 01_model_selection]
     B -->|Pick GPT-5.4| C[Phase 2: Prompt Structuring & Variance <br> 02_prompt_variance]
     C -->|Prompts & Caching| D[Phase 3: Hybrid Blending <br> 03_hybrid]
+    C -->|Precedent Retrieval| F[Phase 5: RAG <br> 05_rag]
     D -->|Locked Ensemble| E[Phase 4: Final Benchmark & Simulation <br> 04_final_benchmark]
+    F -.validation only.-> E
 ```
+
+> Phases 3 and 5 both feed insight into Phase 4 but evaluate only on the validation batches;
+> Phase 4 is the only stage that touches `test_batch.csv`.
 
 ### [Phase 1: Model Selection & Calibration](file:///Users/alemz/Projects/Github/Sabadell_Capstone/notebooks/llm_models/01_model_selection)
 * **Goal:** Evaluate foundation models across multiple providers to pick the ideal platform and configuration.
@@ -38,6 +43,10 @@ graph TD
 * **Goal:** Pipeline applications through a combination of classical ML (XGBoost) and high-reasoning LLMs.
 * **Focus:** Soft-probability ensembling, confidence-gated routing, and Llama-3.3-70b/Groq execution. The test set remains strictly untouched here.
 
-### [Phase 4: Final Benchmark & Yield Dashboards](file:///Users/alemz/Projects/Github/Sabadell_Capstone/notebooks/llm_models/04_final_benchmark)
-* **Goal:** Establish final comparative benchmarks and translate predictive performance into commercial business metrics.
-* **Focus:** Benchmark run of finalist models on the locked test set (`04b`), decision threshold tuning, post-hoc ensembling, and interactive portfolio simulations (`04a`) evaluating real bank yields ($ net profit).
+### [Phase 5: Retrieval-Augmented (RAG) Scoring](file:///Users/alemz/Projects/Github/Sabadell_Capstone/notebooks/llm_models/05_rag)
+* **Goal:** Test whether injecting *precedent loans* as evidence beats judging each applicant in isolation.
+* **Focus:** Three retrievers — Semantic-ID + multi-stage (`05a`), full-corpus dense kNN (`05b`), and RRF hybrid (`05c`) — each against a shared no-RAG GPT-5.4 control and XGBoost, on a leakage-safe corpus. **Evaluated on `robustness_batch` (validation) — the test set is never loaded here.**
+
+### [Phase 4: Final Benchmark & Explainability](file:///Users/alemz/Projects/Github/Sabadell_Capstone/notebooks/llm_models/04_final_benchmark)
+* **Goal:** Establish final comparative benchmarks and translate predictive performance into commercial business metrics. **Run last.**
+* **Focus:** A single notebook, `04_Final_Test_Analysis.ipynb` — runs the finalist prompts × GPT-5.4 on the locked `test_batch.csv`, applies the Phase-3 hybrid params post-hoc, tunes the decision threshold, computes a case-by-case decision P&L on real LendingClub cashflows, and contrasts XGBoost SHAP against LLM rationales.

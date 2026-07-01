@@ -179,8 +179,9 @@ data/   # tracked for collab so teammates can pull results without re-running
                llama_02/ (archived older Llama-3.3-70b prompt-variance run),
                03_blend_leaderboard.csv + 03_locked_params.csv + 03_*.png
                (hybrid — written when 03 runs),
-               04_final_benchmark.csv + 04_*.png (final benchmark — written
-               when 04b runs),
+               04_test_performance.csv + 04_test_predictions.csv +
+               04_test_financials.csv + 04_test_pnl.png + 04_shap_beeswarm.png
+               (final benchmark — written when 04_Final_Test_Analysis runs),
                05a_*/05b_*/05c_* summary.csv + predictions.csv + .png (RAG —
                written when 05a/b/c run; eval on robustness_batch),
                llm_calls.csv (per-call cost log)                               (tracked)
@@ -234,9 +235,10 @@ notebooks/
     04_final_benchmark/      # PHASE 4 (the spine, run last): finalists × GPT-5.4, threshold + COST vs XGBoost
       04_Final_Test_Analysis.ipynb   # FINAL BENCHMARK & DASHBOARD: fill in FINALISTS, then run.
                                     # Loads 03_locked_params.csv to apply hybrid ensembles post-hoc.
-                                    # → 04_final_benchmark.csv + 04_benchmark_f1_vs_cost.png
+                                    # → 04_test_performance.csv + 04_test_predictions.csv +
+                                    #   04_test_financials.csv + 04_test_pnl.png + 04_shap_beeswarm.png
                                     # Threshold tuning lives ONLY here, on the actual finalists.
-                                    # Pulls metrics + per-loan cost + qualitative fingerprint into one table.
+                                    # Includes case-by-case decision P&L + SHAP-vs-LLM-rationale explainability.
     05_rag/                  # PHASE 5: retrieval-augmented credit scoring (Jad). Precedent loans as evidence.
       rag_utils.py                  # Embedder, ResidualKMeansQuantizer (Semantic IDs), retrieval
                                     # primitives, RRF, prompt builders, assert_no_leakage.
@@ -310,7 +312,7 @@ Three role-based samples, **all generated through `llm_models/sample_generation.
 ## Strict test holdout protocol
 
 **`test_batch.csv` must NEVER be loaded, queried, or evaluated outside of
-`04b_Final_Benchmark.ipynb`.** This is a non-negotiable rule established
+`04_Final_Test_Analysis.ipynb`.** This is a non-negotiable rule established
 May 2026.
 
 - **Phase 3 (03_hybrid)** tunes hyperparameters on `tuning_sample` and

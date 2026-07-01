@@ -6,7 +6,7 @@ This directory contains the traditional machine learning workflow, which serves 
 
 ## Notebook Structure
 
-The pipeline is split into three sequential notebooks:
+The pipeline is split into four sequential notebooks:
 
 ### 1. Exploratory Data Analysis (`01_EDA.ipynb`)
 * **Objective:** Conduct initial data profiling and target relationship visualizations on the anonymised LendingClub credit risk dataset.
@@ -29,18 +29,27 @@ The pipeline is split into three sequential notebooks:
   2. **Artificial Neural Network (ANN):** Multi-layer dense Keras network.
   3. **XGBoost Classifier:** Tree-based ensemble, hyperparameter tuned with Optuna.
 * **Key Outputs:**
-  * Winning model serialized to `models/xgb_model.joblib`.
+  * Winning model serialized to `models/xgb_model.joblib` (LR and ANN also saved).
   * Baseline thresholds exported to `models/thresholds.joblib`.
   * Summary metrics written to `data/results/ml/03_model_performance.csv`.
+
+### 4. Model Analysis & Explainability (`04_Model_Analysis.ipynb`)
+* **Objective:** Deep-dive on the trained XGBoost model — the classical half of the explainability comparison required by the project brief.
+* **Sections:** performance, calibration, **SHAP** feature attribution, a permutation-importance cross-check on feature reliance, and error analysis.
 
 ---
 
 ## Baseline Performance Reference
 
+From `data/results/ml/03_model_performance.csv` (33% held-out split, tuned thresholds):
+
 | Model | Accuracy | Charged Off Precision | Charged Off Recall | Charged Off F1 | AUC |
 |---|---|---|---|---|---|
-| **Logistic Regression** | 71.0% | 29.0% | 52.0% | 0.370 | 0.699 |
-| **XGBoost (Tuned)** | 71.0% | 29.0% | 56.3% | 0.383 | 0.705 |
+| **Logistic Regression** | 68.5% | 29.1% | 59.3% | 0.390 | 0.708 |
+| **XGBoost (Tuned)** | 69.0% | 29.5% | 59.1% | **0.393** | **0.712** |
+| **ANN (Keras)** | 67.4% | 28.6% | 61.3% | 0.390 | 0.709 |
 
 > [!NOTE]  
-> The classical ML results indicate a distinct "performance ceiling" when relying strictly on structured credit attributes. The XGBoost baseline F1 of **0.383** serves as the primary benchmark that the LLM prompting and hybrid ensembling strategies aim to exceed.
+> The classical ML results indicate a distinct "performance ceiling" when relying strictly on structured credit attributes — all three families land within ~0.005 F1 of each other. The XGBoost baseline F1 of **0.393** serves as the primary benchmark that the LLM prompting and hybrid ensembling strategies aim to exceed.
+>
+> The final head-to-head against the LLMs happens on the separate 1000-loan held-out `test_batch.csv` in Phase 4 — see [`04_final_benchmark/README.md`](../llm_models/04_final_benchmark/README.md).
