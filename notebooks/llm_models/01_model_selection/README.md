@@ -34,6 +34,10 @@ This folder contains the experiments conducted during **Phase 1** to identify th
 * **Objective:** First qualitative "gate". Spends API credits to run a `gpt-5.4` judge that extracts a qualitative "reasoning fingerprint" for each model/effort combination. Builds a comprehensive credit portfolio ledger showing baseline financial yields.
 * **Outputs:** `01f_qualitative_financial.json`.
 
+### 7. Phase 1 Model Analysis (`01g_Model_Analysis.ipynb`)
+* **Objective:** Post-hoc explainability and error analysis of the Phase-1 results — the LLM counterpart to `ml_models/04_Model_Analysis.ipynb`. Fits a global surrogate to read GPT-5.4's implicit feature reliance, overlays it against XGBoost's SHAP ranking, and checks where the two models fail on the same loans.
+* **No API calls** — reads `01a_predictions.csv`, runs on `tuning_sample`.
+
 ---
 
 ## Phase 1 Conclusions

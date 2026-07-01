@@ -61,6 +61,12 @@ This notebook serves as the Phase 2 analysis gate, evaluating prompt caching eco
 
 ---
 
+## 02d — Prompt-Variant Model Analysis (`02d_Model_Analysis.ipynb`)
+
+The Phase-2 counterpart to `01g`: the same feature-reliance and error-analysis lens, but the axis is prompt *design* with GPT-5.4 held fixed. For each of the 6 variants it fits a global surrogate to read which features that variant's decisions track, and tallies the portfolio error cost. Reads `02b_predictions.csv` — **no API calls**, and `test_batch` is never touched.
+
+---
+
 ## Running the Notebooks
 
 Ensure your OpenAI API key is configured in `notebooks/llm_models/.env`:
