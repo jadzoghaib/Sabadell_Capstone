@@ -218,6 +218,9 @@ notebooks/
                                        # 01a models + 01d efforts (per-loan cost pulled from
                                        # llm_calls.csv). Part 2 = GPT-5.4 "reasoning fingerprint"
                                        # per model/effort. → 01f_qualitative_financial.json
+      01g_Model_Analysis.ipynb        # PHASE-1 MODEL ANALYSIS (no API $): surrogate feature
+                                       # reliance + error analysis of GPT-5.4 no_desc, overlaid
+                                       # vs XGBoost SHAP. LLM mirror of ml_models/04_Model_Analysis.
     02_prompt_variance/      # PHASE 2: prompt structuring & design
       02a_Batching_Formatting_Tax.ipynb  # 4 formatting/batching conditions × 3 runs → 02a_*.csv
       02b_Prompt_Variance.ipynb          # 7 prompt variants × comparison/consistency/robustness/±desc → 02b_*.csv
@@ -225,6 +228,9 @@ notebooks/
                                          # GPT-5.4 judge). Part 1 = cost ledger for 02b variants.
                                          # Part 2 = GPT-5.4 reasoning fingerprint per variant.
                                          # Needs 02b's outputs first. → 02c_qualitative_financial.json
+      02d_Model_Analysis.ipynb           # PHASE-2 MODEL ANALYSIS (no API $): per-variant surrogate
+                                         # feature reliance + error cost across the 6 variants
+                                         # (GPT-5.4 fixed). Phase-2 mirror of 01g. Reads 02b_predictions.csv.
     03_hybrid/               # PHASE 3: blended XGBoost + LLM (Jad). Beat both solo on Charged-Off F1?
       03_Blended_LLM_ML.ipynb       # Uses GPT-5.4 (OpenAI). Batched + cached signals.
                                     # Tuned on tuning_sample, strategy-selected on robustness_batch.
