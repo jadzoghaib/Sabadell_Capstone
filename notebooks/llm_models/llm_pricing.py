@@ -32,7 +32,8 @@ PRICES = {
     # NVIDIA NIM (phase 02) — verify at https://build.nvidia.com/pricing
     "meta/llama-3.3-70b-instruct": (0.00077, 0.00077),
 
-    # Groq (phase 03) — verify at https://groq.com/pricing
+    # Groq (legacy — early Phase 3 exploration; the committed Phase 3 uses GPT-5.4.
+    # Kept so any historical llm_calls.csv rows stay accurate) — https://groq.com/pricing
     "llama-3.3-70b-versatile":     (0.00059, 0.00079),
 
     # ── Legacy entries — kept so historical llm_calls.csv rows stay accurate ─
